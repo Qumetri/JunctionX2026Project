@@ -4,193 +4,209 @@ Companion to [context.md](context.md) (the brief), [techStack.md](techStack.md) 
 
 ## 1. One-liner
 
-**A life-event planner that turns "I'm moving next month" into a personal plan: what can go wrong, what to do about it, and which If insurance actually fits. It explains every recommendation in plain language.**
+**A life-event planner that turns "I'm moving next month" into a personalized plan: what can go wrong, what to do about it, and which If insurance actually fits. Every recommendation is explained in plain language.**
 
-The user comes for the planning; insurance shows up as one useful part of the plan rather than as the reason the app exists. This matches the brief's warning not to make insurance the center of the experience.
+The user comes for the planning; insurance is just a useful part of the plan, rather than the reason the app exists. This aligns perfectly with the brief's reminder—do not make insurance the center of the experience.
 
 ## 2. Value on both sides
 
-| For the customer                                              | For If                                                                        |
-| ------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| A clear, dated checklist for a stressful life event           | Reaches people **before** they buy, at the moment insurance needs change      |
-| Risks they didn't know about, explained for *their* situation | Recommendations are explained, so customers trust them and convert better     |
-| Honest advice: "you're already covered here" counts too       | Prevention actions (leak sensors, Anticimex checks) lower claim frequency     |
-| Partner discounts and services bundled in one place           | Partner ecosystem becomes a reason to use If, not just a perk after purchase  |
-| Reminders at the right moment, not after a loss               | An ongoing relationship instead of one renewal email a year (retention)       |
+| For the customer | For If |
+| --- | --- |
+| A clear, dated checklist for a stressful life event | Reaches users **before** they buy, right at the moment their insurance needs change |
+| Risks they didn't know about, explained for *their specific situation* | Recommendations are fully explained, increasing trust and conversion rates |
+| Honest advice: "You are already covered here" counts as value | Preventive measures (leak sensors, Anticimex checks) lower claim frequency |
+| Partner discounts and services bundled in one place | The partner ecosystem becomes a reason to choose If, not just a post-purchase perk |
+| Reminders at the right time, rather than after a loss | A continuous relationship, instead of a single renewal email a year (Retention) |
 
 ## 3. Core loop
 
 ```
- Pick a life event ──► Answer 6–10 quick questions ──► Risk flags appear
-        ▲                                                     │
-        │                                                     ▼
- Nudges before the date ◄── Journey timeline ◄── Ranked insurance plans + AI summary
+ Select a life event ──► Answer 6–10 quick questions ──► Risk flags appear
+        ▲                                                    │
+        │                                                    ▼
+ Nudges before date ◄── Journey timeline ◄── Ranked insurance plans + AI summary
         │                         ▲
-        └── Complete actions ─────┘  (flags resolve, readiness score goes up)
+        └── Complete tasks ───────┘  (Flags resolved, readiness score goes up)
+
 ```
 
 ## 4. What the app must include
 
-### MVP (must have for the demo)
+### MVP (Must-haves for the demo)
 
-1. **Life event picker:** Moving (fully built), plus 1–3 more shown as "coming soon" cards to show the concept scales.
-2. **Adaptive questionnaire:** short, one question per screen, with taps and sliders instead of forms. Follow-up questions appear only when relevant (e.g. "Do you have a pet?" → "Dog or cat?").
-3. **Flag system:** risks derived from the answers and shown as colored flags with a one-line "why" (section 5).
-4. **Ranked insurance plans:** plans scored by how well they cover *this user's* flags, with a "covers 5 of 6 risks" breakdown (section 6).
-5. **AI risk summary:** a short, friendly explanation of the main risks and why the top plan fits best (section 7).
-6. **Journey timeline:** the checklist laid out by date (8 weeks before → moving day → first week after), combining preventive actions, partner services, and the insurance step.
-7. **Readiness score:** a single 0–100 number that rises as the user completes actions and resolves flags. This is the main interactive hook.
+1. **Life event picker:** Moving (fully developed), plus 1–3 "coming soon" cards to show the concept is scalable.
+2. **Adaptive questionnaire:** Short, one question per screen, using taps and sliders instead of forms. Follow-up questions only appear when relevant (e.g., "Do you have a pet?" → "Dog or cat?").
+3. **Flag system:** Risks derived from answers, shown as colored flags with a one-line "why" (see section 5).
+4. **Ranked insurance plans:** Scored by how well they cover *this user's* flags, with details like "covers 5 out of 6 risks" (see section 6).
+5. **AI risk summary:** A short, friendly explanation of the main risks and why the top plan is the best fit (see section 7).
+6. **Journey timeline:** A dated checklist (8 weeks before → moving day → first week after), integrating preventive actions, partner services, and insurance steps.
+7. **Readiness score:** A single 0–100 number that rises as the user completes tasks and resolves flags. This is the main interactive hook.
 
-### Should have (if time allows)
+### Should have (If time allows)
 
-- **"What if" toggles:** change an answer ("What if I take the 1950s apartment instead?") and watch the flags and the ranking update live. This is a strong demo moment.
-- **Partner offers inside the timeline:** "Book a mover (−10% via If)", "Rent a moisture meter", "Anticimex pre-move inspection". These sit next to the step they help with.
-- **Nudges:** scheduled reminders tied to the event date (in-app list in the demo, notifications on mobile later).
-- **Existing coverage input:** "I already have home insurance" → the app shows gaps instead of duplicate offers.
+* **"What if" toggles:** Change an answer ("What if I choose that 1950s apartment?") to see flags and ranking update in real-time. A very strong demo moment.
+* **Partner offers within the timeline:** "Book a mover (-10% via If)", "Rent a moisture meter", "Anticimex pre-move check". These are placed right next to the relevant steps.
+* **Nudges:** Scheduled reminders tied to the event date (in-app list for the demo, push notifications for mobile later).
+* **Existing coverage input:** "I already have home insurance" → The app shows gaps instead of pushing duplicate coverage.
 
 ### Out of scope
 
-Real quotes and payments, login, real customer data, more than one fully built event.
+Real quotes and payments, login, real customer data, more than one fully developed life event.
 
 ## 5. Flag system
 
-A **flag** is one specific risk for this user, at this life event, with the reason it was raised. Flags are computed by the rule engine in `shared/` (deterministic, testable) and never by the AI.
+A **flag** represents a specific risk for this user in this life event, explaining what triggered it. Flags are calculated by the rule engine in `shared/` (deterministic, testable) and are never handed over to AI.
 
-### Flag shape
+### Flag structure
 
-```ts
+```typescript
 type Flag = {
   id: string;                 // 'old-plumbing'
   category: 'property' | 'belongings' | 'liability' | 'transit' | 'pet' | 'health' | 'income';
   severity: 'high' | 'medium' | 'low';
   title: string;              // 'Old pipes in a 1960s building'
-  why: string;                // 'Buildings from before 1980 have a higher water-damage risk…'
-  evidence: string[];         // which inputs triggered it: ['buildingYear=1964']
+  why: string;                // 'Buildings from before 1980 have a higher water leak risk…'
+  evidence: string[];         // Which inputs triggered it: ['buildingYear=1964']
   source: 'answer' | 'open-data' | 'derived';
-  actions: ActionRef[];       // preventive steps; completing them can resolve or downgrade the flag
-  coverageTags: string[];     // what kind of insurance addresses it: ['water-damage', 'home-contents']
+  actions: ActionRef[];       // Preventive steps; completing them can resolve or downgrade flags
+  coverageTags: string[];     // Which insurance covers it: ['water-damage', 'home-contents']
   status: 'open' | 'mitigated' | 'covered';
 };
+
 ```
 
 ### Visual language
 
-| Severity | Color | Meaning to the user                         |
-| -------- | ----- | ------------------------------------------- |
-| High     | Red   | Act before the event date                   |
-| Medium   | Amber | Worth handling, has a cheap fix             |
-| Low      | Grey  | Good to know                                |
+| Severity | Color | Meaning to the user |
+| --- | --- | --- |
+| High | Red | Act before the event date |
+| Medium | Amber | Worth handling, has a cheap fix |
+| Low | Grey | Good to know |
 | Resolved | Green | Mitigated by an action or covered by a plan |
 
 ### Example: Moving
 
-| Input                                         | Flag                                | Severity | Actions                                | Coverage tags                 |
-| --------------------------------------------- | ----------------------------------- | -------- | -------------------------------------- | ----------------------------- |
-| Building year < 1980                          | Old plumbing / water-damage risk    | High     | Leak sensor, Anticimex moisture check  | `water-damage`, `home`        |
-| Moving yourself (no movers) + valuable items  | Damage to belongings in transit     | Medium   | Book vetted mover, rent dolly          | `transit`, `home-contents`    |
-| Has a dog                                     | Liability if the dog causes damage  | Medium   | —                                      | `liability`, `pet`            |
-| No current home contents insurance            | Belongings uninsured at new address | High     | —                                      | `home-contents`               |
-| FMI forecast: rain on moving day (open data)  | Water damage during the move        | Low      | Plastic covers, reschedule tip         | `transit`                     |
-| Ground-floor apartment                        | Burglary risk                       | Medium   | Smart lock / Verisure alarm discount   | `theft`, `home-contents`      |
+| Input | Flag | Severity | Action | Coverage Tags |
+| --- | --- | --- | --- | --- |
+| Building built before 1980 | Old plumbing / Leak risk | High | Leak sensor, Anticimex moisture check | `water-damage`, `home` |
+| Moving yourself (no movers) + Valuables | Transit damage | Medium | Book vetted mover, rent a moving dolly | `transit`, `home-contents` |
+| Has a dog | Pet liability | Medium | — | `liability`, `pet` |
+| No current home contents insurance | Belongings uninsured at new address | High | — | `home-contents` |
+| FMI forecast: Rain on moving day (open data) | Water damage in transit | Low | Plastic covers, reschedule tip | `transit` |
+| Ground-floor apartment | Burglary risk | Medium | Smart lock / Verisure alarm discount | `theft`, `home-contents` |
 
-Rules live in code as data (see the `Rule` type in [techStack.md](techStack.md)), so the team can add flags without touching the UI.
+Rules live as data in the code (see the `Rule` type in [techStack.md](https://www.google.com/search?q=https://www.doubao.com/chat/techStack.md)), so the team can add new flags without touching the UI.
 
-Wherever possible, flags are driven by **Finnish open data** rather than by the user's own guesses. Examples: the actual building year (HSY), area crime rate and housing prices (Statistics Finland), flood zones (SYKE), and the forecast for moving day (FMI). Euro figures from published statistics (Finance Finland) make the severity tangible. The provider list and the backend pipeline are in [techStack.md → Open data](techStack.md#open-data-finland).
+Whenever possible, flags are driven by **Finnish open data**, not user guesses. Examples: real building year (HSY), area crime rate and housing prices (Statistics Finland), flood zones (SYKE), moving day weather forecast (FMI). Euro amounts from published statistics (Finance Finland) make the severity tangible. Provider lists and backend pipeline are in [techStack.md → Open data](https://www.google.com/search?q=https://www.doubao.com/chat/techStack.md%23open-data-finland).
 
 ## 6. Ranking insurance plans
 
-Ranking is **deterministic and explainable**, not AI. The AI only explains a ranking that the code has already computed. This keeps the demo stable and keeps the recommendation defensible in front of an insurance company.
+Ranking is **deterministic and explainable**, not AI. AI only explains the ranking already calculated by code. This keeps the demo stable and ensures the recommendation holds up in front of an insurance company.
 
-Each product in the catalog declares which coverage tags it covers and how well it covers them:
+Each product in the catalog declares which coverage tags it covers and how well:
 
-```ts
+```typescript
 type InsuranceProduct = {
   id: string;                 // 'home-contents-plus'
   name: string;
-  monthlyPriceEur: number;    // illustrative
+  monthlyPriceEur: number;    // Illustrative
   covers: { tag: string; level: 'full' | 'partial' }[];
-  termsExcerpt: string;       // short excerpt from public If terms, used by the AI layer
+  termsExcerpt: string;       // Short excerpt from public If terms, used by the AI layer
 };
+
 ```
 
 ### Fit score (0–100)
 
-```
-weight(flag)  = high: 3 · medium: 2 · low: 1      (flags already 'covered' by existing policies are skipped)
+```text
+weight(flag)  = high: 3 · medium: 2 · low: 1      (Flags already 'covered' by existing policies are skipped)
 match(p, f)   = 1.0 if p fully covers any of f.coverageTags · 0.5 if partial · 0 otherwise
-
 fit(p) = 100 × Σ weight(f) × match(p, f)  /  Σ weight(f)
+
 ```
 
-- **Sorting:** by fit, then by price (cheaper first when fit ties).
-- **Badges:** "Best fit", "Best value" (highest fit per €), and "Covers all high risks".
-- **Every card shows its reasoning:** ✅ covered flags, ⚠️ partially covered, ❌ not covered.
-- **Bundles:** a combination (e.g. home contents + pet) is ranked as a single option when it reaches a meaningfully higher fit than any single product.
-- **Honesty rule:** if the open high-severity flags are all solvable by actions alone, the top recommendation is the action, not a product. This builds trust and supports the "not just selling" story for the judges.
+* **Sorting:** By fit score first, then by price (if fit is equal, cheaper comes first).
+* **Badges:** "Best fit", "Best value" (highest fit per Euro), "Covers all high risks".
+* **Each card shows its reasoning:** ✅ Covered flags, ⚠️ Partially covered, ❌ Not covered.
+* **Bundles:** When a combination (e.g., home contents + pet) has a significantly higher fit score than any single product, it is ranked as a single option.
+* **Honesty rule:** If all open high-severity flags can be resolved purely by actions, the top recommendation is an action, not a product. This builds trust and supports the "not just selling" narrative for the judges.
 
-## 7. AI layer
+## 7. AI Layer
 
 ### What it does
 
-1. **Gathers context per flag:** for the user's open flags and the top 3 ranked products, the server loads from Postgres the `why` texts, the matching product `termsExcerpt`s, and relevant partner offers. This is a simple lookup by coverage tag; no vector search is needed.
-2. **Summarizes:** Claude turns that context into a short, personal summary:
-   - 2–3 sentences on the user's overall situation ("Your biggest risk is…").
-   - One line per high/medium flag, in plain language.
-   - Why the #1 plan fits best, referencing the specific flags it covers, plus one honest caveat (what it doesn't cover).
+1. **Gathers context per flag:** For the user's open flags and the top three ranked products, the server loads the `why` texts, the matching products' `termsExcerpt`, and relevant partner offers. This is a simple query by coverage tag, no vector search needed.
+2. **Summary generation:** Claude turns this context into a short, personalized summary:
+* 2–3 sentences explaining the user's overall situation ("Your biggest risk is…").
+* One line per high/medium flag, in plain language.
+* An explanation of why the #1 plan is the best fit, referencing the specific flags it covers, along with an honest caveat (what it doesn't cover).
+
+
 
 ### Guardrails
 
-- **The model only explains; it never decides.** Flags and the ranking come in as input; the prompt forbids adding new risks, products, or prices.
-- **Structured output:** the response is JSON validated against a Zod schema (`summary`, `flagExplanations[{flagId, text}]`, `topPlan{productId, reason, caveat}`). The server checks that every `flagId` and `productId` exists in the input; on mismatch, a refusal, or an API error it falls back to template text built from the `why` fields. **The demo must never break because of the AI.**
-- **Grounded in the terms:** coverage claims must come from the provided `termsExcerpt`. The UI shows "Based on If's published terms" plus a short "this is guidance, not a binding offer" note.
-- **Server-side only:** the API key lives in `.env` on the Express server.
+* **The model only explains, it never decides.** Flags and rankings are passed as inputs; the prompt strictly forbids adding new risks, products, or prices.
+* **Structured output:** Response is in JSON, validated by a Zod schema (`summary`, `flagExplanations[{flagId, text}]`, `topPlan{productId, reason, caveat}`). The server verifies all `flagId`s and `productId`s against the input. On mismatch, refusal, or API error, it gracefully falls back to template text built from the `why` fields. **The demo must never break because of AI.**
+* **Grounded in terms:** Coverage statements must come from the provided `termsExcerpt`. The UI shows "Based on If's published terms" and includes a disclaimer: "This is guidance, not a binding offer."
+* **Server-side only:** API keys are stored in the Express server's `.env`.
 
 ### Implementation notes
 
-- `POST /api/journeys/:id/summary` → returns the cached summary or generates one.
-- **Model:** `claude-opus-5-5` with `effort: "low"`. It is a short, bounded summarization task, so low effort keeps latency down. Use `client.messages.parse()` with `zodOutputFormat(schema)` from `@anthropic-ai/sdk/helpers/zod`.
-- **Refusals:** enable the server-side refusal fallback (`fallbacks: "default"` + beta `server-side-fallback-2026-07-01`) and still check `stop_reason` before reading the content.
-- **Caching (cost + demo reliability):** store results in an `ai_summaries` table keyed by a hash of (open flags + ranking). Re-running the same demo is instant and free, and "what if" toggles reuse summaries already generated. Keep the system prompt and product catalog as a stable prefix so prompt caching applies too.
-- **UX:** show the deterministic flags and ranking immediately, and let the AI summary fade in once it's ready. Nothing blocks on the model.
+* `POST /api/journeys/:id/summary` → Returns a cached summary, or generates a new one.
+* **Model:** `claude-opus-5-5`, `effort: "low"`. Since this is a short, bounded summary task, low effort keeps latency minimal. Uses `client.messages.parse()` + `zodOutputFormat(schema)` from `@anthropic-ai/sdk/helpers/zod`.
+* **Refusals:** Enable server-side refusal fallback (`fallbacks: "default"` + beta `server-side-fallback-2026-07-01`), and check `stop_reason` before reading content.
+* **Caching (Cost + Demo Reliability):** Results are stored in the `ai_summaries` table, keyed by a hash of (open flags + ranking). Repeating the same demo is instant and free, and "what if" toggles reuse generated summaries. Keeping the system prompt and product catalog as a stable prefix also optimizes Prompt Caching.
+* **UX:** Deterministic flags and rankings are shown instantly. The AI summary fades in once ready. Nothing blocks the UI waiting for the model.
 
 ## 8. Screens
 
 1. **Home:** "What's coming up in your life?" with life event cards.
-2. **Questionnaire:** one question per screen, a progress bar, and a live flag count ("3 things to look at so far").
-3. **Risk overview:** flag cards by severity, the readiness score, and the AI summary on top.
-4. **Recommendations:** ranked plan cards with fit score, covered/uncovered flags, price, and "why this fits" (AI). Partner offers sit beside them.
-5. **Journey timeline:** dated checklist; ticking items resolves flags and raises the score.
-6. **Flag detail (sheet):** why it was raised, evidence, actions, and which plans cover it.
+2. **Questionnaire:** One question per screen, a progress bar, and real-time flag counts ("3 things to look at so far").
+3. **Risk overview:** Flag cards ordered by severity, the readiness score, and the AI summary at the top.
+4. **Recommendations:** Ranked plan cards featuring fit score, covered/uncovered flags, price, and "why this fits" (AI). Partner offers sit alongside.
+5. **Journey timeline:** A dated checklist; checking off items resolves flags and increases the score.
+6. **Flag detail (Bottom sheet):** Why it triggered, evidence, actions to take, and which plans cover it.
 
 ## 9. Data model changes
 
-This extends the tables in [techStack.md](techStack.md):
+This extends the tables in [techStack.md](https://www.google.com/search?q=https://www.doubao.com/chat/techStack.md):
 
-| Table                | Contents                                                                 |
-| -------------------- | ------------------------------------------------------------------------ |
-| `insurance_products` | Catalog: name, price, `covers` (`jsonb`), `terms_excerpt`                |
-| `journeys`           | One user's life event: event type, answers (`jsonb`), event date         |
-| `journey_flags`      | Computed flags with `status` (open / mitigated / covered)                |
-| `journey_tasks`      | Timeline items (actions, partner offers, insurance step) with `done`     |
-| `ai_summaries`       | Cached AI output keyed by input hash                                     |
+| Table | Contents |
+| --- | --- |
+| `insurance_products` | Catalog: name, price, `covers` (`jsonb`), `terms_excerpt` |
+| `journeys` | A user's life event: event type, answers (`jsonb`), event date |
+| `journey_flags` | Computed flags with `status` (open / mitigated / covered) |
+| `journey_tasks` | Timeline items (actions, partner offers, insurance step) with `done` state |
+| `ai_summaries` | Cached AI outputs keyed by input hash |
 
-## 10. Build plan
+## 10. Build plan (48-hour agile sprint · 2-person team)
 
-Times are rough and assume a ~48h hackathon with 3–4 people.
+Times are rough estimates for a 2-person team during a 48-hour hackathon. Technical execution is fully driven by the tech partner, strictly following a "lightweight, direct API + local preload fallback, UI and video first" approach.
 
-| Phase | Goal                                           | Output                                                                               |
-| ----- | ---------------------------------------------- | ------------------------------------------------------------------------------------ |
-| 0     | Skeleton (≈3h)                                 | Monorepo, Docker Postgres, `npm run dev` works, empty screens with routing           |
-| 1     | Engine first (≈6h)                             | Moving rules → flags, product catalog seed, ranking function, with unit tests        |
-| 2     | Happy path UI (≈10h)                           | Questionnaire → flags → ranked plans → timeline, end to end with real engine output |
-| 3     | AI + polish (≈8h)                              | Summary endpoint with fallback, readiness score, animations, "what if" toggle         |
-| 4     | Demo (≈6h)                                     | Scripted persona, seeded data, recorded 2-minute pitch video                         |
+### 🤝 Team division principles
 
-**Suggested split:** one person on the engine and rules (`shared/`), one on the API, DB, and AI layer, one or two on the UI and the demo story. The engine contract (`Flag`, `InsuranceProduct`, `Rule`) should be agreed in the first hour so everyone can work in parallel.
+* **Iurii (Architecture & Code):** Leads tech stack selection (React + Vite + TypeScript). Skips complex user accounts and backend DBs. Frontend connects directly to open APIs via mobile hotspot, with local core data preloaded as a Fallback. Fully focuses on the core questionnaire, rule engine, and UI states.
+* **Felix (Product / Design / Video):** Defines business value and demo logic. Provides high-fidelity UI designs and transparent icon assets. Refines animation pacing and UI details. Helping on code part, design web's animation and texts.Takes full ownership of the 2-minute Pitch Video editing and the final Devpost submission on Saturday night.
+
+### 📅 3-Day Execution Roadmap & Milestones
+
+| Phase | Goals & Milestones | Tech Partner Output (Tech) | My Output (Product / Design / Video) |
+| :--- | :--- | :--- | :--- |
+| **Phase 0: Concept & Infrastructure**<br>*(Friday Night)* | Lock in scope reduction, initialize project skeleton | • Drop heavy DBs and user systems, adopt lightweight frontend architecture<br>• Init React + Vite + TS repo and setup base styling environment | • Map out core User Journey wireframes<br>• Complete 5 high-fidelity UI designs (Home, Moving, Risk Report, Member Benefits, Travel)<br>• Align on demo focus (Moving & Pet ecosystem) |
+| **Phase 1: Rule Engine & UI**<br>*(Saturday 09:00–14:00)* | Run adaptive questionnaire and rule calculations | • Implement step-by-step questionnaire logic and state collection<br>• Write pure TS rule engine (Inputs → Output risk Flags)<br>• Connect open data APIs and preload static local data for offline Fallback | • Export high-quality transparent icons/graphics<br>• Draft English voiceover and storyboard for the 2-min Pitch Video<br>• Assist with UI layout and CSS styling |
+| **Phase 2: End-to-End Flow & Polish**<br>*(Saturday 14:00–18:00)* | Flawless end-to-end moving flow, ready for demo | • Connect full flow: Home → Questionnaire → Risk Report → Partner Services → Insurance Plans<br>• Debug responsive layouts and click interactions to ensure a crash-free flow | • Add micro-animations (gauge rotation, readiness score counting up, card hover effects)<br>• UI review: standardize typography, margins, and brand colors<br>• **Code Freeze by 18:00** |
+| **Phase 3: Video & Material Prep**<br>*(Saturday 18:00–24:00)* | **Core Deliverable Production (The lifeline)** | • Assist in recording full-screen, lag-free product walkthroughs (record 2–3 flawless runs)<br>• Fix minor text/styling bugs and prep the local offline environment for Sunday Expo | • **Full focus on the 2-min Pitch Video:** Edit in Premiere/DaVinci, mix BGM, voiceover, and key animated subtitles<br>• Draft the English project description for Devpost / platform submission |
+| **Phase 4: Submission & Expo**<br>*(Sunday 08:00–11:00)* | Submit before deadline, prep for live judging | • Ensure the local dev server can boot offline instantly (zero-latency demo even without Wi-Fi)<br>• Double-check Public access rights on the GitHub repo | • Upload the rendered 1080p Pitch Video to YouTube/Vimeo<br>• **Finalize all platform submissions before 10:30** (30-min buffer)<br>• Prep a 1-minute live pitch script for when judges visit the table |
 
 ## 11. Open questions for If mentors
 
-- Can we use If's real product names and the public terms text, and illustrative prices?
-- Which partners can we show by name in the demo (Anticimex, Verisure, FirstVet…)?
-- Is a deterministic "fit score" acceptable wording, or do recommendations need to be framed as demands-and-needs guidance (EU Insurance Distribution Directive)? If so, the questionnaire could double as that assessment, which is a business point worth pitching.
-- Which life event does If care most about: Moving, or another one?
+* Can we use If's real product names, public terms and conditions text, and illustrative prices in the demo?
+* Which real partners (Anticimex, Verisure, FirstVet…) can we explicitly name during our pitch?
+* Is it acceptable to use a deterministic "Fit score" wording, or do recommendations need to be framed strictly under the Demands-and-Needs Guidance (EU Insurance Distribution Directive)? If the latter, the questionnaire can double as that assessment—which is a strong business point to pitch.
+* Which life event does If prioritize most right now: Moving, or something else?
+
+## 12. Business value for If from this model
+
+1. **Retention & Engagement:** If can convert existing policyholders into active platform users, offering diverse and flexible insurance services, drastically improving user retention and web traffic.
+2. **Asset-Light Ecosystem:** By leveraging its user pool to expand a third-party partner ecosystem, If can perfect its service offerings without massive capital investment. If acts as the platform (providing the web, app, and user traffic), execution is handled by verified third parties, If regulates service quality, and If generates revenue through commission models.
+3. **Loss Ratio Reduction & Acquisition:** Armed with proactive advice and risk assessments, users will actively avoid incidents that typically lead to claims, directly lowering If's claim probabilities (Loss Ratio). Simultaneously, by offering single-use or flexible micro-insurance plans, If can tap into new revenue streams from travelers or one-time service users, amplifying brand presence and capturing a wider potential customer base.
