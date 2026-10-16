@@ -6,8 +6,6 @@ import './App.css';
 
 function App() {
   const [count, setCount] = useState(0);
-  const unused = 42;
-  const greeting = { text: 'hi' };
 
   return (
     <>
@@ -20,7 +18,7 @@ function App() {
         <div>
           <h1>Iurii Alekseev</h1>
           <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
+            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
           </p>
         </div>
         <button type="button" className="counter" onClick={() => setCount((count) => count + 1)}>
