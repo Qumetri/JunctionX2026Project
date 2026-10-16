@@ -60,10 +60,12 @@ server: { proxy: { '/api': 'http://localhost:3001' } }
 | Method | Path                         | Purpose                                                          |
 | ------ | ---------------------------- | ---------------------------------------------------------------- |
 | GET    | `/api/events`                | List of life events (Moving, Pet, …) with their questionnaires   |
-| POST   | `/api/events/:id/assess`     | Answers → risk checklist + preventive actions + coverage gaps    |
+| POST   | `/api/journeys`              | Create a journey from answers → flags + ranked products + timeline |
+| PATCH  | `/api/journeys/:id/tasks/:taskId` | Tick a task → flags re-evaluated, readiness score updated   |
+| POST   | `/api/journeys/:id/summary`  | AI summary of flags + why the top plan fits (cached)             |
 | GET    | `/api/partners?event=moving` | Partner services (movers, tool rentals, Anticimex, Verisure…)    |
 | GET    | `/api/signals?postcode=…`    | Contextual open-data signals (weather on moving day, etc.)       |
-| GET    | `/api/nudges/:planId`        | Timeline of reminders leading up to the event                    |
+| GET    | `/api/journeys/:id/nudges`   | Timeline of reminders leading up to the event                    |
 
 The Express layer stays thin: validate input, call `shared/riskEngine`, enrich the result with partner and open-data lookups, then return JSON.
 
@@ -75,14 +77,19 @@ The Express layer stays thin: validate input, call `shared/riskEngine`, enrich t
 | ------------------------- | ------------------------------------------------------------------------ |
 | `life_events`             | Moving, Pet, … plus their questionnaire definitions (`jsonb`)            |
 | `partners`                | Movers, tool rentals, Anticimex, Verisure, FirstVet… (seeded)            |
-| `coverage_products`       | Home, contents, pet, liability add-ons with short descriptions (seeded)  |
-| `plans`                   | A user's saved journey: event, answers (`jsonb`), event date             |
-| `plan_items`              | Generated checklist items with `done` state, so progress persists        |
-| `nudges`                  | Scheduled reminders per plan (`due_at`, `sent_at`)                       |
+| `insurance_products`      | Home, contents, pet, liability products with coverage tags + terms excerpt (seeded) |
+| `journeys`                | A user's life event: event type, answers (`jsonb`), event date           |
+| `journey_flags`           | Computed risk flags with status (open / mitigated / covered)             |
+| `journey_tasks`           | Timeline items with `done` state, so progress persists                   |
+| `nudges`                  | Scheduled reminders per journey (`due_at`, `sent_at`)                    |
+| `ai_summaries`            | Cached AI output keyed by a hash of its input                            |
+| `open_data_cache`         | Responses from FMI, Statistics Finland, HSY, SYKE… with per-provider TTL (see [Open data](#open-data-finland)) |
+
+Full field-level detail for flags, products, and ranking: [application.md](application.md).
 
 The **risk rules stay in code** (`shared/`), not in the DB. They contain logic (`when` functions), they need to work offline in a future mobile app, and keeping them in git makes them easy to review. Postgres stores reference data and user state.
 
-No auth: a plan is identified by a random UUID that the client keeps (`localStorage`/URL). That is enough for the demo.
+No auth: a journey is identified by a random UUID that the client keeps (`localStorage`/URL). That is enough for the demo.
 
 ### Data access: Drizzle ORM
 
@@ -159,29 +166,81 @@ type Rule = {
   id: string;
   event: 'moving' | 'pet' | 'home-purchase' | 'new-job';
   when: (a: Answers, ctx: Signals) => boolean; // e.g. a.buildingYear < 1980
-  risk: { title: string; why: string; severity: 'low' | 'medium' | 'high' };
-  actions: string[];   // preventive steps
-  partners?: string[]; // partner ids, e.g. 'anticimex'
-  coverage?: string[]; // product ids, e.g. 'home-contents'
+  flag: { id: string; category: string; title: string; why: string; severity: 'low' | 'medium' | 'high' };
+  actions: string[];      // preventive steps
+  partners?: string[];    // partner ids, e.g. 'anticimex'
+  coverageTags: string[]; // e.g. 'water-damage' — products are ranked by these
   nudgeDaysBefore?: number;
 };
 ```
+
+Rules emit **flags**; a separate ranking function scores insurance products against the open flags. Both are pure functions in `shared/`. See [application.md](application.md) §5–6.
 
 Rules are data, so the team can write them in parallel and tune the demo story without touching UI code.
 
 ## Open data (Finland)
 
-These are candidates to check early. Use at most one or two in the demo.
+The backend uses free Finnish public data to make the flags and estimates specific to **this address, this area, this date**. This turns "old buildings have pipe problems" into "your building is from 1964, and a typical water-damage claim in Finland is about €4,000".
 
-- **Finnish Meteorological Institute (FMI) open data:** forecasts or warnings for moving day (rain → water-damage risk to furniture in transit).
-- **Statistics Finland (PxWeb API):** regional statistics such as building age by postcode, to drive moisture and pipe-renovation (_putkiremontti_) risks.
-- **If's public terms and conditions:** what home or pet coverage actually includes, so the "coverage gap" explanations are accurate.
+All sources below are free. Most need no key; those that do (Digitransit, NLS) take a free registration. Statistics Finland, SYKE, PRH, and Fintraffic data are **CC BY 4.0**, so the UI needs a small "Data: Statistics Finland, FMI, …" attribution line.
 
-If an API is slow or awkward, cache a snapshot as JSON and move on.
+### Sources by what they help estimate
 
-## Optional AI layer
+| Provider                                              | Data                                                                 | Access                                                                                          | Used for (flags / estimates)                                                                                      | Priority |
+| ----------------------------------------------------- | -------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | -------- |
+| **FMI** (Finnish Meteorological Institute)            | Forecasts, observations, CAP weather warnings                        | WFS at `opendata.fmi.fi/wfs`, **no key**; stored queries                                        | Rain/storm/frost on moving day → transit damage flag, timeline tip                                                 | 1        |
+| **Statistics Finland — Paavo**                        | Open data by postal code: population, households, income, dwellings  | PxWeb API (JSON) + WFS `geo.stat.fi/geoserver/postialue/wfs`, **no key**, updated each January  | Area profile for the new address; household-size and income context for contents value                            | 1        |
+| **Statistics Finland — StatFin `ashi`**               | Price per m² of old dwellings by postal code (table `13mu`)          | PxWeb API, **no key**                                                                           | Estimated home value → how much is at stake; suggested home insurance level                                        | 1        |
+| **Statistics Finland — StatFin `rpk`**                | Offences known to police by municipality, per 1,000 residents (`13h4`) | PxWeb API, **no key**                                                                         | Burglary/theft flag severity relative to the national average                                                      | 1        |
+| **HSY — Buildings in the Helsinki metropolitan area** | Every building: year of construction, use, floor area, material      | WFS layer `pks_rakennukset_paivittyva`, **no key**, updated every 2 weeks                       | **Old-plumbing / moisture flag** from the actual building year (Helsinki, Espoo, Vantaa, Kauniainen)               | 1        |
+| **SYKE** (Finnish Environment Institute)              | Flood hazard and flood risk areas                                    | WMS "Luonnonriskialueet" (GetFeatureInfo point query), **no key**                               | Flood flag for ground-floor / riverside / coastal addresses                                                        | 2        |
+| **PRH open data (YTJ)**                               | Company register: name, business ID, status, industry               | REST/JSON `avoindata.prh.fi/opendata-ytj-api/v3/…`, **no key**, updated daily                   | **"Verified mover" badge:** partner movers are registered, active companies                                        | 2        |
+| **Fintraffic Digitraffic**                            | Road weather stations, road weather forecasts, traffic messages      | REST, **no key** or contract                                                                    | Road conditions on the moving route (ice, snow) → transit flag, rental van tip                                     | 2        |
+| **Digitransit**                                       | Geocoding (address → coordinates + postal code), public transit routing | GraphQL/REST, **free key** via the API portal                                                | Turns the typed address into coordinates and a postal code for all the lookups above                               | 2        |
+| **NLS (Maanmittauslaitos)**                           | Geocoding incl. building addresses from the Population Information System | REST (Pelias-style), **free API key**                                                       | Alternative geocoder. OpenStreetMap Nominatim (no key, ≤1 req/s) is the no-signup fallback                        | 2        |
+| **DVV building addresses** (via avoindata.fi)         | All Finnish buildings: address, postal code, coordinates, building ID, intended use | Bulk download, updated quarterly                                                 | National address → building ID lookup outside the Helsinki region (no construction year)                         | 3        |
+| **STUK** (Radiation and Nuclear Safety Authority)     | Indoor radon measurements and radon map by municipality              | Open data service (registration required); municipal stats on the STUK website                  | Radon flag for detached houses in high-radon regions (e.g. Uusimaa, Kymenlaakso, Häme); radon measurement action  | 3        |
+| **Finance Finland** (Finanssiala)                     | Published insurance claim statistics                                 | Reports and press figures, **static**                                                           | Euro estimates: about 22,000 household water-damage claims a year, over €90M paid (≈ €4k per case); verify the year | 3        |
+| **Pelastusopisto / PRONTO**                           | National rescue-service incident statistics (building fires, stove fires) | Published annual figures, **static**                                                       | Fire-risk context for the smoke detector / stove-guard actions                                                     | 3        |
+| **If's public terms and conditions**                  | What each product covers and excludes                                | Public PDFs/web pages, **static**                                                               | `terms_excerpt` per product, which grounds the AI explanations                                                     | 1        |
 
-An LLM can turn the rule output into a friendly, personalized explanation ("Because your new building is from 1972…"), or answer free-text questions about the checklist. Call it **server-side only** and keep it optional: the demo must work without it, and the deterministic checklist stays the source of truth.
+**Priority:** 1 = build on day one; 2 = adds a lot to the demo if time allows; 3 = static numbers or regional data we hardcode into seed data or rules.
+
+Also useful for finding more: **avoindata.fi** (the national open data catalog) and **Helsinki Region Infoshare (hri.fi)** for Helsinki-region datasets.
+
+### How the backend uses it
+
+```
+address + move date
+   │
+   ▼
+geocode (Digitransit / NLS / Nominatim) ──► { lat, lon, postalCode, municipality }
+   │
+   ├─► buildingInfo   (HSY WFS)            → buildingYear, material
+   ├─► areaStats      (Paavo, ashi, rpk)   → pricePerM2, crimeRate vs. national, household size
+   ├─► floodRisk      (SYKE WMS)           → inFloodZone: boolean
+   └─► weather        (FMI, Digitraffic)   → forecast + warnings for the move date
+   │
+   ▼
+Signals object ──► shared/riskEngine (rules) ──► flags + severity + € estimates
+```
+
+- **Adapters:** one small module per provider in `server/src/opendata/` that returns typed `Signals` fields. The risk engine only sees `Signals`, never raw API responses, so a broken API means a missing signal instead of a crash.
+- **Graceful degradation:** each adapter has a short timeout (≈2s). On failure the signal is `undefined`, and rules fall back to what the user typed (e.g. "Roughly when was the building built?").
+- **Caching in Postgres:** an `open_data_cache` table (`provider`, `key`, `payload jsonb`, `fetched_at`) with a per-provider TTL: weather 1h, area statistics 30 days, buildings 7 days. Area statistics rarely change, so the demo addresses can be pre-warmed by the seed script. The demo then works offline.
+- **Coordinates:** Statistics Finland and NLS use ETRS-TM35FIN (EPSG:3067), and the HSY/Helsinki services use GK25 (EPSG:3879). Request WGS84 (`EPSG:4326`) output where the service supports it; otherwise convert with `proj4`.
+- **PxWeb gotcha:** Statistics Finland shortened some table and variable identifiers on 8 June 2026. Build queries against the current table metadata (`GET` on the table URL returns it) rather than copying old examples.
+- **Coverage limit:** building-level data (year of construction) is open for the Helsinki region via HSY. **Pick a Helsinki-region address for the demo persona**; elsewhere the app asks the user for the building year.
+
+### Example: what the user sees
+
+> 🔴 **Old pipes:** Your building at Mannerheimintie X was completed in **1964** (HSY). Buildings from before 1980 are entering pipe-renovation age, and water damage is the most common home insurance claim in Finland, at about **€4,000** per case (Finance Finland).
+> 🟠 **Burglary:** Reported property crime in Helsinki is **above the national average** per 1,000 residents (Statistics Finland). You're moving to a ground-floor flat.
+> 🟡 **Moving-day weather:** FMI forecasts **rain** on 14 Nov. Pack electronics in plastic and book a covered van.
+
+## AI layer
+
+Claude (`@anthropic-ai/sdk`, server-side only) summarizes the flags and explains why the top-ranked plan fits. It explains the ranking but never computes it; flags and ranking stay deterministic. The output is validated JSON, cached in Postgres, with a template fallback so the demo works without it. Details in [application.md](application.md) §7.
 
 ## Deployment (for the demo)
 
