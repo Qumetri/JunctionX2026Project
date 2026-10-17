@@ -335,6 +335,157 @@ Offence classes used: `101T103a0101` = theft by breaking into a dwelling (home b
 - **Rate limits:** none documented, not tested.
 - **Local file:** `data/opendata/digitraffic/sample_traffic_announcement_messages.json` (`TRAFFIC_ANNOUNCEMENT` response).
 
+### Travel disruption data (by destination)
+
+Inputs for a **trip disruption score** for a trip from Finland to a destination: how likely the trip is to be delayed, disrupted or cancelled, and why. Verified with live requests on 2026-10-17. Sample files are in `data/opendata/travel/<provider>/`.
+
+None of these sources needs a key. **Access** says how the frontend-first app reaches each one: *browser* (CORS allows a direct call), *proxy* (same-origin path, like HSY), or *build* (bulk file that `scripts/snapshot.ts` turns into a small JSON in `public/`).
+
+| Provider | Data | Level | Access | Signal for the score | Priority |
+| --- | --- | --- | --- | --- | --- |
+| **Eurocontrol performance data** | Daily airport delay CSVs: arrival ATFM delay by cause, all-cause pre-departure delay, traffic | Airport (ICAO), daily, 2014–2026 | build (no CORS) | `arrivalDelayRate`, `weatherDelayShare`, `preDepartureDelayMin` for the destination airport and HEL, by month | 1 |
+| **UK FCDO travel advice** | Advice level per country, change notes | Country | browser (`*`) | `advisoryLevel` | 1 |
+| **Open-Meteo** | Forecast (≤ 16 days) and historical weather | Point | browser (`*`) | `weatherRisk` for the travel dates or month | 1 |
+| **GDACS** | Current natural-hazard events (EQ, TC, FL, VO, DR, WF) with alert level | Event, with country and coordinates | browser (`*`) | `activeHazards` near the destination | 2 |
+| **Digitraffic rail** | Scheduled vs actual times and cancellations, per train and station, live and by date | Station (Finland) | browser (`*`) | `railToAirportReliability` (trains to Lentoasema `LEN`) | 2 |
+| **Digitraffic marine** | Port calls with ETA/ATA/ETD/ATD, previous and next port | Port call (Finnish ports) | browser (`*`) | `ferryDelay` for ferry trips (Helsinki–Tallinn, –Stockholm) | 2 |
+| **Eurostat `avia_par_fi`** | Passengers and flights per HEL airport pair | Route, yearly/quarterly | browser (`*`) | Route exists / direct-flight volume (fewer flights = fewer rebooking options) | 3 |
+| **US State Dept advisories** | Advisory level 1–4 per country | Country | proxy (no CORS) | Second opinion on `advisoryLevel` | 3 |
+| **USGS earthquakes** | Earthquake events and counts | Event | browser (`*`) | Optional context; GDACS already covers major earthquakes | 3 |
+
+**Gap: cancellation rates.** No free source gives flight cancellation rates by route or airport. Eurocontrol gives delay, not cancellations. The score should therefore estimate *disruption likelihood* from delays, weather, hazards and advisories, and leave cancellation as an insurer-side figure (see [Not usable / gaps](#not-usable--gaps)).
+
+#### Eurocontrol performance data (airport delays)
+
+- **Used for:** the delay part of the score, for the destination airport (arrival) and for the return flight (pre-departure delay at the destination airport).
+- **Access:** free CSV downloads, no key, listed on `https://ansperformance.eu/csv/`. No CORS header (verified), and the files are large, so read them only at build time.
+- **Files** (one per year, 2014–2026):
+  - `https://www.eurocontrol.int/performance/data/download/csv/apt_dly_<year>.csv.bz2`: **arrival ATFM delay** per airport per day. Columns: `FLT_DATE`, `APT_ICAO`, `APT_NAME`, `STATE_NAME`, `FLT_ARR_1` (arrivals), `DLY_APT_ARR_1` (delay minutes), cause split `DLY_APT_ARR_<code>_1` (`W` = weather, `C` = ATC capacity, `S` = ATC staffing, `G` = aerodrome capacity, `I` = industrial action, and others), `FLT_ARR_1_DLY` and `FLT_ARR_1_DLY_15` (delayed arrivals, and those delayed more than 15 min). 2025: 444 KB compressed, 101,129 rows.
+  - `https://www.eurocontrol.int/performance/data/download/csv/all_pre_departure_delays_<year>.csv`: **all-cause pre-departure delay** per airport per day: `FLT_DEP_IFR_2` (departures), `DLY_ALL_PRE_2` (delay minutes). Empty for airports that don't report.
+  - Also listed: `airport_traffic_<year>.csv`, `atc_pre_departure_delays_<year>.csv`, `asma_additional_time_<year>.csv`, `atfm_slot_adherence_<year>.csv`.
+- **Encoding:** Latin-1, not UTF-8 (airport names fail to decode as UTF-8).
+- **Example:**
+  ```bash
+  curl -s "https://www.eurocontrol.int/performance/data/download/csv/apt_dly_2025.csv.bz2" | bunzip2 | grep ',EFHK,' | head -3
+  ```
+- **Verified 2025 aggregates** (computed from the two files):
+
+  | Airport | Arrivals | ATFM delay min per arrival | Weather share of ATFM delay | Arrivals ATFM-delayed > 15 min | All-cause pre-departure delay, min per departure |
+  | --- | --- | --- | --- | --- | --- |
+  | EFHK Helsinki | 78,019 | 0.18 | 95% | 0.51% | 10.8 |
+  | ESSA Stockholm | 100,916 | 0.01 | 36% | 0.03% | 9.1 |
+  | LIRF Rome | 161,374 | 0.04 | 73% | 0.08% | 14.3 |
+  | LFPG Paris CDG | 239,863 | 0.93 | 56% | 2.10% | 19.5 |
+  | EGLL London Heathrow | 240,069 | 1.51 | 87% | 3.44% | 12.4 |
+  | LEBL Barcelona | 180,428 | 1.36 | 87% | 2.67% | 16.7 |
+  | GCLP Gran Canaria | 70,713 | 1.28 | 17% | 3.08% | 14.3 |
+  | LPPT Lisbon | 115,294 | 2.83 | 69% | 6.51% | 25.5 |
+
+- **How to use:** `scripts/snapshot.ts` downloads the last full year and writes `public/reference/airport-delays.json`: per ICAO code and month, `{ arrivals, atfmMinPerArrival, delayed15Share, weatherShare, preDepMinPerDep }`. Compare the destination with the all-airport median for that month.
+- **Caveats:** ATFM delay is only the part caused by air-traffic flow restrictions, so it understates total delay. Pre-departure delay covers all causes but not every airport. Neither counts cancellations. Coverage is the Eurocontrol area (Europe, Canary Islands, Turkey, some neighbours); long-haul destinations have no data.
+- **Licence:** unverified. Credit: "Source: EUROCONTROL".
+- **Local files:** `data/opendata/travel/eurocontrol/apt_dly_2025_head50.csv`, `data/opendata/travel/eurocontrol/all_pre_departure_delays_2025_head50.csv` (header + 50 rows each).
+
+#### UK FCDO travel advice
+
+- **Used for:** `advisoryLevel` for the destination country.
+- **Access:** JSON, no key, CORS `*` (verified).
+- **Endpoints:**
+  - Index: `https://www.gov.uk/api/content/foreign-travel-advice` lists 226 countries (`links.children[]`, with `details.country.slug` and the latest `change_description`). It does **not** include the alert level (verified).
+  - Country: `https://www.gov.uk/api/content/foreign-travel-advice/<slug>` → `details.alert_status` (array) and `details.change_description`.
+- **Alert values:** `avoid_all_travel_to_whole_country`, `avoid_all_travel_to_parts`, `avoid_all_but_essential_travel_to_whole_country`, `avoid_all_but_essential_travel_to_parts`. An empty array means no warning. Verified 2026-10-17: Ukraine and Israel `['avoid_all_travel_to_parts', 'avoid_all_but_essential_travel_to_parts']`, Italy `[]`.
+- **Example:**
+  ```bash
+  curl -s "https://www.gov.uk/api/content/foreign-travel-advice/italy" | jq '.details.alert_status, .details.change_description'
+  ```
+- **Mapping:** whole country, all travel → 4; parts, all travel → 3; whole country, all but essential → 3; parts, all but essential → 2; empty → 1.
+- **Licence:** Open Government Licence v3.0 (standard for gov.uk content; unverified on the page). This is UK advice. The Finnish ministry's advice has no API (see gaps), so the UI should say "UK FCDO advice" and link to um.fi.
+- **Local file:** `data/opendata/travel/fcdo/italy_sample.json`.
+
+#### Open-Meteo (destination weather)
+
+- **Used for:** `weatherRisk`. Use the forecast for trips within 16 days. For later trips, use the archive for the same month in recent years (days with heavy rain, strong wind or extreme heat).
+- **Access:** JSON, no key, CORS `*` (verified).
+- **Base URLs:** `https://api.open-meteo.com/v1/forecast`, `https://archive-api.open-meteo.com/v1/archive`.
+- **Example:**
+  ```bash
+  curl -s "https://archive-api.open-meteo.com/v1/archive?latitude=41.90&longitude=12.50&start_date=2025-10-01&end_date=2025-10-03&daily=temperature_2m_max,precipitation_sum"
+  ```
+- **Rate limits and licence:** non-commercial daily limit and CC BY 4.0 per the provider (both unverified on the live page). Cache by destination and month.
+- **Local files:** `data/opendata/travel/open_meteo/archive_rome_sample.json`, `data/opendata/travel/open_meteo/current_helsinki_sample.json`.
+
+#### GDACS (natural hazards)
+
+- **Used for:** `activeHazards`, meaning current events near the destination. Filter by country or distance from the destination, and by alert level.
+- **Access:** JSON (GeoJSON features), no key, CORS `*` (verified).
+- **Example:**
+  ```bash
+  curl -s "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=EQ,TC,FL,VO,DR,WF"
+  ```
+- **Event types:** EQ earthquake, TC tropical cyclone, FL flood, VO volcano, DR drought, WF wildfire.
+- **Licence:** unverified. Credit: "Source: GDACS".
+- **Local file:** `data/opendata/travel/gdacs/events_sample.json` (2 features).
+
+#### Digitraffic rail (getting to the airport)
+
+- **Used for:** `railToAirportReliability`, i.e. how often trains to the airport station run late or are cancelled. It covers the Finnish leg only.
+- **Access:** REST, no key, CORS `*`. Gzip required (HTTP 406 without it; browsers send it on their own). Send `Digitraffic-User`.
+- **Endpoints (verified):**
+  - `https://rata.digitraffic.fi/api/v1/trains/<YYYY-MM-DD>`: every train on a date, with `cancelled` and `timeTableRows[]` (`stationShortCode`, `type`, `scheduledTime`, `actualTime`, `differenceInMinutes`). 2026-10-15: 1,740 trains (917 KB), 121 cancelled. 219 arrivals at Lentoasema (`LEN`) had an actual time; 1 was 3 or more min late.
+  - `https://rata.digitraffic.fi/api/v1/live-trains/station/HKI`: live and upcoming trains at a station.
+  - `https://rata.digitraffic.fi/api/v1/metadata/stations`: 563 stations.
+- **How to use:** for a punctuality figure, the snapshot script reads about 30 recent dates and stores the share of `LEN` arrivals ≥ 3 min late and the cancellation share. For a trip within 24 h, call `live-trains` instead.
+- **Licence:** CC BY 4.0. Credit: "Lähde: Fintraffic Digitraffic".
+- **Local files:** `data/opendata/travel/digitraffic/rail_trains_2026-10-15_first3.json`, `rail_live_trains_HKI_sample.json`, `rail_stations_sample.json`, `rail_train_locations_sample.json`.
+
+#### Digitraffic marine (ferries)
+
+- **Used for:** `ferryDelay` on ferry trips from Finnish ports, mainly Helsinki–Tallinn and Helsinki–Stockholm.
+- **Access:** REST, no key, CORS `*`, gzip required. The old `/api/v1/*` paths return 404; use `/api/port-call/v1/`.
+- **Endpoint:** `https://meri.digitraffic.fi/api/port-call/v1/port-calls?from=<ISO>&to=<ISO>`. Each port call has `portToVisit` (UN/LOCODE, e.g. `FIHEL`), `prevPort`, `nextPort` (e.g. `EETLL`, `SESTO`), `vesselName` and `portAreaDetails[]` with `eta`, `ata`, `etd`, `atd` and their sources (verified). One day: 353 port calls, 923 KB.
+- **How to use:** delay = `ata − eta` for calls whose `prevPort` is the destination port. `eta` is the agent's estimate, sometimes filed months ahead, so it is an approximation of the timetable, not the timetable itself.
+- **Local files:** `data/opendata/travel/digitraffic/marine_port_calls_2026-10-16_sample.json`, `marine_ports_sample.json`.
+
+#### Eurostat air passengers by route (`avia_par_fi`)
+
+- **Used for:** whether a direct route from HEL exists and how busy it is. A thin route means fewer rebooking options if a flight is cancelled. It is not a delay signal.
+- **Access:** JSON-stat 2.0, no key, CORS `*` (verified). `https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_fi?format=JSON&lang=EN&time=2024`. Routes look like `FI_EFHK_AE_OMDB`; units include passengers (`PAS_BRD`, `PAS_CRD`), `FLIGHT` and `SEAT`.
+- **Gotcha:** unfiltered requests return HTTP 413 and are queued; always filter (for example `time=`). Data to 2024-Q4.
+- **Local file:** `data/opendata/travel/eurostat/avia_par_fi_2024_sample.json`.
+
+#### US State Department advisories
+
+- **Used for:** second opinion on `advisoryLevel` (levels 1–4 in `Title`, ISO country in `Category`).
+- **Access:** `https://cadataapi.state.gov/api/TravelAdvisories`, JSON, no key, 541 KB. **No CORS header** (verified), so the browser must use a proxy path like HSY (`/proxy/state/*`), or the snapshot script stores it daily.
+- **Local file:** `data/opendata/travel/us_state/advisories_sample.json`.
+
+#### Not usable / gaps
+
+- **Flight cancellation rates:** no free source found. AeroDataBox, AviationStack and FlightAware AeroAPI all need keys (HTTP 401 without one; free tiers unverified). A key can't go in the browser bundle, so any of them would need the optional server ([backendMovingPlan.md §9](backendMovingPlan.md#9-optional-server-when-and-how)).
+- **Finavia flight API:** `api.finavia.fi` did not answer (no HTTP status). Unverified; believed to need a free developer key.
+- **OpenSky:** live positions work anonymously, but CORS allows only `opensky-network.org`, and historical flights return 403 without an account. Not used.
+- **Eurocontrol API (`api.eurocontrol.int`):** unreachable. The CSV downloads above replace it.
+- **US BTS on-time data:** US domestic flights only.
+- **Finnish Ministry for Foreign Affairs (um.fi travel advice):** returns 403 to scripts, no documented API or feed. Not used; link to it from the UI.
+- **ReliefWeb:** needs an approved `appname` (HTTP 403 without one). Not requested.
+- **Health alerts (WHO, ECDC), strikes:** no verified machine-readable feed. The Eurocontrol cause code `I` (industrial action) captures strike-related air-traffic delay after the fact.
+- **Trip-cancellation claim statistics:** none found from Finance Finland or the EU. Until If provides a figure, the app should not show a "% of trips cancelled" number.
+
+#### How the score uses them
+
+`tripDisruption` is a flag set built like the Moving flags ([backendMovingPlan.md §5](backendMovingPlan.md#5-signals--flags)), using `relativeLevel(local, reference)`:
+
+| Flag | Signal | Reference | High when |
+| --- | --- | --- | --- |
+| `flight-delay` | Destination `delayed15Share` and `preDepMinPerDep` for the travel month | Median of all Eurocontrol airports that month | ratio ≥ 1.5 |
+| `weather-disruption` | Open-Meteo forecast, or the share of heavy-rain/strong-wind days in that month; Eurocontrol `weatherShare` | Same month at HEL | forecast warning, or ratio ≥ 1.5 |
+| `destination-advisory` | FCDO `advisoryLevel` (US State as tie-break) | — | level ≥ 3 |
+| `natural-hazard` | GDACS event within ~300 km, orange/red alert | — | any orange or red event |
+| `airport-connection` | Rail `LEN` lateness/cancellation share, or ferry `ata − eta` | Last 30 days | ratio ≥ 1.5 against the 30-day mean |
+| `thin-route` | No direct HEL route, or few flights in `avia_par_fi` | — | informative only |
+
+Coverage tags for product ranking: `trip-cancellation`, `travel-delay`, `baggage-delay`, `medical-abroad`. Outside the Eurocontrol area, `flight-delay` is "unknown" and the explanation says so.
+
 ### Caching and failure handling
 
 - **Cache:** each adapter caches its parsed result through `CacheStore` (`localStorage` in the browser). Planned TTLs: weather 1 h, area statistics 30 days, buildings 7 days. The TTLs are design values, not tested.
@@ -405,6 +556,12 @@ Figures used in the summary text and the flags. Year and source are given for ea
 | Fintraffic Digitraffic | CC BY 4.0 | Lähde: Fintraffic Digitraffic |
 | Finance Finland | Unverified | Lähde: Finanssiala ry |
 | PRONTO / Pelastusopisto | Unverified | Lähde: Pelastusopisto, Pelastustoimen taskutilasto 2020–2024 (prontonet.fi) |
+| EUROCONTROL performance data | Unverified | Source: EUROCONTROL |
+| UK FCDO travel advice | Open Government Licence v3.0 (unverified on page) | Contains public sector information licensed under the Open Government Licence v3.0 (FCDO) |
+| Open-Meteo | CC BY 4.0 (unverified on page) | Weather data by Open-Meteo.com |
+| GDACS | Unverified | Source: GDACS |
+| Eurostat | Eurostat reuse policy (unverified for this dataset) | Source: Eurostat |
+| US State Department | Unverified (US government works are generally public domain) | Source: U.S. Department of State |
 
 The frontend shows one attribution line for all sources, e.g. "Data: Statistics Finland, HSY, SYKE, Fintraffic, Finanssiala, Pelastusopisto."
 

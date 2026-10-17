@@ -62,15 +62,22 @@
   animation-duration: calc(var(--flow) * 1.4);
 }
 
-.liquid-ring__bubbles {
-  opacity: var(--boil);
+.liquid-ring__bubbles circle {
+  --dur: calc(var(--flow) * 0.7 * var(--speed));
+  fill: rgb(255 255 255 / 0.18);
+  stroke: rgb(255 255 255 / 0.8);
+  stroke-width: 0.8;
+  animation: liquid-ring-rise var(--dur) ease-in infinite;
+  animation-delay: calc(var(--dur) * var(--phase) * -1);
 }
 
-.liquid-ring__bubbles circle {
-  fill: none;
-  stroke: rgb(255 255 255 / 0.75);
-  stroke-width: 0.8;
-  animation: liquid-ring-rise var(--boil-speed) ease-in infinite;
+/* The boil set only shows when hot; it rides on its own opacity so the rise keyframes stay shared. */
+.liquid-ring__bubbles .liquid-ring__bubble--boil {
+  --dur: calc(var(--boil-speed) * var(--speed));
+  fill: #fff;
+  stroke: #fff;
+  fill-opacity: calc(var(--boil) * 0.18);
+  stroke-opacity: calc(var(--boil) * 0.8);
 }
 
 @keyframes liquid-ring-flow {
@@ -104,7 +111,8 @@
   }
 
   100% {
-    transform: translateY(-68px);
+    /* Each bubble stops just under the surface (--rise is its depth). */
+    transform: translateY(calc(var(--rise) * -1px));
     opacity: 0;
   }
 }

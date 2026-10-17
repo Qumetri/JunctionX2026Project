@@ -1,0 +1,32 @@
+[
+ {
+  "countryCode": "FI",
+  "latitude": 64.537118,
+  "longitude": 25.006783,
+  "passengerTraffic": false,
+  "stationName": "Ahonpää",
+  "stationShortCode": "AHO",
+  "stationUICCode": 1343,
+  "type": "STATION"
+ },
+ {
+  "countryCode": "FI",
+  "latitude": 61.291923,
+  "longitude": 22.498185,
+  "passengerTraffic": false,
+  "stationName": "Ahvenus",
+  "stationShortCode": "AHV",
+  "stationUICCode": 1000,
+  "type": "STATION"
+ },
+ {
+  "countryCode": "FI",
+  "latitude": 60.453853,
+  "longitude": 25.102241,
+  "passengerTraffic": true,
+  "stationName": "Ainola",
+  "stationShortCode": "AIN",
+  "stationUICCode": 628,
+  "type": "STOPPING_POINT"
+ }
+]

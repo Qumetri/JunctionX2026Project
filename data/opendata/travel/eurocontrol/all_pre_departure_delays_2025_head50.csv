@@ -1,0 +1,51 @@
+YEAR,MONTH_NUM,MONTH_MON,FLT_DATE,APT_ICAO,APT_NAME,STATE_NAME,FLT_DEP_1,FLT_DEP_IFR_2,DLY_ALL_PRE_2
+2025,01,JAN,2025-01-01,LATI,Tirana,Albania,64,,
+2025,01,JAN,2025-01-01,UDYZ,Yerevan,Armenia,57,,
+2025,01,JAN,2025-01-01,LOWG,Graz,Austria,7,,
+2025,01,JAN,2025-01-01,LOWI,Innsbruck,Austria,24,,
+2025,01,JAN,2025-01-01,LOWK,Klagenfurt,Austria,2,,
+2025,01,JAN,2025-01-01,LOWL,Linz,Austria,2,,
+2025,01,JAN,2025-01-01,LOWS,Salzburg,Austria,17,,
+2025,01,JAN,2025-01-01,LOWW,Vienna,Austria,253,253,3015
+2025,01,JAN,2025-01-01,EBAW,Antwerp,Belgium,4,,
+2025,01,JAN,2025-01-01,EBBR,Brussels,Belgium,216,216,2926
+2025,01,JAN,2025-01-01,EBCI,Brussels - Charleroi,Belgium,94,94,2232
+2025,01,JAN,2025-01-01,EBLG,LiÃ¨ge,Belgium,17,,
+2025,01,JAN,2025-01-01,EBOS,Ostend-Bruges,Belgium,4,,
+2025,01,JAN,2025-01-01,LQSA,Sarajevo,Bosnia and Herzegovina,10,,
+2025,01,JAN,2025-01-01,LBSF,Sofia,Bulgaria,58,58,1224
+2025,01,JAN,2025-01-01,LDZA,Zagreb,Croatia,51,51,1026
+2025,01,JAN,2025-01-01,LCLK,Larnaca,Cyprus,62,,
+2025,01,JAN,2025-01-01,LCPH,Paphos,Cyprus,18,,
+2025,01,JAN,2025-01-01,LKMT,Ostrava,Czech Republic,2,,
+2025,01,JAN,2025-01-01,LKPR,Prague,Czech Republic,129,129,1670
+2025,01,JAN,2025-01-01,LKTB,Brno-TuÅany,Czech Republic,1,,
+2025,01,JAN,2025-01-01,EKCH,Copenhagen - Kastrup,Denmark,217,217,3130.35
+2025,01,JAN,2025-01-01,EETN,Tallinn,Estonia,32,31,459
+2025,01,JAN,2025-01-01,EETU,Tartu,Estonia,1,,
+2025,01,JAN,2025-01-01,EFHK,Helsinki - Vantaa,Finland,161,161,3178.54
+2025,01,JAN,2025-01-01,LFBD,Bordeaux-MÃ©rignac,France,51,,
+2025,01,JAN,2025-01-01,LFBE,Bergerac-RoumaniÃ¨re,France,2,,
+2025,01,JAN,2025-01-01,LFBH,La Rochelle-Ile de RÃ©,France,1,,
+2025,01,JAN,2025-01-01,LFBI,Poitiers-Biard,France,1,,
+2025,01,JAN,2025-01-01,LFBL,Limoges-Bellegarde,France,0,,
+2025,01,JAN,2025-01-01,LFBO,Toulouse-Blagnac,France,68,67,970
+2025,01,JAN,2025-01-01,LFBP,Pau-PyrÃ©nÃ©es,France,5,,
+2025,01,JAN,2025-01-01,LFBT,Tarbes-Lourdes PyrÃ©nÃ©es,France,5,,
+2025,01,JAN,2025-01-01,LFBZ,Biarritz-Bayonne-Anglet,France,6,,
+2025,01,JAN,2025-01-01,LFCR,Rodez-Marcillac,France,2,,
+2025,01,JAN,2025-01-01,LFGJ,DÃ´le-Tavaux,France,3,,
+2025,01,JAN,2025-01-01,LFJL,Metz-Nancy-Lorraine,France,2,,
+2025,01,JAN,2025-01-01,LFKB,Bastia-Poretta,France,10,,
+2025,01,JAN,2025-01-01,LFKC,Calvi-Sainte-Catherine,France,5,,
+2025,01,JAN,2025-01-01,LFKF,Figari-Sud Corse,France,7,,
+2025,01,JAN,2025-01-01,LFKJ,Ajaccio-NapolÃ©on-Bonaparte,France,9,,
+2025,01,JAN,2025-01-01,LFLB,ChambÃ©ry-Aix-les-Bains,France,7,,
+2025,01,JAN,2025-01-01,LFLC,Clermont-Ferrand-Auvergne,France,4,,
+2025,01,JAN,2025-01-01,LFLI,Annemasse,France,2,,
+2025,01,JAN,2025-01-01,LFLL,Lyon-Saint-ExupÃ©ry,France,82,82,961
+2025,01,JAN,2025-01-01,LFLP,Annecy-Meythet,France,0,,
+2025,01,JAN,2025-01-01,LFLS,Grenoble-IsÃ¨re,France,3,,
+2025,01,JAN,2025-01-01,LFLY,Lyon-Bron,France,2,,
+2025,01,JAN,2025-01-01,LFMD,Cannes-Mandelieu,France,2,,
+2025,01,JAN,2025-01-01,LFMI,Istres-Le TubÃ©,France,1,,

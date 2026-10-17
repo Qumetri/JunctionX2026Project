@@ -1,0 +1,4865 @@
+{
+ "dataUpdatedTime": "2022-08-12T09:31:21.299259Z",
+ "counts": {
+  "ssnLocations": 3,
+  "portAreas": 3,
+  "berths": 2
+ },
+ "first_entry_per_collection": {
+  "ssnLocations": {
+   "key": "type",
+   "value": "FeatureCollection"
+  },
+  "portAreas": {
+   "key": "type",
+   "value": "FeatureCollection"
+  },
+  "berths": {
+   "key": "berths",
+   "value": [
+    {
+     "locode": "FIANK",
+     "portAreaCode": "ANK",
+     "berthCode": "unknow",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIBRA",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHAL",
+     "portAreaCode": "HAL",
+     "berthCode": "HAL2",
+     "berthName": "Halla 2"
+    },
+    {
+     "locode": "FIHAL",
+     "portAreaCode": "HAL",
+     "berthCode": "HAL1",
+     "berthName": "Halla 1"
+    },
+    {
+     "locode": "FIHAL",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIDRA",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIECK",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIENK",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIESP",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIEJO",
+     "portAreaCode": "OLKI",
+     "berthCode": "Olki 1",
+     "berthName": "Olki 1"
+    },
+    {
+     "locode": "FIEJO",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIFAR",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIFOG",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIFOR",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIGDB",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HAL",
+     "berthCode": "U1",
+     "berthName": "HALU1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HAL",
+     "berthCode": "U2",
+     "berthName": "HALU2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HIE",
+     "berthCode": "H1",
+     "berthName": "HIEH1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HIE",
+     "berthCode": "H2",
+     "berthName": "HIEH2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "ANK",
+     "berthCode": "KAUN",
+     "berthName": "KAUNISSAARI"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "K1",
+     "berthName": "KANK1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "K2",
+     "berthName": "KANK2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "K3",
+     "berthName": "KANK3"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "K4",
+     "berthName": "KANK4"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "K5",
+     "berthName": "KANK5"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "K6",
+     "berthName": "KANK6"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HOY",
+     "berthCode": "M2",
+     "berthName": "HÖYM2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "K7",
+     "berthName": "KANK7"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "K8",
+     "berthName": "KANK8"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "N/A_K9",
+     "berthName": "KANK9  (Ei käytössä)"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "P1",
+     "berthName": "KANP1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "P2",
+     "berthName": "KANP2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "EU",
+     "berthCode": "EU2",
+     "berthName": "EU2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "EU",
+     "berthCode": "EU3",
+     "berthName": "EU3"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "OIL",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "OIL",
+     "berthCode": "O1",
+     "berthName": "Ö1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "OIL",
+     "berthCode": "O2",
+     "berthName": "Ö2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "OIL",
+     "berthCode": "O3",
+     "berthName": "Ö3"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "GAS",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "GAS",
+     "berthCode": "FG",
+     "berthName": "FG"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HILLO",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HILLO",
+     "berthCode": "H1",
+     "berthName": "H1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HILLO",
+     "berthCode": "H2",
+     "berthName": "H2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HILLO",
+     "berthCode": "H3",
+     "berthName": "H3"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HILLO",
+     "berthCode": "H4",
+     "berthName": "H4"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HIIRK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HIIRK",
+     "berthCode": "HK1",
+     "berthName": "HK1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HIIRK",
+     "berthCode": "HK2",
+     "berthName": "HK2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HIIRK",
+     "berthCode": "HK3",
+     "berthName": "HK3"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HIIRK",
+     "berthCode": "HK4",
+     "berthName": "HK4"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HIIRK",
+     "berthCode": "HK5",
+     "berthName": "HK5"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HIIRK",
+     "berthCode": "HK6",
+     "berthName": "HK6"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "LAKUL",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "LAKUL",
+     "berthCode": "L1",
+     "berthName": "L1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "LAKUL",
+     "berthCode": "L2",
+     "berthName": "L2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "LAKUL",
+     "berthCode": "L3",
+     "berthName": "L3"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "LAKUL",
+     "berthCode": "L4",
+     "berthName": "L4"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "LAKUL",
+     "berthCode": "L5",
+     "berthName": "L5"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "LAKUL",
+     "berthCode": "L6",
+     "berthName": "L6"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "LAKUL",
+     "berthCode": "L7",
+     "berthName": "L7"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "LAKUL",
+     "berthCode": "L8",
+     "berthName": "L8"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "PALOK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "PALOK",
+     "berthCode": "PK1",
+     "berthName": "PK1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "PALOK",
+     "berthCode": "PK2",
+     "berthName": "PK2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "PALOK",
+     "berthCode": "PK3",
+     "berthName": "PK3"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "SUM",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "SUM",
+     "berthCode": "SUM",
+     "berthName": "SUM"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KLA",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KLA",
+     "berthCode": "KLA",
+     "berthName": "KLA"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HL",
+     "berthCode": "HL1",
+     "berthName": "Hailikari 1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "LAN",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKO",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSNE",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HET",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "SUSAT",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "SUSUN",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "PUI",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "EU",
+     "berthCode": "EU4",
+     "berthName": "EU4"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "EU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "EU",
+     "berthCode": "EU0",
+     "berthName": "EU0"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "EU",
+     "berthCode": "EU1",
+     "berthName": "EU1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKO",
+     "berthCode": "C?",
+     "berthName": "MUSC?"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKO",
+     "berthCode": "B?",
+     "berthName": "MUSB?"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "JAN",
+     "berthCode": "J1",
+     "berthName": "JÄNSKÄ1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "JAN",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "V1",
+     "berthName": "KANV1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "V2",
+     "berthName": "KANV2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "VP",
+     "berthName": "KANVP"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "V3",
+     "berthName": "KANV3"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "V4",
+     "berthName": "KANV4"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "I1",
+     "berthName": "KANI1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "I1-2",
+     "berthName": "KANI1-2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "I2",
+     "berthName": "KANI2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "I2-3",
+     "berthName": "KANI2-3"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "N/A_I4",
+     "berthName": "KANI4  (Ei käytössä)"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "N/I4-5",
+     "berthName": "KANI4-5  (Ei käytössä)"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "LAN",
+     "berthCode": "L1",
+     "berthName": "LAN1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKU",
+     "berthCode": "A1",
+     "berthName": "MUSA1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKU",
+     "berthCode": "A1-2",
+     "berthName": "MUSA1-2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKU",
+     "berthCode": "A2",
+     "berthName": "MUSA2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKU",
+     "berthCode": "A2-3",
+     "berthName": "MUSA2-3"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKU",
+     "berthCode": "A3",
+     "berthName": "MUSA3"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKU",
+     "berthCode": "A3-4",
+     "berthName": "MUSA3-4"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKU",
+     "berthCode": "A4",
+     "berthName": "MUSA4"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKU",
+     "berthCode": "N/A4-5",
+     "berthName": "MUSA4-5  (Ei käytössä)"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKU",
+     "berthCode": "N/A_A5",
+     "berthName": "MUSA5  (Ei käytössä)"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKU",
+     "berthCode": "N/A5-6",
+     "berthName": "MUSA5-6  (Ei käytössä)"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKU",
+     "berthCode": "N/A_A6",
+     "berthName": "MUSA6  (Ei käytössä)"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "PUI",
+     "berthCode": "O1",
+     "berthName": "PUIÖ1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "PUI",
+     "berthCode": "O2",
+     "berthName": "PUIÖ2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "SUSAT",
+     "berthCode": "S3",
+     "berthName": "SUNS3"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "SUSAT",
+     "berthCode": "S4",
+     "berthName": "SUNS4"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HIE",
+     "berthCode": "H7",
+     "berthName": "HIEH7"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HIE",
+     "berthCode": "H3",
+     "berthName": "HIEH3"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HIE",
+     "berthCode": "H4",
+     "berthName": "HIEH4"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HIE",
+     "berthCode": "H5",
+     "berthName": "HIEH5"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HIE",
+     "berthCode": "H6",
+     "berthName": "HIEH6"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HOY",
+     "berthCode": "M1",
+     "berthName": "HÖYM1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSNE",
+     "berthCode": "N1",
+     "berthName": "MUSN1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSNE",
+     "berthCode": "N2",
+     "berthName": "MUSN2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "SUSUN",
+     "berthCode": "S1",
+     "berthName": "SUNS1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "SUSUN",
+     "berthCode": "S2",
+     "berthName": "SUNS2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HET",
+     "berthCode": "T1",
+     "berthName": "PUOT1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HET",
+     "berthCode": "T2",
+     "berthName": "PUOT2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HET",
+     "berthCode": "T3",
+     "berthName": "PUOT3"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HET",
+     "berthCode": "T4",
+     "berthName": "PUOT4"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "N/A_I5",
+     "berthName": "KANI5  (Ei käytössä)"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKO",
+     "berthCode": "C0",
+     "berthName": "MUSC0"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKO",
+     "berthCode": "C1",
+     "berthName": "MUSC1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKO",
+     "berthCode": "C2",
+     "berthName": "MUSC2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKO",
+     "berthCode": "C3",
+     "berthName": "MUSC3"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKO",
+     "berthCode": "C4",
+     "berthName": "MUSC4"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKO",
+     "berthCode": "C5",
+     "berthName": "MUSC5"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKO",
+     "berthCode": "B0",
+     "berthName": "MUSB0"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKO",
+     "berthCode": "B1",
+     "berthName": "MUSB1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKO",
+     "berthCode": "B2",
+     "berthName": "MUSB2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKO",
+     "berthCode": "B3",
+     "berthName": "MUSB3"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKO",
+     "berthCode": "B4",
+     "berthName": "MUSB4"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "ANK",
+     "berthCode": "HAV",
+     "berthName": "HAVOURI"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "ANK",
+     "berthCode": "PIRK",
+     "berthName": "PIRKÖYRI"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "I3",
+     "berthName": "KANI3"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "LAN",
+     "berthCode": "L2",
+     "berthName": "LAN2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HIE",
+     "berthCode": "N/A",
+     "berthName": "HIEH7 (Ei käytössä)"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "ANK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HAL",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HIE",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "HOY",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "KAN",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "PALOK",
+     "berthCode": "PK3",
+     "berthName": "PK3"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "KLA",
+     "berthCode": "KLA",
+     "berthName": "KLA"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "PALOK",
+     "berthCode": "PK1",
+     "berthName": "PK1"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "LAKUL",
+     "berthCode": "L8",
+     "berthName": "L8"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "LAKUL",
+     "berthCode": "L7",
+     "berthName": "L7"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "LAKUL",
+     "berthCode": "L6",
+     "berthName": "L6"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "LAKUL",
+     "berthCode": "L5",
+     "berthName": "L5"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "LAKUL",
+     "berthCode": "L4",
+     "berthName": "L4"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "LAKUL",
+     "berthCode": "L3",
+     "berthName": "L3"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "LAKUL",
+     "berthCode": "L2",
+     "berthName": "L2"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "LAKUL",
+     "berthCode": "L1",
+     "berthName": "L1"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "EU",
+     "berthCode": "EU3",
+     "berthName": "EU3"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "EU",
+     "berthCode": "EU2",
+     "berthName": "EU2"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "EU",
+     "berthCode": "EU1",
+     "berthName": "EU1"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "EU",
+     "berthCode": "EU0",
+     "berthName": "EU0"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "HILLO",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "GAS",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "KLA",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "EU",
+     "berthCode": "EU4",
+     "berthName": "EU4"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "LAKUL",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "PALOK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "SUM",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "OIL",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "SUM",
+     "berthCode": "SUM",
+     "berthName": "SUM"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "OIL",
+     "berthCode": "O3",
+     "berthName": "Ö3"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "TERVA",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "OIL",
+     "berthCode": "O1",
+     "berthName": "Ö1"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "OIL",
+     "berthCode": "O2",
+     "berthName": "Ö2"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "ANK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "HIIRK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "EU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "HIIRK",
+     "berthCode": "HK1",
+     "berthName": "HK1"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "HIIRK",
+     "berthCode": "HK2",
+     "berthName": "HK2"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "HIIRK",
+     "berthCode": "HK3",
+     "berthName": "HK3"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "HIIRK",
+     "berthCode": "HK4",
+     "berthName": "HK4"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "HIIRK",
+     "berthCode": "HK5",
+     "berthName": "HK5"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "HIIRK",
+     "berthCode": "HK6",
+     "berthName": "HK6"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "HILLO",
+     "berthCode": "H1",
+     "berthName": "H1"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "HILLO",
+     "berthCode": "H2",
+     "berthName": "H2"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "HILLO",
+     "berthCode": "H3",
+     "berthName": "H3"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "HILLO",
+     "berthCode": "H4",
+     "berthName": "H4"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "GAS",
+     "berthCode": "FG",
+     "berthName": "FG"
+    },
+    {
+     "locode": "FIHMN",
+     "portAreaCode": "PALOK",
+     "berthCode": "PK2",
+     "berthName": "PK2"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "OUT",
+     "berthCode": "OH1",
+     "berthName": "Outer Harbour 1"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "FISH",
+     "berthCode": "FISH",
+     "berthName": "Troolisatama"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "WEST",
+     "berthCode": "RR1",
+     "berthName": "Roro 1"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "LEVA",
+     "berthCode": "LEV",
+     "berthName": "Levator"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "WEST",
+     "berthCode": "RR3",
+     "berthName": "Roro 3"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "KOV",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "OUT",
+     "berthCode": "OH2",
+     "berthName": "Outer Harbour 2"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "WEST",
+     "berthCode": "RR2",
+     "berthName": "Roro 2"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "KOV",
+     "berthCode": "KOV2",
+     "berthName": "Pohjois laituri"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "KOV",
+     "berthCode": "KOV1",
+     "berthName": "Etelä laituri"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "WEST",
+     "berthCode": "RR4",
+     "berthName": "Roro 4"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "WEST",
+     "berthCode": "RR5",
+     "berthName": "Roro 5"
+    },
+    {
+     "locode": "FIHAU",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ANK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "OIL",
+     "berthCode": "MUU",
+     "berthName": "POISTETTU Ei tiedossa"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "SO",
+     "berthCode": "MUU",
+     "berthName": "POISTETTU Ei tiedossa"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VTL",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "EKJ",
+     "berthName": "Jäänmurtajalaituri"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "EKL",
+     "berthName": "Katajanokan laituri"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LEL",
+     "berthName": "Hiililaituri"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LHA",
+     "berthName": "Munkkisaari A"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LHB",
+     "berthName": "Munkkisaari B"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LHC",
+     "berthName": "Hernesaari C"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LHD",
+     "berthName": "Hernesaari D"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LJ3",
+     "berthName": "Jätkän lauttapaikka 3"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LJ4",
+     "berthName": "Jätkän lauttapaikka 4"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LJ5",
+     "berthName": "Jätkän lauttapaikka 5"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LJ6",
+     "berthName": "Jätkän lauttapaikka 6"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LJA",
+     "berthName": "POISTETTU Jätkän laituripaikka A - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LJB",
+     "berthName": "POISTETTU Jätkän laituripaikka B - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LJC",
+     "berthName": "POISTETTU Jätkän laituripaikka C - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LJD",
+     "berthName": "POISTETTU Jätkän laituripaikka D - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LJE",
+     "berthName": "POISTETTU Jätkän laituripaikka E - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LKL",
+     "berthName": "Hietalahden korkealaituri"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LM9",
+     "berthName": "Melkinlaituri 9"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LMA",
+     "berthName": "Melkinlaituri A"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LMB",
+     "berthName": "Melkinlaituri B"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LML",
+     "berthName": "POISTETTU Hietalahden matalalaituri - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LMY",
+     "berthName": "Masa Yards - telakka"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LS8",
+     "berthName": "POISTETTU Saukonlaituri 8 - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LSA",
+     "berthName": "POISTETTU Saukonlaituri A - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LSH",
+     "berthName": "Hiekkalaituri"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LSL",
+     "berthName": "POISTETTU Sillilaituri - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LTA",
+     "berthName": "POISTETTU Tammasaarenlaituri - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LV7",
+     "berthName": "POISTETTU Valtamerilaituri 7 - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ANK",
+     "berthCode": "RED",
+     "berthName": "Ankkuripaikka"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "OIL",
+     "berthCode": "OLA",
+     "berthName": "POISTETTU Shellin laituri - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "OIL",
+     "berthCode": "OLB",
+     "berthName": "POISTETTU Nesteen laituri - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "OIL",
+     "berthCode": "OLC",
+     "berthName": "POISTETTU Esson laituri - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "SO",
+     "berthCode": "SHA",
+     "berthName": "Hanasaaren laituri A"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "SO",
+     "berthCode": "SHB",
+     "berthName": "Hanasaaren laituri B"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "SO",
+     "berthCode": "SIT",
+     "berthName": "POISTETTU Sompan itälaituri - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "SO",
+     "berthCode": "SKS",
+     "berthName": "POISTETTU Sörnäisten kalasatama - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "SO",
+     "berthCode": "SPK",
+     "berthName": "POISTETTU Partekin laituri - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "SO",
+     "berthCode": "SS1",
+     "berthName": "POISTETTU Sompasaaren laituri 1 - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "SO",
+     "berthCode": "SS2",
+     "berthName": "POISTETTUSompasaaren laituri 2 - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "SO",
+     "berthCode": "SS3",
+     "berthName": "POISTETTU Sompasaaren laituri 3 - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "SO",
+     "berthCode": "SS4",
+     "berthName": "POISTETTU Sompasaaren laituri 4 - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "SO",
+     "berthCode": "SS5",
+     "berthName": "POISTETTU Sompasaaren laituri 5 - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "SO",
+     "berthCode": "SS6",
+     "berthName": "POISTETTU Sompasaaren laituri 6 - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "SO",
+     "berthCode": "SSA",
+     "berthName": "POISTETTU Sompasaaren laituri A - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VTL",
+     "berthCode": "VHL",
+     "berthName": "Hiekkalaituri"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VTL",
+     "berthCode": "VTL",
+     "berthName": "Telakan laituri"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "SO",
+     "berthCode": "SS7",
+     "berthName": "POISTETTU Sörnäisten laituri (7) - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LJ2",
+     "berthName": "POISTETTU Jätkän lauttapaikka 2 - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VDA",
+     "berthName": "VDA"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VFA",
+     "berthName": "VFA"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VC1",
+     "berthName": "VC1"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VC2",
+     "berthName": "VC2"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VF3",
+     "berthName": "VF3"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VF4",
+     "berthName": "VF4"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VG5",
+     "berthName": "VG5"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VG6",
+     "berthName": "VG6"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VG7",
+     "berthName": "VG7"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VG8",
+     "berthName": "VG8"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VG9",
+     "berthName": "VG9"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VGA",
+     "berthName": "VGA"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VE1",
+     "berthName": "VE1"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VEA",
+     "berthName": "VEA"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VEB",
+     "berthName": "VEB"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VEC",
+     "berthName": "VEC"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VED",
+     "berthName": "VED"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VB2",
+     "berthName": "VB2"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VB3",
+     "berthName": "VB3"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VD4",
+     "berthName": "VD4"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VDB",
+     "berthName": "VDB"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VD5",
+     "berthName": "VD5"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VA6",
+     "berthName": "VA6"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VA7",
+     "berthName": "VA7"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "EO1",
+     "berthName": "ETELÄ 1"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "EO2",
+     "berthName": "ETELÄ 2"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "EM3",
+     "berthName": "ETELÄ 3"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "EM4",
+     "berthName": "ETELÄ 4"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "ELY",
+     "berthName": "VIRO 2"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "EKE",
+     "berthName": "POISTETTU KAUPPATORI - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "ELL",
+     "berthName": "POISTETTU KANAVA 1 - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "EKA",
+     "berthName": "POISTETTU KANAVA  2 - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "EK5",
+     "berthName": "POISTETTU NOKKA 1- ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "ERA",
+     "berthName": "RISTEILY 1"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "ERB",
+     "berthName": "RISTEILY 2"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VA8",
+     "berthName": "VA8"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "MUU",
+     "berthName": "POISTETTU Ei tiedossa"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "EOA",
+     "berthName": "Olympialaituri"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "EMA",
+     "berthName": "Makasiinilaituri A"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "EMB",
+     "berthName": "Makasiinilaituri B"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LSB",
+     "berthName": "POISTETTU Saukonlaituri B - ei käytössä"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "VUOS",
+     "berthCode": "VDC",
+     "berthName": "VDC"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "SO",
+     "berthCode": "SSB",
+     "berthName": "POISTETTU Sompasaaren laituri B - ei käytössä"
+    },
+    {
+     "locode": "FIHOU",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIIIS",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIIMA",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIINI",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIINK",
+     "portAreaCode": "FORTUM",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIINK",
+     "portAreaCode": "IS",
+     "berthCode": "4",
+     "berthName": "Laituripaikka 4"
+    },
+    {
+     "locode": "FIINK",
+     "portAreaCode": "ANK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIINK",
+     "portAreaCode": "IS",
+     "berthCode": "5",
+     "berthName": "Laituripaikka 5"
+    },
+    {
+     "locode": "FIINK",
+     "portAreaCode": "IS",
+     "berthCode": "1",
+     "berthName": "Laituripaikka 1"
+    },
+    {
+     "locode": "FIINK",
+     "portAreaCode": "ÖLJY",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIINK",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIINK",
+     "portAreaCode": "IS",
+     "berthCode": "2",
+     "berthName": "Laituripaikka 2"
+    },
+    {
+     "locode": "FIINK",
+     "portAreaCode": "IS",
+     "berthCode": "3",
+     "berthName": "Laituripaikka 3"
+    },
+    {
+     "locode": "FIISN",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei Tiedossa"
+    },
+    {
+     "locode": "FIISN",
+     "portAreaCode": "SAHA",
+     "berthCode": "MUU",
+     "berthName": "Ei Tiedossa"
+    },
+    {
+     "locode": "FIJOE",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIJOU",
+     "portAreaCode": "PU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIJOU",
+     "portAreaCode": "SAHA",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIJOU",
+     "portAreaCode": "HO",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKNT",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKAS",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKAS",
+     "portAreaCode": "SISA",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKAS",
+     "portAreaCode": "SSA",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKAS",
+     "portAreaCode": "ANK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKAS",
+     "portAreaCode": "BSA",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "VL",
+     "berthCode": "B04",
+     "berthName": "LAITURI 4"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "VL",
+     "berthCode": "B05",
+     "berthName": "LAITURI 5"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "VL",
+     "berthCode": "B06",
+     "berthName": "LAITURI 6"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "VL",
+     "berthCode": "B07",
+     "berthName": "LAITURI 7"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "OIL",
+     "berthCode": "B01",
+     "berthName": "LAITURI 1"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "AJOS",
+     "berthCode": "B08",
+     "berthName": "LAITURI 8"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "ANK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "VL",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "OIL",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "AJOS",
+     "berthCode": "B09",
+     "berthName": "LAITURI 9"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "AJOS",
+     "berthCode": "B10",
+     "berthName": "LAITURI 10"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "AJOS",
+     "berthCode": "B11",
+     "berthName": "LAITURI 11"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "AJOS",
+     "berthCode": "B12",
+     "berthName": "SAMPO"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "AJOS",
+     "berthCode": "B01",
+     "berthName": "LAITURI 1"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "AJOS",
+     "berthCode": "B02",
+     "berthName": "LAITURI 2"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "AJOS",
+     "berthCode": "B03",
+     "berthName": "LAITURI 3"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "AJOS",
+     "berthCode": "B04",
+     "berthName": "LAITURI 4"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "AJOS",
+     "berthCode": "B05",
+     "berthName": "LAITURI 5"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "AJOS",
+     "berthCode": "B06",
+     "berthName": "LAITURI 6"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "AJOS",
+     "berthCode": "B07",
+     "berthName": "LAITURI 7"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "VL",
+     "berthCode": "B01",
+     "berthName": "LAITURI 1"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "VL",
+     "berthCode": "B02",
+     "berthName": "LAITURI 2"
+    },
+    {
+     "locode": "FIKEM",
+     "portAreaCode": "VL",
+     "berthCode": "B03",
+     "berthName": "LAITURI 3"
+    },
+    {
+     "locode": "FIKIM",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKIM",
+     "portAreaCode": "SKIN",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKIM",
+     "portAreaCode": "FROJ",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKIM",
+     "portAreaCode": "MJOS",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKIM",
+     "portAreaCode": "KASN",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FISKV",
+     "portAreaCode": "AN1",
+     "berthCode": "IN1",
+     "berthName": "Sisäankkurissa"
+    },
+    {
+     "locode": "FISKV",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei Tiedossa"
+    },
+    {
+     "locode": "FISKV",
+     "portAreaCode": "OIL",
+     "berthCode": "OIL",
+     "berthName": "Öljylaituri"
+    },
+    {
+     "locode": "FISKV",
+     "portAreaCode": "OIL",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FISKV",
+     "portAreaCode": "AN2",
+     "berthCode": "OUT1",
+     "berthName": "Ulkoankkurissa"
+    },
+    {
+     "locode": "FIKTQ",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "HK",
+     "berthCode": "HK 1",
+     "berthName": "Hopeakiven laituri 1"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "HK",
+     "berthCode": "HK 2",
+     "berthName": "Hopeakiven laituri 2"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "ANK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "KL",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "OUTOL",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "RL",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "SL",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "OL",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "SS",
+     "berthCode": "Pois",
+     "berthName": "Hopeakiven laituri 6"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "SL",
+     "berthCode": "NRO 11",
+     "berthName": "LAITURI 11"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "SL",
+     "berthCode": "NRO 10",
+     "berthName": "LAITURI 10"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "SL",
+     "berthCode": "NRO 9",
+     "berthName": "LAITURI 9"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "OUTOL",
+     "berthCode": "NRO 8",
+     "berthName": "LAITURI 8"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "OUTOL",
+     "berthCode": "NRO 7",
+     "berthName": "LAITURI 7"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "KL",
+     "berthCode": "NRO 6",
+     "berthName": "LAITURI 6"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "OL",
+     "berthCode": "NRO 5",
+     "berthName": "LAITURI  5"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "RL",
+     "berthCode": "NA",
+     "berthName": "POISTETTU"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "SS",
+     "berthCode": "MUU",
+     "berthName": "Muu laituri"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "RL",
+     "berthCode": "NRO 1",
+     "berthName": "LAITURI 1"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "RL",
+     "berthCode": "NRO 2",
+     "berthName": "LAITURI 2"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "SS",
+     "berthCode": "SS 12",
+     "berthName": "Syvälaituri 12"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "SS",
+     "berthCode": "SS 11",
+     "berthName": "Syvälaituri 11"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "SS",
+     "berthCode": "SS 10",
+     "berthName": "Syvälaituri 10"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "SS",
+     "berthCode": "SS 9",
+     "berthName": "Syvälaituri 9"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "KS",
+     "berthCode": "MUU",
+     "berthName": "Muu laituri"
+    },
+    {
+     "locode": "FIKOR",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKRS",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKRS",
+     "portAreaCode": "SYVA",
+     "berthCode": "OIL",
+     "berthName": "Öljylaituri"
+    },
+    {
+     "locode": "FIKRS",
+     "portAreaCode": "SISA",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKRS",
+     "portAreaCode": "SYVA",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKRO",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKUM",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKUO",
+     "portAreaCode": "KUMP",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKUO",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKUO",
+     "portAreaCode": "SAVO",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKUS",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKKR",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FILPP",
+     "portAreaCode": "MU",
+     "berthCode": "1",
+     "berthName": "nro 1"
+    },
+    {
+     "locode": "FILPP",
+     "portAreaCode": "MU",
+     "berthCode": "2",
+     "berthName": "nro 2"
+    },
+    {
+     "locode": "FILPP",
+     "portAreaCode": "MAT",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FILPP",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FILPP",
+     "portAreaCode": "MU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FILPP",
+     "portAreaCode": "MSA",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FILPP",
+     "portAreaCode": "KA",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FILPP",
+     "portAreaCode": "MU",
+     "berthCode": "HIILI",
+     "berthName": "Hiililaituri"
+    },
+    {
+     "locode": "FILPP",
+     "portAreaCode": "MU",
+     "berthCode": "8",
+     "berthName": "nro 8"
+    },
+    {
+     "locode": "FILPP",
+     "portAreaCode": "MU",
+     "berthCode": "7",
+     "berthName": "nro 7"
+    },
+    {
+     "locode": "FILPP",
+     "portAreaCode": "MU",
+     "berthCode": "4",
+     "berthName": "nro 4"
+    },
+    {
+     "locode": "FILPP",
+     "portAreaCode": "MU",
+     "berthCode": "3",
+     "berthName": "nro 3"
+    },
+    {
+     "locode": "FILAP",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FILAP",
+     "portAreaCode": "01",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FILOV",
+     "portAreaCode": "VALKO",
+     "berthCode": "3",
+     "berthName": "Pitkälaituri"
+    },
+    {
+     "locode": "FILOV",
+     "portAreaCode": "VALKO",
+     "berthCode": "2",
+     "berthName": "Vinolaituri"
+    },
+    {
+     "locode": "FILOV",
+     "portAreaCode": "VALKO",
+     "berthCode": "Ei tie",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FILOV",
+     "portAreaCode": "VALKO",
+     "berthCode": "6",
+     "berthName": "Pohjoislaituri"
+    },
+    {
+     "locode": "FILOV",
+     "portAreaCode": "VALKO",
+     "berthCode": "1",
+     "berthName": "Etelälaituri"
+    },
+    {
+     "locode": "FILOV",
+     "portAreaCode": "VALKO",
+     "berthCode": "3¿",
+     "berthName": "Pitkälaituri"
+    },
+    {
+     "locode": "FILOV",
+     "portAreaCode": "VALKO",
+     "berthCode": "4",
+     "berthName": "Pitkälaituri"
+    },
+    {
+     "locode": "FILOV",
+     "portAreaCode": "ANK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FILUV",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FILAN",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIMAA",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIMHQ",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIMER",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIMIK",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "ANK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "NESTE",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "KANTA",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "NESTE",
+     "berthCode": "NESTE",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "KANTA",
+     "berthCode": "KANTA",
+     "berthName": "ei tiedossa"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "LMAA",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "TELAK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "KANTA",
+     "berthCode": "BNLI26",
+     "berthName": "Ro-Ro 26"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "KANTA",
+     "berthCode": "BNLI27",
+     "berthName": "Ro-Ro 27"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "NESTE",
+     "berthCode": "BNLI01",
+     "berthName": "Neste 1"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "NESTE",
+     "berthCode": "BNLI02",
+     "berthName": "Neste 2"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "NESTE",
+     "berthCode": "BNLI03",
+     "berthName": "Neste 3"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "LMAA",
+     "berthCode": "BNLI30",
+     "berthName": "Luonnonmaa 30"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "LMAA",
+     "berthCode": "BNLI31",
+     "berthName": "Luonnonmaa 31"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "TELAK",
+     "berthCode": "BNLI40",
+     "berthName": "Kuivatelakka 40"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "TELAK",
+     "berthCode": "BNLI41",
+     "berthName": "Varustelulaituri 41"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "TELAK",
+     "berthCode": "BNLI42",
+     "berthName": "Uivatelakka 42"
+    },
+    {
+     "locode": "FINAU",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FINUR",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "NS",
+     "berthCode": "KL2",
+     "berthName": "KEM2 (v)"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "OR",
+     "berthCode": "106",
+     "berthName": "106"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "NS",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "OR",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "TOPPI",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "VS",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "OR",
+     "berthCode": "2",
+     "berthName": "PÄÄLAITURI 2 (v)"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "NS",
+     "berthCode": "2",
+     "berthName": "Päälaituri 2 (v)"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "NS",
+     "berthCode": "3",
+     "berthName": "Päälaituri 3 (v)"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "OR",
+     "berthCode": "4",
+     "berthName": "POHJOISLAITURI 4 (v)"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "NS",
+     "berthCode": "1",
+     "berthName": "Päälaituri 1 (v)"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "NS",
+     "berthCode": "KL1",
+     "berthName": "KEM1 (v)"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "OR",
+     "berthCode": "1",
+     "berthName": "PÄÄLAITURI 1 (v)"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "OR",
+     "berthCode": "3",
+     "berthName": "PÄÄLAITURI 3 (v)"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "OR",
+     "berthCode": "5",
+     "berthName": "POHJOISLAITURI 5 (v)"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "TOPPI",
+     "berthCode": "T1",
+     "berthName": "PÄÄLAITURI"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "TOPPI",
+     "berthCode": "T2",
+     "berthName": "ÖLJYLAITURI"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "VS",
+     "berthCode": "OIL",
+     "berthName": "Öljylaituri (v)"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "VS",
+     "berthCode": "BU",
+     "berthName": "Bulklaituri (v)"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "OR",
+     "berthCode": "101",
+     "berthName": "101"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "NS",
+     "berthCode": "202",
+     "berthName": "202"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "NS",
+     "berthCode": "201",
+     "berthName": "201"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "NS",
+     "berthCode": "204",
+     "berthName": "204"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "NS",
+     "berthCode": "203",
+     "berthName": "203"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "VS",
+     "berthCode": "301",
+     "berthName": "301"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "VS",
+     "berthCode": "302",
+     "berthName": "302"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "OR",
+     "berthCode": "102",
+     "berthName": "102"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "VS",
+     "berthCode": "303",
+     "berthName": "303"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "OR",
+     "berthCode": "103",
+     "berthName": "103"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "OR",
+     "berthCode": "104",
+     "berthName": "104"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "OR",
+     "berthCode": "105",
+     "berthName": "105"
+    },
+    {
+     "locode": "FIOUL",
+     "portAreaCode": "ANK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIPAR",
+     "portAreaCode": "HES",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIPAR",
+     "portAreaCode": "SEM",
+     "berthCode": "MAA1",
+     "berthName": "Maalaituri 1"
+    },
+    {
+     "locode": "FIPAR",
+     "portAreaCode": "SEM",
+     "berthCode": "LANSI",
+     "berthName": "Pistolaituri länsi"
+    },
+    {
+     "locode": "FIPAR",
+     "portAreaCode": "SEM",
+     "berthCode": "ITA",
+     "berthName": "Pistolaituri Itä"
+    },
+    {
+     "locode": "FIPAR",
+     "portAreaCode": "SEM",
+     "berthCode": "MAA2",
+     "berthName": "Maalaituri 2"
+    },
+    {
+     "locode": "FIPAR",
+     "portAreaCode": "KAL",
+     "berthCode": "KAL1",
+     "berthName": "Kalkkisatama 1"
+    },
+    {
+     "locode": "FIPAR",
+     "portAreaCode": "SEM",
+     "berthCode": "SEM",
+     "berthName": "Sementtilaituri"
+    },
+    {
+     "locode": "FIPAR",
+     "portAreaCode": "ANK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIPAR",
+     "portAreaCode": "SEM",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIPAR",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIPAR",
+     "portAreaCode": "KAL",
+     "berthCode": "KAL2",
+     "berthName": "Kalkkisatama 2"
+    },
+    {
+     "locode": "FIPAR",
+     "portAreaCode": "KAL",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIPER",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIPRS",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIPRS",
+     "portAreaCode": "KANAS",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIPRS",
+     "portAreaCode": "ALHOLM",
+     "berthCode": "PK",
+     "berthName": "Sementtilaituri"
+    },
+    {
+     "locode": "FIPRS",
+     "portAreaCode": "ALHOLM",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIPRS",
+     "portAreaCode": "ANK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIPRS",
+     "portAreaCode": "ALHOLM",
+     "berthCode": "L2",
+     "berthName": "Laukko II"
+    },
+    {
+     "locode": "FIPRS",
+     "portAreaCode": "ALHOLM",
+     "berthCode": "L3",
+     "berthName": "Laukko III"
+    },
+    {
+     "locode": "FIPRS",
+     "portAreaCode": "ALHOLM",
+     "berthCode": "L1",
+     "berthName": "Laukko I"
+    },
+    {
+     "locode": "FIPRS",
+     "portAreaCode": "ALHOLM",
+     "berthCode": "BQ",
+     "berthName": "Buskön laituri"
+    },
+    {
+     "locode": "FIPRS",
+     "portAreaCode": "ALHOLM",
+     "berthCode": "SQ",
+     "berthName": "Etelälaituri"
+    },
+    {
+     "locode": "FIPRS",
+     "portAreaCode": "ALHOLM",
+     "berthCode": "DEL1",
+     "berthName": "- Poistettu käytöstä 'SÖDRA KAJEN IN'"
+    },
+    {
+     "locode": "FIPRS",
+     "portAreaCode": "ALHOLM",
+     "berthCode": "DEL2",
+     "berthName": "- Poitettu käytöstä 'ALHOLMS BRON  UT'"
+    },
+    {
+     "locode": "FIPRS",
+     "portAreaCode": "ALHOLM",
+     "berthCode": "DEL3",
+     "berthName": "- Poistettu käytöstä 'ALHOLMS BRON IN'"
+    },
+    {
+     "locode": "FIPOH",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B10",
+     "berthName": "Kallonlahti 1"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "TAHKO",
+     "berthCode": "B26",
+     "berthName": "SYVÄSATAMA 26"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "TAHKO",
+     "berthCode": "B27",
+     "berthName": "SYVÄSATAMA 27"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B23",
+     "berthName": "KALLONLAHTI 23"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B24",
+     "berthName": "KALLONLAHTI 24"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B25",
+     "berthName": "KALLONLAHTI 25"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "ANK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "MUU",
+     "berthName": "Ei käytössä"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "REPO",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "TAHKO",
+     "berthCode": "MUU",
+     "berthName": "Ei käytössä"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "B00",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "MTL",
+     "berthName": "Telakka"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "KANTA",
+     "berthCode": "BNLI15",
+     "berthName": "15"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "TAHKO",
+     "berthCode": "K30",
+     "berthName": "Kemikaalilaituri no:30"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B01",
+     "berthName": "Poistettu (KIVILAITURI 1)"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B02",
+     "berthName": "Poistettu (KIVILAITURI 2)"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B03",
+     "berthName": "BETONILAITURI 3"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B04",
+     "berthName": "BETONILAITURI 4"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B05",
+     "berthName": "BETONILAITURI 5"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B06",
+     "berthName": "BETONILAITURI 6"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B07",
+     "berthName": "BETONILAITURI 7"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B00",
+     "berthName": "VANHA"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B14",
+     "berthName": "ALASKA 14"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B15",
+     "berthName": "ALASKA 15"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B16",
+     "berthName": "ALASKA 16"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B17",
+     "berthName": "ALASKA 17"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B18",
+     "berthName": "ALASKA 18"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B19",
+     "berthName": "ALASKA 19"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B20",
+     "berthName": "KALLONLAHTI 20"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B21",
+     "berthName": "KALLONLAHTI 21"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "MANTY",
+     "berthCode": "B22",
+     "berthName": "KALLONLAHTI 22"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "B00",
+     "berthCode": "B00",
+     "berthName": "VANHA"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "TAHKO",
+     "berthCode": "B29",
+     "berthName": "ÖLJYLAITURI"
+    },
+    {
+     "locode": "FIPOR",
+     "portAreaCode": "TAHKO",
+     "berthCode": "B28",
+     "berthName": "PISTOLAITURI"
+    },
+    {
+     "locode": "FIPRV",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei Tiedossa"
+    },
+    {
+     "locode": "FIPRV",
+     "portAreaCode": "ANK",
+     "berthCode": "MUU",
+     "berthName": "Ei Tiedossa"
+    },
+    {
+     "locode": "FIPUU",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIRAA",
+     "portAreaCode": "LL",
+     "berthCode": "LL03",
+     "berthName": "Lapaluoto laituri 3"
+    },
+    {
+     "locode": "FIRAA",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIRAA",
+     "portAreaCode": "LL",
+     "berthCode": "LL01",
+     "berthName": "Lapaluoto laituri 1"
+    },
+    {
+     "locode": "FIRAA",
+     "portAreaCode": "RR",
+     "berthCode": "RR06",
+     "berthName": "Rautaruukki laituri 6"
+    },
+    {
+     "locode": "FIRAA",
+     "portAreaCode": "RR",
+     "berthCode": "RR05",
+     "berthName": "Rautaruukki laituri 5"
+    },
+    {
+     "locode": "FIRAA",
+     "portAreaCode": "RR",
+     "berthCode": "RR04",
+     "berthName": "Rautaruukki laituri 4"
+    },
+    {
+     "locode": "FIRAA",
+     "portAreaCode": "RR",
+     "berthCode": "RR03",
+     "berthName": "Rautaruukki laituri 3"
+    },
+    {
+     "locode": "FIRAA",
+     "portAreaCode": "RR",
+     "berthCode": "RR02",
+     "berthName": "Rautaruukki laituri 2"
+    },
+    {
+     "locode": "FIRAA",
+     "portAreaCode": "RR",
+     "berthCode": "RR01",
+     "berthName": "Rautaruukki laituri 1"
+    },
+    {
+     "locode": "FIRAA",
+     "portAreaCode": "LL",
+     "berthCode": "LLOD",
+     "berthName": "Lapaluoto odotuslaituri"
+    },
+    {
+     "locode": "FIRAA",
+     "portAreaCode": "RR",
+     "berthCode": "SL1",
+     "berthName": "Syvälaituri 1"
+    },
+    {
+     "locode": "FIRAA",
+     "portAreaCode": "ANK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIRAA",
+     "portAreaCode": "RR",
+     "berthCode": "SL2",
+     "berthName": "Syvälaituri 2"
+    },
+    {
+     "locode": "FIRAA",
+     "portAreaCode": "LL",
+     "berthCode": "LL02",
+     "berthName": "Lapaluoto laituri 2"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BB",
+     "berthCode": "BB2",
+     "berthName": "Kemikaali nro 1"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BB",
+     "berthCode": "BB3",
+     "berthName": "Kemikaali nro 2"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BJ",
+     "berthCode": "BJ2",
+     "berthName": "Piki 2"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BA1",
+     "berthCode": "BA1",
+     "berthName": "Suoja"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BB",
+     "berthCode": "BB1",
+     "berthName": "Öljylaituri"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BE",
+     "berthCode": "BE2",
+     "berthName": "Ro-Ro 2"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BD",
+     "berthCode": "BD3",
+     "berthName": "Nro 21"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BK1",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "ANK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BE",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BF",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BD",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BC",
+     "berthCode": "BC3",
+     "berthName": "Nro 17"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BL",
+     "berthCode": "BL2",
+     "berthName": "Metsä-Botnia"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BH",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BG",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BJ",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BA1",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BB",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BJ",
+     "berthCode": "BJ1",
+     "berthName": "Piki 1"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BL",
+     "berthCode": "BL1",
+     "berthName": "Metsä-Botnia"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BG",
+     "berthCode": "BG",
+     "berthName": "Konttilaituri"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BC",
+     "berthCode": "BC2",
+     "berthName": "Nro 16"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BD",
+     "berthCode": "BD2",
+     "berthName": "Nro 20"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BH",
+     "berthCode": "BH3",
+     "berthName": "P3"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BH",
+     "berthCode": "BH2",
+     "berthName": "P2"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BD",
+     "berthCode": "BD1",
+     "berthName": "Ro-Ro 1"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BH",
+     "berthCode": "BH1",
+     "berthName": "P1"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BC",
+     "berthCode": "BC1",
+     "berthName": "Nro 15"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BF",
+     "berthCode": "BF5",
+     "berthName": "Ro-Ro 7"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BF",
+     "berthCode": "BF4",
+     "berthName": "Ro-Ro 6"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BF",
+     "berthCode": "BF3",
+     "berthName": "Ro-Ro 5"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BF",
+     "berthCode": "BF2",
+     "berthName": "Ro-Ro 4"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BC",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BE",
+     "berthCode": "BE1",
+     "berthName": "Nro 23"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BF",
+     "berthCode": "BF1",
+     "berthName": "Ro-Ro 3"
+    },
+    {
+     "locode": "FIRIS",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIRUO",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIRYM",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FISAL",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FISAL",
+     "portAreaCode": "USKE",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FISVL",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FISII",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FISIP",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei Tiedossa"
+    },
+    {
+     "locode": "FISKB",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FISTR",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIDLS",
+     "portAreaCode": "Muu",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIDLS",
+     "portAreaCode": "ANK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIDLS",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FITVS",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FITAI",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FITEI",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FITOK",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei Tiedossa"
+    },
+    {
+     "locode": "FITOK",
+     "portAreaCode": "MUU",
+     "berthCode": "Pohj",
+     "berthName": "Pohjoislaituri"
+    },
+    {
+     "locode": "FITOK",
+     "portAreaCode": "MUU",
+     "berthCode": "Etelä",
+     "berthName": "Etelälaituri"
+    },
+    {
+     "locode": "FITOR",
+     "portAreaCode": "1",
+     "berthCode": "1",
+     "berthName": "Yksi"
+    },
+    {
+     "locode": "FITOR",
+     "portAreaCode": "2",
+     "berthCode": "2",
+     "berthName": "Kaksi"
+    },
+    {
+     "locode": "FITOR",
+     "portAreaCode": "3",
+     "berthCode": "3",
+     "berthName": "Kolme"
+    },
+    {
+     "locode": "FITOR",
+     "portAreaCode": "6",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FITOR",
+     "portAreaCode": "6",
+     "berthCode": "6",
+     "berthName": "Kuusi"
+    },
+    {
+     "locode": "FITOR",
+     "portAreaCode": "7",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FITOR",
+     "portAreaCode": "7",
+     "berthCode": "7",
+     "berthName": "Seitsemän"
+    },
+    {
+     "locode": "FITOR",
+     "portAreaCode": "5",
+     "berthCode": "MUU",
+     "berthName": "Ei Tiedossa"
+    },
+    {
+     "locode": "FITOR",
+     "portAreaCode": "5",
+     "berthCode": "5",
+     "berthName": "Viisi"
+    },
+    {
+     "locode": "FITOR",
+     "portAreaCode": "4",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FITOR",
+     "portAreaCode": "4",
+     "berthCode": "4",
+     "berthName": "Neljä"
+    },
+    {
+     "locode": "FITOR",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FITOR",
+     "portAreaCode": "1",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FITOR",
+     "portAreaCode": "3",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FITOR",
+     "portAreaCode": "2",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FITOR",
+     "portAreaCode": "ANK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FITOR",
+     "portAreaCode": "KL",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "EAST",
+     "berthCode": "99",
+     "berthName": "Ei käytössä"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "WEST",
+     "berthCode": "99",
+     "berthName": "Ei käytössä"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PASSE",
+     "berthCode": "99",
+     "berthName": "Ei käytössä"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PANSIO",
+     "berthCode": "24",
+     "berthName": "RO-RO"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PERNO",
+     "berthCode": "99",
+     "berthName": "Ei käytössä"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "RIVER",
+     "berthCode": "88",
+     "berthName": "Korjaustelakka"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "RIVER",
+     "berthCode": "99",
+     "berthName": "Muu"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PANSIO",
+     "berthCode": "99",
+     "berthName": "Ei käytössä"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PERNO",
+     "berthCode": "88",
+     "berthName": "Korjaustelakka"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PANSIO",
+     "berthCode": "11",
+     "berthName": "RMR P-11"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PANSIO",
+     "berthCode": "12",
+     "berthName": "RMR P-12"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PANSIO",
+     "berthCode": "13",
+     "berthName": "RMR P-13"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PANSIO",
+     "berthCode": "14",
+     "berthName": "RMR P-14"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "EAST",
+     "berthCode": "22",
+     "berthName": "east22"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "WEST",
+     "berthCode": "32",
+     "berthName": "west32"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "WEST",
+     "berthCode": "33",
+     "berthName": "west33"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "WEST",
+     "berthCode": "34",
+     "berthName": "west34"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "RIVER",
+     "berthCode": "9",
+     "berthName": "joki9"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "RIVER",
+     "berthCode": "10",
+     "berthName": "joki10"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "RIVER",
+     "berthCode": "11",
+     "berthName": "joki11"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "RIVER",
+     "berthCode": "12",
+     "berthName": "joki12"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "RIVER",
+     "berthCode": "13",
+     "berthName": "joki13"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "RIVER",
+     "berthCode": "14",
+     "berthName": "joki14 Forum Marinum"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "RIVER",
+     "berthCode": "15",
+     "berthName": "joki15"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "EAST",
+     "berthCode": "23",
+     "berthName": "east23"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "EAST",
+     "berthCode": "24",
+     "berthName": "east24"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "EAST",
+     "berthCode": "25",
+     "berthName": "east25"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "EAST",
+     "berthCode": "26",
+     "berthName": "east26"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "EAST",
+     "berthCode": "27",
+     "berthName": "east27"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "EAST",
+     "berthCode": "28",
+     "berthName": "east28"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "EAST",
+     "berthCode": "29",
+     "berthName": "east29"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "EAST",
+     "berthCode": "30",
+     "berthName": "east30"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "EAST",
+     "berthCode": "31",
+     "berthName": "east31"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "WEST",
+     "berthCode": "35",
+     "berthName": "west35"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "WEST",
+     "berthCode": "36",
+     "berthName": "west36"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "WEST",
+     "berthCode": "37",
+     "berthName": "west37"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "WEST",
+     "berthCode": "38",
+     "berthName": "west38 peräportti"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "WEST",
+     "berthCode": "39",
+     "berthName": "west39 kontti"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "WEST",
+     "berthCode": "40",
+     "berthName": "west40 kontti"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "WEST",
+     "berthCode": "41",
+     "berthName": "west41 peräportti"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PASSE",
+     "berthCode": "s1",
+     "berthName": "silja1 junalautta"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PASSE",
+     "berthCode": "s2",
+     "berthName": "silja2"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PASSE",
+     "berthCode": "s3",
+     "berthName": "silja3 vara"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PASSE",
+     "berthCode": "v1",
+     "berthName": "viking1"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PASSE",
+     "berthCode": "v2",
+     "berthName": "viking2 vara"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "EI KÄY",
+     "berthCode": "2",
+     "berthName": "Ei käytössä"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "EI KÄY",
+     "berthCode": "3",
+     "berthName": "Ei käytössä"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "EI KÄY",
+     "berthCode": "5",
+     "berthName": "Ei käytössä"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PERNO",
+     "berthCode": "1",
+     "berthName": "masa1"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PERNO",
+     "berthCode": "2",
+     "berthName": "masa2"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PERNO",
+     "berthCode": "3",
+     "berthName": "masa3"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PERNO",
+     "berthCode": "4",
+     "berthName": "masa4"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PERNO",
+     "berthCode": "5",
+     "berthName": "masa5"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PANSIO",
+     "berthCode": "15",
+     "berthName": "P-15"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PANSIO",
+     "berthCode": "16",
+     "berthName": "P-16"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PANSIO",
+     "berthCode": "17",
+     "berthName": "P-17"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PANSIO",
+     "berthCode": "18",
+     "berthName": "P-18"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PANSIO",
+     "berthCode": "19",
+     "berthName": "P-19"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PANSIO",
+     "berthCode": "20",
+     "berthName": "P-20"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PANSIO",
+     "berthCode": "21",
+     "berthName": "P-21"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "PANSIO",
+     "berthCode": "23",
+     "berthName": "Öljylaituri"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "EI KÄY",
+     "berthCode": "11",
+     "berthName": "Ei käytössä"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "EI KÄY",
+     "berthCode": "12",
+     "berthName": "Ei käytössä"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "ANK",
+     "berthCode": "99",
+     "berthName": "Ankkurissa"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "EI KÄY",
+     "berthCode": "99",
+     "berthName": "Ei käytössä"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "RIVER",
+     "berthCode": "87",
+     "berthName": "Metra"
+    },
+    {
+     "locode": "FITKU",
+     "portAreaCode": "EI KÄY",
+     "berthCode": "MUU",
+     "berthName": "Ei käytössä"
+    },
+    {
+     "locode": "FIUIM",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIUKP",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIUKP",
+     "portAreaCode": "OIL",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIUKI",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIUKI",
+     "portAreaCode": "HEPO",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIUKI",
+     "portAreaCode": "ANK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIUKI",
+     "portAreaCode": "YARA",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIVAA",
+     "portAreaCode": "12",
+     "berthCode": "NO",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIVAA",
+     "portAreaCode": "06",
+     "berthCode": "06",
+     "berthName": "Ro-Ro1"
+    },
+    {
+     "locode": "FIVAA",
+     "portAreaCode": "09",
+     "berthCode": "09",
+     "berthName": "Öljysatama"
+    },
+    {
+     "locode": "FIVAA",
+     "portAreaCode": "10",
+     "berthCode": "10",
+     "berthName": "Sisäsatama"
+    },
+    {
+     "locode": "FIVAA",
+     "portAreaCode": "04",
+     "berthCode": "04",
+     "berthName": "Ro-Ro 3"
+    },
+    {
+     "locode": "FIVAA",
+     "portAreaCode": "05",
+     "berthCode": "05",
+     "berthName": "Ro-Ro 2"
+    },
+    {
+     "locode": "FIVAA",
+     "portAreaCode": "07",
+     "berthCode": "07",
+     "berthName": "Reininlaituri"
+    },
+    {
+     "locode": "FIVAA",
+     "portAreaCode": "03",
+     "berthCode": "03",
+     "berthName": "Pohjoispiiri-etelä"
+    },
+    {
+     "locode": "FIVAA",
+     "portAreaCode": "13",
+     "berthCode": "13",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIVAA",
+     "portAreaCode": "01",
+     "berthCode": "01",
+     "berthName": "Eteläpiiri-etelä"
+    },
+    {
+     "locode": "FIVAA",
+     "portAreaCode": "02",
+     "berthCode": "02",
+     "berthName": "Eteläpiiri-pohjoinen"
+    },
+    {
+     "locode": "FIVAA",
+     "portAreaCode": "08",
+     "berthCode": "08",
+     "berthName": "Hiililaituri"
+    },
+    {
+     "locode": "FIVAA",
+     "portAreaCode": "11",
+     "berthCode": "11",
+     "berthName": "Lassenlaituri"
+    },
+    {
+     "locode": "FIVAA",
+     "portAreaCode": "09",
+     "berthCode": "13",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIVRK",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIVRK",
+     "portAreaCode": "TA",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIVRK",
+     "portAreaCode": "KO",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIVRK",
+     "portAreaCode": "AK",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIVRK",
+     "portAreaCode": "AK",
+     "berthCode": "2",
+     "berthName": "nro 2"
+    },
+    {
+     "locode": "FIVRK",
+     "portAreaCode": "AK",
+     "berthCode": "KARB",
+     "berthName": "Karbonaattilaituri"
+    },
+    {
+     "locode": "FIVRK",
+     "portAreaCode": "KO",
+     "berthCode": "1",
+     "berthName": "nro 1"
+    },
+    {
+     "locode": "FIVRK",
+     "portAreaCode": "KO",
+     "berthCode": "2",
+     "berthName": "nro 2"
+    },
+    {
+     "locode": "FIVEL",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LOV",
+     "berthCode": "1",
+     "berthName": "Etelälaituri"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LOV",
+     "berthCode": "2",
+     "berthName": "Vinolaituri"
+    },
+    {
+     "locode": "FIEJO",
+     "portAreaCode": "OLKI3",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "KNT",
+     "berthCode": "ET",
+     "berthName": "Etelälaituri"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LOV",
+     "berthCode": "4",
+     "berthName": "Pitkälaituri"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LOV",
+     "berthCode": "5",
+     "berthName": "Pitkälaituri"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LOV",
+     "berthCode": "6",
+     "berthName": "Pohjoislaituri"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LOV",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LJ7",
+     "berthName": "Jätkän laituripaikka 7"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LS",
+     "berthCode": "LJ8",
+     "berthName": "Jätkän laituripaikka 8"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "ANK",
+     "berthCode": "ANK A",
+     "berthName": "(A) Georgsbank"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "ANK",
+     "berthCode": "ANK B",
+     "berthName": "(B) Ajax"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "ANK",
+     "berthCode": "ANKMUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "KOV",
+     "berthCode": "ANK",
+     "berthName": "Ankkurissa"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "WEST",
+     "berthCode": "VOI",
+     "berthName": "Voimakasiini"
+    },
+    {
+     "locode": "FIKAS",
+     "portAreaCode": "BSA",
+     "berthCode": "B01",
+     "berthName": "Bulk01"
+    },
+    {
+     "locode": "FIKAS",
+     "portAreaCode": "SSA",
+     "berthCode": "S01",
+     "berthName": "Syvä01"
+    },
+    {
+     "locode": "FIKAS",
+     "portAreaCode": "SSA",
+     "berthCode": "S02",
+     "berthName": "Syvä02"
+    },
+    {
+     "locode": "FIKAS",
+     "portAreaCode": "SSA",
+     "berthCode": "S03",
+     "berthName": "Syvä03"
+    },
+    {
+     "locode": "FIKAS",
+     "portAreaCode": "SSA",
+     "berthCode": "S04",
+     "berthName": "Syvä04"
+    },
+    {
+     "locode": "FIKAS",
+     "portAreaCode": "SSA",
+     "berthCode": "S05",
+     "berthName": "Syvä05"
+    },
+    {
+     "locode": "FIKAS",
+     "portAreaCode": "SSA",
+     "berthCode": "S06",
+     "berthName": "Syvä06"
+    },
+    {
+     "locode": "FIKAS",
+     "portAreaCode": "SSA",
+     "berthCode": "S07",
+     "berthName": "Syvä07"
+    },
+    {
+     "locode": "FIKAS",
+     "portAreaCode": "SSA",
+     "berthCode": "S08",
+     "berthName": "Syvä08"
+    },
+    {
+     "locode": "FIKJO",
+     "portAreaCode": "D",
+     "berthCode": "4",
+     "berthName": "länsi 4"
+    },
+    {
+     "locode": "FIKNT",
+     "portAreaCode": "POH",
+     "berthCode": "POH",
+     "berthName": "Pohjoislaituri"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "HK",
+     "berthCode": "HK 3",
+     "berthName": "Hopeakiven laituri 3"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "KS",
+     "berthCode": "KS 3",
+     "berthName": "Kantasatama tihtaali"
+    },
+    {
+     "locode": "FIKRS",
+     "portAreaCode": "SYVA",
+     "berthCode": "SYV",
+     "berthName": "Syvälaituri"
+    },
+    {
+     "locode": "FIKSN",
+     "portAreaCode": "MUU",
+     "berthCode": "Muu",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "EU",
+     "berthCode": "MCV1",
+     "berthName": "MCV1"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "EU",
+     "berthCode": "MCV2",
+     "berthName": "MCV2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "JAN",
+     "berthCode": "JN1",
+     "berthName": "JÄNSKÄ 4"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "JAN",
+     "berthCode": "M1",
+     "berthName": "JÄNSKÄ 2"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "JAN",
+     "berthCode": "M2",
+     "berthName": "JÄNSKÄ 3"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKO",
+     "berthCode": "D0",
+     "berthName": "MUSD0"
+    },
+    {
+     "locode": "FIKTK",
+     "portAreaCode": "MUSKO",
+     "berthCode": "D1",
+     "berthName": "MUSD1"
+    },
+    {
+     "locode": "FILOV",
+     "portAreaCode": "VALKO",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIMHQ",
+     "portAreaCode": "KAR",
+     "berthCode": "MUU",
+     "berthName": "Carlshamn"
+    },
+    {
+     "locode": "FIMJO",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "KANTA",
+     "berthCode": "BNLI14",
+     "berthName": "14"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "LMAA",
+     "berthCode": "BNLI50",
+     "berthName": "Luonnonmaa 50"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "LMAA",
+     "berthCode": "BNLI51",
+     "berthName": "L.maa 51"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BG",
+     "berthCode": "KL1",
+     "berthName": "Konttilaituri 1"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BG",
+     "berthCode": "KL2",
+     "berthName": "Konttilaituri 2"
+    },
+    {
+     "locode": "FIRAU",
+     "portAreaCode": "BG",
+     "berthCode": "KL3",
+     "berthName": "Konttilaituri 3"
+    },
+    {
+     "locode": "FISKI",
+     "portAreaCode": "MUU",
+     "berthCode": "MUU",
+     "berthName": "Ei tiedossa"
+    },
+    {
+     "locode": "FIUKI",
+     "portAreaCode": "HEPO",
+     "berthCode": "1",
+     "berthName": "Berth 1"
+    },
+    {
+     "locode": "FIUKI",
+     "portAreaCode": "HEPO",
+     "berthCode": "2",
+     "berthName": "Berth 2"
+    },
+    {
+     "locode": "FIUKI",
+     "portAreaCode": "HEPO",
+     "berthCode": "3",
+     "berthName": "Berth 3"
+    },
+    {
+     "locode": "FIUKI",
+     "portAreaCode": "HEPO",
+     "berthCode": "4",
+     "berthName": "Berth 4"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "ANK",
+     "berthCode": "ANK 1",
+     "berthName": "Gustavsvärn"
+    },
+    {
+     "locode": "FIHKO",
+     "portAreaCode": "ANK",
+     "berthCode": "ANK 2",
+     "berthName": "Syndalsholmen"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "EPL",
+     "berthName": "Pakkahuoneen laituri"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "EK6",
+     "berthName": "NOKKA 3"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "ES",
+     "berthCode": "EK7",
+     "berthName": "NOKKA 4"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "KS",
+     "berthCode": "KS 2",
+     "berthName": "Kantasataman laituri 2"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "KS",
+     "berthCode": "KS 1",
+     "berthName": "Kantasataman laituri 1"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "SS",
+     "berthCode": "SS 8",
+     "berthName": "Syvälaituri 8"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "SS",
+     "berthCode": "SS 7",
+     "berthName": "Syvälaituri 7"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "KS",
+     "berthCode": "KS 5",
+     "berthName": "Kantasataman laituri 5"
+    },
+    {
+     "locode": "FIKOK",
+     "portAreaCode": "KS",
+     "berthCode": "KS 4",
+     "berthName": "Kantasataman laituri 4"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "KANTA",
+     "berthCode": "BNLI16",
+     "berthName": "16"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "KANTA",
+     "berthCode": "BNLI17",
+     "berthName": "17"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "KANTA",
+     "berthCode": "BNLI18",
+     "berthName": "18"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "KANTA",
+     "berthCode": "BNLI20",
+     "berthName": "Ro-Ro 20"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "KANTA",
+     "berthCode": "BNLI22",
+     "berthName": "22"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "KANTA",
+     "berthCode": "BNLI24",
+     "berthName": "24"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "KANTA",
+     "berthCode": "BNLI25",
+     "berthName": "25"
+    },
+    {
+     "locode": "FINLI",
+     "portAreaCode": "KANTA",
+     "berthCode": "BNLI23",
+     "berthName": "23"
+    },
+    {
+     "locode": "FIKJO",
+     "portAreaCode": "A",
+     "berthCode": "3",
+     "berthName": "länsi 3"
+    },
+    {
+     "locode": "FIKJO",
+     "portAreaCode": "B",
+     "berthCode": "2",
+     "berthName": "länsi 2"
+    },
+    {
+     "locode": "FIKJO",
+     "portAreaCode": "C",
+     "berthCode": "1",
+     "berthName": "itä 1"
+    },
+    {
+     "locode": "FIHEL",
+     "portAreaCode": "LOV",
+     "berthCode": "3",
+     "berthName": "Pitkälaituri"
+    }
+   ]
+  }
+ }
+}
