@@ -1,7 +1,7 @@
 import Typewriter from 'typewriter-effect';
 import { Icon } from '../components/Icon';
 import { LiquidMeter } from '../components/LiquidMeter';
-import { lifeMoments, memberBenefits } from '../data/lifeMoments';
+import { lifeMoments, memberBenefits, type LifeMoment } from '../data/lifeMoments';
 import { movingSteps, resetAllProgress, useMovingJourney } from '../state/movingJourney';
 import { useMovingAssessment } from '../state/movingPlan';
 import './HomePage.css';
@@ -11,6 +11,12 @@ const heroWords = ['your move', 'a new pet', 'your next trip', 'life’s decisio
 
 const prefersReducedMotion = () =>
   typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/** Where a plan card leads: Moving to the plan once there is one, Pet Care to its services. */
+function momentHref(id: LifeMoment['id'], hasReport: boolean) {
+  if (id === 'moving') return hasReport ? '#moving-plan' : '#moving';
+  return `#${id}`;
+}
 
 /** The hub: every life moment, with Moving progress taken from the user's own plan. */
 export function HomePage() {
@@ -82,23 +88,25 @@ export function HomePage() {
             <p className="moments-panel__title">Your plan</p>
             <ul className="moments-panel__list">
               {moments.map((moment) => (
-                <li className="moment-row" key={moment.id}>
-                  <span className="icon-tile">
-                    <Icon name={moment.icon} />
-                  </span>
-                  <span className="moment-row__text">
-                    <span className="moment-row__name">{moment.name}</span>
-                    <span className="moment-row__teaser">{moment.teaser}</span>
-                  </span>
-                  <span className="moment-row__progress">
-                    <LiquidMeter
-                      className="liquid--compact"
-                      value={moment.readiness}
-                      variant="progress"
-                      label={`${moment.name} readiness`}
-                    />
-                    <span className="moment-row__percent">{moment.readiness}% ready</span>
-                  </span>
+                <li key={moment.id}>
+                  <a className="moment-row" href={momentHref(moment.id, Boolean(report))}>
+                    <span className="icon-tile">
+                      <Icon name={moment.icon} />
+                    </span>
+                    <span className="moment-row__text">
+                      <span className="moment-row__name">{moment.name}</span>
+                      <span className="moment-row__teaser">{moment.teaser}</span>
+                    </span>
+                    <span className="moment-row__progress">
+                      <LiquidMeter
+                        className="liquid--compact"
+                        value={moment.readiness}
+                        variant="progress"
+                        label={`${moment.name} readiness`}
+                      />
+                      <span className="moment-row__percent">{moment.readiness}% ready</span>
+                    </span>
+                  </a>
                 </li>
               ))}
             </ul>

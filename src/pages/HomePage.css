@@ -75,8 +75,31 @@
   align-items: center;
   gap: 0.9rem;
   padding: 0.9rem 1rem;
+  border: 1px solid transparent;
   border-radius: 1rem;
   background: var(--surface);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.moment-row:hover {
+  border-color: var(--blue);
+}
+
+.moment-row:hover .moment-row__name {
+  color: var(--blue);
+}
+
+.moment-row:active {
+  transform: scale(0.99);
+}
+
+.moment-row:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
 }
 
 .moment-row__text {
@@ -282,7 +305,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .button {
+  .button,
+  .moment-row {
     transition: none;
   }
 }
