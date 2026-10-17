@@ -1,199 +1,283 @@
-/* Home: the moving journey */
+/* Hero */
 
-.journey-page {
+.hero {
   background:
-    radial-gradient(60rem 30rem at 85% 0%, var(--sky) 0%, transparent 70%),
-    linear-gradient(180deg, var(--mist), var(--surface) 40rem);
+    radial-gradient(60rem 30rem at 85% 30%, var(--sky) 0%, transparent 70%),
+    linear-gradient(180deg, var(--mist), var(--surface));
+  border-bottom: 1px solid var(--line-soft);
 }
 
-.journey-page__inner {
-  display: grid;
-  gap: clamp(1.25rem, 3vw, 1.75rem);
+.hero__inner {
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: clamp(2.25rem, 5vw, 3.75rem) var(--gutter) clamp(2.5rem, 5vw, 4rem);
-}
-
-.journey-page__head {
+  padding: clamp(2.5rem, 6vw, 4.5rem) var(--gutter) clamp(2.5rem, 6vw, 4rem);
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(12rem, 18rem);
-  gap: 1.5rem 3rem;
-  align-items: end;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
 }
 
-.journey-page h1 {
+.hero h1 {
   margin: 0;
+  max-width: 17ch;
   font-size: clamp(2.1rem, 4.4vw, 3.4rem);
   line-height: 1.08;
   font-weight: 700;
   letter-spacing: -0.025em;
+  color: var(--ink);
   text-wrap: balance;
 }
 
-.journey-page__lead {
-  margin: 1rem 0 0;
-  max-width: 52ch;
+.hero__lead {
+  margin: 1.5rem 0 0;
+  max-width: 46ch;
   font-size: 1.125rem;
+  line-height: 1.55;
   color: var(--ink-soft);
 }
 
-.journey-page__facts {
+.hero__actions {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+/* Hero panel: the one animated element on the page */
+
+.moments-panel {
+  padding: 1.25rem;
+  border-radius: 1.5rem;
+  background: rgb(255 255 255 / 0.55);
+  border: 1px solid var(--line);
+  box-shadow: 0 30px 60px -30px rgb(10 30 74 / 0.35);
+  backdrop-filter: blur(8px);
+}
+
+.moments-panel__title {
+  margin: 0.25rem 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--slate);
+}
+
+.moments-panel__list {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.moment-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 0.45rem;
-  margin: 0.85rem 0 0;
-  font-weight: 550;
+  gap: 0.9rem;
+  padding: 0.9rem 1rem;
+  border-radius: 1rem;
+  background: var(--surface);
+}
+
+.moment-row__text {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.moment-row__name {
+  font-weight: 600;
   color: var(--ink);
 }
 
-.journey-page__facts svg {
-  width: 1.1rem;
-  height: 1.1rem;
-  flex-shrink: 0;
-  color: var(--blue);
+.moment-row__teaser {
+  font-size: 0.8rem;
+  color: var(--slate);
+  line-height: 1.35;
 }
 
-.journey-page__progress,
-.step-panel__status {
+.moment-row__progress {
   display: grid;
-  gap: 0.4rem;
-  font-size: 0.875rem;
+  gap: 0.35rem;
+  justify-items: end;
+  width: 5.5rem;
+}
+
+.moment-row__percent {
+  font-size: 0.75rem;
   font-variant-numeric: tabular-nums;
   color: var(--slate);
 }
 
-.journey-page__path {
-  padding: 1.5rem clamp(0.75rem, 2vw, 1.5rem) 0.5rem;
-  border: 1px solid var(--line);
-  border-radius: 1.5rem;
-  background: var(--surface);
-  box-shadow: 0 28px 56px -36px rgb(10 30 74 / 0.4);
+.liquid--compact {
+  height: 0.5rem;
 }
 
-/* Nudge: check risks before planning */
+/* Services */
 
-.risk-first {
+.services,
+.benefits {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+
+.services {
+  padding-top: clamp(2rem, 4vw, 3rem);
+}
+
+.services__grid {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.service-card {
+  padding: 1.5rem 1.6rem 1.75rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+  scroll-margin-top: 6rem;
+}
+
+/* The lead journey gets the hero's tint, as in the reference. */
+.service-card:first-child {
+  background: linear-gradient(160deg, var(--sky) 0%, var(--surface) 75%);
+}
+
+.service-card__title {
+  display: flex;
   align-items: center;
-  gap: 1rem 1.25rem;
-  padding: 1.1rem 1.4rem;
-  border-radius: 1.1rem;
-  border: 1px solid color-mix(in oklab, var(--risk-medium) 35%, var(--line));
-  background: color-mix(in oklab, var(--risk-medium) 7%, var(--surface));
-}
-
-.risk-first .icon-tile {
-  background: color-mix(in oklab, var(--risk-medium) 16%, var(--surface));
-  color: color-mix(in oklab, var(--risk-medium) 80%, var(--ink));
-}
-
-.risk-first h2 {
-  margin: 0;
-  font-size: 1.05rem;
+  gap: 0.7rem;
+  margin: 0 0 1.25rem;
+  font-size: 1.35rem;
   font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--ink);
 }
 
-.risk-first p {
-  margin: 0.2rem 0 0;
+.service-card__list {
+  display: grid;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.service-card__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+
+.service-card__check {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-top: 0.12rem;
+  flex-shrink: 0;
+  color: var(--blue);
+  opacity: 0.7;
+}
+
+/* Benefits */
+
+.benefits {
+  padding-top: clamp(2.5rem, 5vw, 3.5rem);
+  padding-bottom: clamp(2.5rem, 5vw, 3.5rem);
+  scroll-margin-top: 5rem;
+}
+
+.benefits__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.benefits__more,
+.service-card__link {
+  color: inherit;
+  text-underline-offset: 4px;
+}
+
+.benefits__more {
+  color: var(--blue);
+  font-weight: 600;
+}
+
+.service-card__link {
+  text-decoration: none;
+}
+
+.service-card__link:hover {
+  text-decoration: underline;
+}
+
+.benefits__title {
+  margin: 0 0 1rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.benefits__strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem 2rem;
+  margin: 0;
+  padding: 1.1rem 1.5rem;
+  list-style: none;
+  border-radius: 1rem;
+  background: var(--mist);
+  border: 1px solid var(--line-soft);
+}
+
+.benefits__strip li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   color: var(--ink-soft);
   font-size: 0.95rem;
 }
 
-/* The selected step */
-
-.step-panel {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) minmax(13rem, auto);
-  gap: 1.25rem 1.5rem;
-  align-items: start;
-  padding: 1.6rem 1.75rem;
-  border: 1px solid var(--line);
-  border-radius: 1.25rem;
-  background: var(--surface);
-}
-
-.step-panel__body {
-  display: grid;
-  gap: 0.4rem;
-  max-width: 60ch;
-}
-
-.step-panel__count {
-  margin: 0;
-  font-size: 0.85rem;
-  font-weight: 600;
+.benefits__icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex-shrink: 0;
   color: var(--blue);
-}
-
-.step-panel h2 {
-  margin: 0;
-  font-size: 1.45rem;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-}
-
-.step-panel__body p {
-  margin: 0;
-  color: var(--ink-soft);
-}
-
-.step-panel__status {
-  margin-top: 0.6rem;
-  max-width: 22rem;
-}
-
-.step-panel__actions {
-  display: grid;
-  gap: 0.6rem;
-}
-
-.step-panel__skip {
-  justify-self: center;
-  padding: 0.4rem 0.6rem;
-  border: 0;
-  background: none;
-  font: inherit;
-  font-weight: 600;
-  color: var(--slate);
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  cursor: pointer;
-}
-
-.step-panel__skip:hover {
-  color: var(--ink);
 }
 
 /* Responsive */
 
-@media (max-width: 860px) {
-  .journey-page__head,
-  .step-panel {
+@media (max-width: 960px) {
+  .hero__inner {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .step-panel .icon-tile {
-    display: none;
+  .moments-panel {
+    max-width: 32rem;
   }
 
-  .step-panel__actions {
-    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
-  }
-
-  .risk-first {
-    grid-template-columns: auto minmax(0, 1fr);
-  }
-
-  .risk-first .button,
-  .step-panel__skip {
-    grid-column: 1 / -1;
+  .services__grid,
+  .benefits__strip {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
 @media (max-width: 760px) {
-  .journey-page__path {
-    padding: 1.25rem;
+  .moment-row {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .moment-row__progress {
+    grid-column: 2;
+    width: 100%;
+    justify-items: start;
   }
 }
 
@@ -201,4 +285,34 @@
   .button {
     transition: none;
   }
+}
+
+/* C89 typed words: their own line, kept tall enough that typing never moves the page. */
+.hero__typed {
+  display: block;
+  min-height: 1.08em;
+}
+
+.hero__typed .Typewriter__cursor {
+  font-weight: 400;
+  color: var(--blue);
+}
+
+.moments-panel__reset {
+  display: block;
+  margin: 0.85rem auto 0.1rem;
+  padding: 0.3rem 0.6rem;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--slate);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.moments-panel__reset:hover {
+  color: var(--ink);
 }

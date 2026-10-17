@@ -3,19 +3,6 @@
   gap: 1.25rem;
 }
 
-.plans__head h2 {
-  margin: 0;
-  font-size: clamp(1.4rem, 2.6vw, 1.75rem);
-  font-weight: 650;
-  letter-spacing: -0.015em;
-}
-
-.plans__head p {
-  margin: 0.4rem 0 0;
-  max-width: 62ch;
-  color: var(--ink-soft);
-}
-
 /* Header buttons: one per level, the selected one joins the panel below. */
 
 .plans__tabs {
@@ -44,6 +31,27 @@
 
 .plans__tab:hover {
   border-color: var(--blue);
+}
+
+/* C42 spotlight on the levels you have not picked: a glow follows the pointer. */
+.plans__tab[aria-selected='false'] {
+  background:
+    radial-gradient(
+        circle 9rem at var(--spot-x, 50%) var(--spot-y, 50%),
+        color-mix(in oklab, var(--blue) 16%, transparent),
+        transparent 70%
+      )
+      no-repeat,
+    var(--mist);
+  background-size:
+    0 0,
+    auto;
+}
+
+.plans__tab[aria-selected='false']:hover {
+  background-size:
+    100% 100%,
+    auto;
 }
 
 .plans__tab[aria-selected='true'] {
@@ -102,7 +110,7 @@
 
 .plans__summary {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(12rem, 18rem);
+  grid-template-columns: minmax(0, 1fr) auto minmax(12rem, 18rem);
   gap: 1.5rem;
   align-items: center;
   padding-bottom: 1.25rem;
@@ -117,9 +125,29 @@
 
 .plans__fit {
   display: grid;
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--slate);
+}
+
+.plans__fit strong {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.plans__risk {
+  display: grid;
   gap: 0.35rem;
   font-size: 0.85rem;
   color: var(--slate);
+}
+
+.plans__risk strong {
+  color: var(--ink);
+  font-weight: 650;
 }
 
 .plans__columns {

@@ -1,11 +1,12 @@
 import { useEffect, useState, type CSSProperties } from 'react';
 import { homePlans } from '../../shared/data/homePlans';
 import { planMatch, type Match } from '../../shared/engine/plans';
-import { levelForScore, type ScoredFlag } from '../../shared/engine/score';
-import { actions } from '../../shared/engine/rules';
+import { levelForScore } from '../../shared/engine/score';
+import { summaryInput } from '../../shared/engine/summary';
 import type { CategoryId, HousingType, Level, SourceStatus } from '../../shared/types';
 import { Icon, type IconName } from '../components/Icon';
 import { LiquidMeter } from '../components/LiquidMeter';
+import { ReportSummary } from '../components/ReportSummary';
 import { liquidColor } from '../components/liquidColor';
 import { useMovingAssessment } from '../state/movingPlan';
 import './RiskReportPage.css';
@@ -62,17 +63,8 @@ function formatMoveDate(isoDate: string) {
   return label;
 }
 
-/** Points an action removes: its share of every flag it belongs to. */
-function actionPoints(actionId: string, flags: ScoredFlag[]) {
-  return Math.round(
-    flags
-      .filter((flag) => flag.actionIds.includes(actionId))
-      .reduce((sum, flag) => sum + flag.total / flag.actionIds.length, 0),
-  );
-}
-
 export function RiskReportPage() {
-  const { plan, report, assessment, suggestion, doneActions, toggleAction } = useMovingAssessment();
+  const { plan, report, assessment, suggestion } = useMovingAssessment();
 
   if (!report || !assessment || !suggestion) {
     return (
@@ -103,10 +95,20 @@ export function RiskReportPage() {
         <h1>Your risk report</h1>
         <p>
           {plan.from ? `Moving from ${plan.from} to ${address}. ` : `Moving to ${address}. `}
-          Every risk adds points to your score. Open a risk to see where its points come from, and
-          tick off actions to remove them.
+          Every risk adds points to your score. Open a risk to see where its points come from. The
+          recommended actions are a step in your moving plan.
         </p>
+        <div className="report__links">
+          <a className="button button--primary" href="#moving-plan">
+            Back to your moving plan
+          </a>
+          <a className="button button--soft" href="#moving">
+            Change your answers
+          </a>
+        </div>
       </header>
+
+      <ReportSummary input={summaryInput(assessment, suggestion, address, plan.moveDate)} />
 
       <section className="report__overview" aria-label="Risk overview">
         <article className="summary-card">
@@ -131,10 +133,6 @@ export function RiskReportPage() {
                   {housingLabel[plan.answers.housing]}, {plan.homeSizeM2} m²
                   {report.signals.building?.year ? `, built ${report.signals.building.year}` : ''}
                 </dd>
-              </div>
-              <div>
-                <dt>Ready for moving day</dt>
-                <dd>{assessment.readiness}%</dd>
               </div>
             </dl>
             <RiskGauge score={assessment.score} />
@@ -186,12 +184,6 @@ export function RiskReportPage() {
                                 {line.label}
                               </li>
                             ))}
-                            {flag.doneActions > 0 && (
-                              <li className="flag__lines-done">
-                                <span>−{flag.total - flag.open}</span>
-                                {flag.doneActions} of {flag.actionIds.length} actions done
-                              </li>
-                            )}
                           </ul>
                           {flag.estimateEur !== undefined && (
                             <p className="flag__estimate">
@@ -220,50 +212,6 @@ export function RiskReportPage() {
         </div>
       </section>
 
-      <section className="report__section" aria-labelledby="actions-title">
-        <div className="section-head">
-          <h2 id="actions-title">Recommended actions</h2>
-          <p>Tick off what you have done. Each action removes its share of the points.</p>
-        </div>
-        <div className="actions-panel">
-          {assessment.categories
-            .filter((category) => category.flags.length > 0)
-            .map((category) => {
-              const ids = [...new Set(category.flags.flatMap((flag) => flag.actionIds))];
-              return (
-                <div className="actions-group" key={category.id}>
-                  <h3 className="actions-group__title">{category.name}</h3>
-                  <ul className="actions-group__list">
-                    {ids.map((id) => {
-                      const action = actions[id];
-                      return (
-                        <li key={id}>
-                          <label className="action">
-                            <input
-                              type="checkbox"
-                              checked={doneActions.has(id)}
-                              onChange={() => toggleAction(id)}
-                            />
-                            <span className="action__text">
-                              {action.title}
-                              <span className="action__points">
-                                −{actionPoints(id, assessment.flags)} points
-                              </span>
-                              {action.partnerOffer && (
-                                <span className="action__offer">{action.partnerOffer}</span>
-                              )}
-                            </span>
-                          </label>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              );
-            })}
-        </div>
-      </section>
-
       <section className="report__section" aria-labelledby="gaps-title">
         <div className="section-head">
           <h2 id="gaps-title">Protection gap check</h2>
@@ -288,10 +236,10 @@ export function RiskReportPage() {
                         ? `${suggested.name} pays if this happens.`
                         : match === 'partial'
                           ? `${suggested.name} pays up to its per-item limit. LaajaPlus raises it to €17,000.`
-                          : 'Home insurance does not pay for this. The actions above lower it.'}
+                          : 'Home insurance does not pay for this. The recommended actions in your moving plan lower it.'}
                     </p>
                     {match !== 'none' && (
-                      <a className="gap__link" href="#moving">
+                      <a className="gap__link" href="#moving-plan">
                         Compare home insurance levels
                       </a>
                     )}

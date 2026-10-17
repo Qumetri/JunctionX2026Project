@@ -9,13 +9,15 @@ export function Field({
   icon,
   label,
   children,
+  className,
 }: {
   icon: IconName;
   label: string;
   children: ReactNode;
+  className?: string;
 }) {
   return (
-    <label className="field">
+    <label className={className ? `field ${className}` : 'field'}>
       <Icon name={icon} className="field__icon" />
       <span className="field__label">{label}</span>
       {children}

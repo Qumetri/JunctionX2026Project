@@ -577,9 +577,22 @@ The frontend shows one attribution line for all sources, e.g. "Data: Statistics 
 
 ## AI layer
 
-The summary shown in the demo is a **deterministic template** in `shared/engine/summary.ts`. It is built from the flags' `why` texts, the top plan's `termsExcerpt`, and partner offers. It needs no key and cannot fail, so the demo stays safe.
+The report's "In short" summary (Detailed risk overview page, `src/components/ReportSummary.tsx`) has two layers:
 
-The live Claude summary (see [application.md](application.md) §7) is **deferred**. It needs an API key, which can't go in the browser bundle, so it is one of the triggers for the optional server: a route (`POST /api/summary`) that reads `ANTHROPIC_API_KEY` from `server/.env` and validates the output. It still needs no database. The template already covers the "AI risk summary" MVP item in [application.md](application.md) §4. Live Claude output is a stretch goal.
+- **Template** (`shared/engine/summary.ts`): built from the score, the top risks and the suggested plan. It shows at once, needs nothing and cannot fail.
+- **Local model through Ollama** (`shared/services/aiSummary.ts`, added 2026-10-17): rewrites the risk part in plain words. Default model `qwen2.5:3b` (about 1.9 GB; `ollama pull qwen2.5:3b`). The browser calls the same-origin `/proxy/ollama`, which the Vite dev server forwards to `http://127.0.0.1:11434`, so no `OLLAMA_ORIGINS` setup is needed. Override with `VITE_OLLAMA_URL` and `VITE_OLLAMA_MODEL`. Nothing leaves the machine and no key is needed.
+
+Guardrails, in code:
+
+- The model only sees the two biggest risks (title, `why`, evidence). It never sees the score or the plan.
+- The first sentence (score and level) and the plan sentence are always computed, because coverage claims must be exact.
+- The answer must be JSON (`format` schema), 2–3 sentences and at most 420 characters. Every number in it must appear in the input. Insurance words are rejected unless the input uses them.
+- One retry at a slightly higher temperature, then the template. Ollama not running, model not pulled, timeout (60 s) or bad JSON also give the template. The page labels which one the reader sees.
+- Answers are cached for a day under a hash of the model, prompt and input.
+
+Measured 2026-10-17 on three live reports, three runs each: `qwen2.5:3b` passed 8/9 in 4–9 s. `llama3.2:3b` passed 5/9 and invented facts more often ("homes are often left unsecured during a move"), so it is not the default.
+
+A deployed static site can't reach a visitor's local Ollama, so there it shows the template. The live Claude summary ([application.md](application.md) §7) is still **deferred** to the optional server, because its API key can't go in the browser bundle: a route (`POST /api/summary`) that reads `ANTHROPIC_API_KEY` from `server/.env` and runs the same checks.
 
 ## When to add a database
 

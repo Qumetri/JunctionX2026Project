@@ -13,6 +13,13 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/proxy\/hsy/, ''),
       },
+      // Local Ollama for the report summary (shared/services/aiSummary.ts). Same-origin, so no
+      // OLLAMA_ORIGINS setup is needed.
+      '/proxy/ollama': {
+        target: 'http://127.0.0.1:11434',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/proxy\/ollama/, ''),
+      },
     },
   },
 })

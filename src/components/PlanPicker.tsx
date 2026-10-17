@@ -1,4 +1,4 @@
-import { useState, type KeyboardEvent } from 'react';
+import { useState, type KeyboardEvent, type PointerEvent } from 'react';
 import {
   homePlans,
   perks,
@@ -6,17 +6,41 @@ import {
   planSourceUrl,
   type PlanId,
 } from '../../shared/data/homePlans';
-import type { PlanSuggestion } from '../../shared/engine/plans';
-import type { ScoredFlag } from '../../shared/engine/score';
+import type { Match, PlanSuggestion } from '../../shared/engine/plans';
+import { levelForScore, type ScoredFlag } from '../../shared/engine/score';
 import { Icon } from './Icon';
 import { LiquidMeter } from './LiquidMeter';
 import './PlanPicker.css';
 
 const matchLabel = { full: 'Covered', partial: 'Partly covered', none: 'Not covered' } as const;
+const levelLabel = { low: 'Low', medium: 'Medium', high: 'High' } as const;
+
+/** The level most customers pick; it is selected first. */
+const popularPlan: PlanId = 'laaja';
+
+/** How much of a flag's open points a level takes away. */
+const matchShare: Record<Match, number> = { full: 1, partial: 0.5, none: 0 };
+
+/** Moving risk left over once the level pays for what it covers, on the same 0–100 scale. */
+function riskWithPlan(flags: ScoredFlag[], matches: { flagId: string; match: Match }[]) {
+  const matchById = new Map(matches.map(({ flagId, match }) => [flagId, match]));
+  const left = flags.reduce((sum, flag) => {
+    const match = matchById.get(flag.id) ?? 'none';
+    return sum + flag.open * (1 - matchShare[match]);
+  }, 0);
+  return Math.min(100, Math.round(left));
+}
+
+/** C42 spotlight: a soft glow follows the pointer over the levels you have not picked. */
+function trackPointer(event: PointerEvent<HTMLElement>) {
+  const rect = event.currentTarget.getBoundingClientRect();
+  event.currentTarget.style.setProperty('--spot-x', `${event.clientX - rect.left}px`);
+  event.currentTarget.style.setProperty('--spot-y', `${event.clientY - rect.top}px`);
+}
 
 /**
- * Perus / Laaja / LaajaPlus as header buttons. The suggested level is selected first; each panel
- * lists the level's perks and which of the user's risks it pays for.
+ * Perus / Laaja / LaajaPlus as header buttons. The popular level is selected first; each panel
+ * lists the level's perks, which of the user's risks it pays for and the risk left over.
  */
 export function PlanPicker({
   suggestion,
@@ -28,13 +52,14 @@ export function PlanPicker({
   detached: boolean;
 }) {
   const [picked, setPicked] = useState<PlanId | undefined>();
-  const selected = picked ?? suggestion.suggested;
+  const selected = picked ?? popularPlan;
   const plan = homePlans[selected];
   const fit = suggestion.fits[selected];
   const index = planOrder.indexOf(selected);
   const previous = index > 0 ? planOrder[index - 1] : undefined;
   const shownPerks = perks.filter((perk) => detached || !perk.detachedOnly);
   const flagById = new Map(flags.map((flag) => [flag.id, flag]));
+  const riskLeft = riskWithPlan(flags, fit.matches);
 
   // Arrow keys move between the header buttons, as in any tab list.
   const onKeyDown = (event: KeyboardEvent) => {
@@ -47,12 +72,7 @@ export function PlanPicker({
   };
 
   return (
-    <section className="plans" aria-labelledby="plans-title">
-      <div className="plans__head">
-        <h2 id="plans-title">Home insurance for your new address</h2>
-        <p>{suggestion.reason}</p>
-      </div>
-
+    <section className="plans" aria-label="Home insurance levels for your new address">
       <div className="plans__tabs" role="tablist" aria-label="Home insurance levels">
         {planOrder.map((id) => {
           const isSelected = id === selected;
@@ -69,12 +89,13 @@ export function PlanPicker({
               className="plans__tab"
               onClick={() => setPicked(id)}
               onKeyDown={onKeyDown}
+              onPointerMove={isSelected ? undefined : trackPointer}
             >
               <span className="plans__tab-name">{homePlans[id].name}</span>
               <span className="plans__tab-fit">
                 Covers {tabFit.covered} of {tabFit.matches.length} risks
               </span>
-              {id === suggestion.suggested && <span className="plans__badge">Suggested</span>}
+              {id === popularPlan && <span className="plans__badge">Popular</span>}
             </button>
           );
         })}
@@ -89,9 +110,14 @@ export function PlanPicker({
       >
         <div className="plans__summary">
           <p className="plans__tagline">{plan.tagline}</p>
-          <div className="plans__fit">
-            <span>Fits your risks: {fit.fit}%</span>
-            <LiquidMeter value={fit.fit} variant="progress" label={`${plan.name} fit`} />
+          <p className="plans__fit">
+            Fits your risks <strong>{fit.fit}%</strong>
+          </p>
+          <div className="plans__risk">
+            <span>
+              Moving risk with {plan.name}: <strong>{levelLabel[levelForScore(riskLeft)]}</strong>
+            </span>
+            <LiquidMeter value={riskLeft} label={`Moving risk left with ${plan.name}`} />
           </div>
         </div>
 
@@ -142,7 +168,7 @@ export function PlanPicker({
             )}
             <p className="plans__note">
               Some risks, like a late mover or a van accident, are not home insurance matters. The
-              actions in your report lower them instead.
+              recommended actions in your plan lower them instead.
             </p>
           </div>
         </div>

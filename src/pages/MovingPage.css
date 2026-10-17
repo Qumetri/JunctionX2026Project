@@ -1,8 +1,4 @@
-/* Moving page: risk form, preview states and the Create moving plan block. */
-
-.risk-form {
-  align-self: start;
-}
+/* Moving: the risk check form, and the risk preview shared with the moving plan. */
 
 .risk-form__error {
   margin: 0.6rem 0 0;
@@ -10,8 +6,7 @@
   color: var(--risk-high);
 }
 
-.event-form__submit:disabled,
-.plan-block button:disabled {
+.event-form__submit:disabled {
   opacity: 0.7;
   cursor: progress;
 }
@@ -24,29 +19,6 @@
 
 .preview__empty {
   margin: 0;
-  color: var(--ink-soft);
-}
-
-.preview-flags {
-  display: grid;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.preview-flags li {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: baseline;
-  gap: 0.6rem;
-  padding: 0.55rem 0;
-  border-bottom: 1px solid var(--line-soft);
-  font-size: 0.95rem;
-}
-
-.preview-flags__points {
-  font-weight: 650;
-  font-variant-numeric: tabular-nums;
   color: var(--ink-soft);
 }
 
@@ -94,60 +66,77 @@
   color: var(--blue);
 }
 
-/* Create moving plan */
+/* Risk check form */
 
-.plan-block__head p {
-  margin: -0.75rem 0 1.25rem;
-  max-width: 62ch;
-  color: var(--ink-soft);
+.risk-check {
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  align-items: start;
 }
 
-.plan-block__fields {
+.risk-check__fields {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 0.85rem;
 }
 
-.plan-block__answers {
+.risk-check__fields > .field {
+  grid-column: span 2;
+}
+
+.risk-check__fields > .risk-check__wide {
+  grid-column: span 3;
+}
+
+.risk-check__answers {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0 1.5rem;
   margin: 1.25rem 0 0;
   padding: 0;
   border: 0;
 }
 
-.plan-block__answers legend {
+.risk-check__answers legend {
   margin-bottom: 0.25rem;
   padding: 0;
   font-weight: 650;
 }
 
-.plan-block__footer {
+.source-progress .is-idle {
+  color: var(--ink-soft);
+}
+
+.plan-ready {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem 1.25rem;
-  margin-top: 1.25rem;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin-top: 1.5rem;
+  padding: 0.9rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
 }
 
-.plan-block__footer .event-form__note {
+.plan-ready p {
   margin: 0;
+  color: var(--ink-soft);
 }
 
 @media (max-width: 960px) {
-  .plan-block__fields {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .plan-block__answers {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .risk-check {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
 @media (max-width: 560px) {
-  .plan-block__fields,
-  .plan-block__answers {
+  .risk-check__fields > .field,
+  .risk-check__fields > .risk-check__wide {
+    grid-column: 1 / -1;
+  }
+
+  .risk-check__answers {
     grid-template-columns: minmax(0, 1fr);
   }
 }

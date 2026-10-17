@@ -1,0 +1,312 @@
+/* Moving plan: risk result, the journey path and the selected step. */
+
+.plan-empty .button {
+  margin-top: 1.5rem;
+}
+
+.plan-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(12rem, 18rem);
+  gap: 1.25rem 3rem;
+  align-items: end;
+}
+
+.plan-head h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4.2vw, 3.1rem);
+  line-height: 1.08;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.plan-head__facts {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0.75rem 0 0;
+  font-size: 1.05rem;
+  font-weight: 550;
+  color: var(--ink-soft);
+}
+
+.plan-head__facts svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+  color: var(--blue);
+}
+
+.plan-head__progress {
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--slate);
+}
+
+.plan-risk-card {
+  margin-top: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+/* Full width: the risks sit in two columns beside the ring. */
+.plan-risk-card .risk-rows {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 2.5rem;
+}
+
+.plan-body {
+  gap: 1.25rem;
+}
+
+.plan-path {
+  padding: 1.5rem clamp(0.75rem, 2vw, 1.5rem) 0.5rem;
+}
+
+.plan-risk-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-top: 1.25rem;
+}
+
+.plan-risk-links__change {
+  font-weight: 600;
+  color: var(--blue);
+  text-underline-offset: 4px;
+}
+
+/* The selected step */
+
+.step-panel {
+  padding: 1.6rem 1.75rem 1.75rem;
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+  background: var(--surface);
+  scroll-margin-top: 6rem;
+}
+
+.step-panel__head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 1rem 1.5rem;
+  align-items: start;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.step-panel__intro {
+  display: grid;
+  gap: 0.35rem;
+  max-width: 62ch;
+}
+
+.step-panel__count {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--blue);
+}
+
+.step-panel h2#step-title {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.step-panel__intro p:last-child {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.step-panel__actions {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+}
+
+.step-panel__skip {
+  padding: 0.4rem 0.6rem;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--slate);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.step-panel__skip:hover {
+  color: var(--ink);
+}
+
+.step-panel__content {
+  padding-top: 1.5rem;
+}
+
+.book-button__icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.35rem;
+}
+
+/* Partners and help */
+
+.help-step {
+  display: grid;
+  gap: 2rem;
+}
+
+.help-step__title {
+  margin: 0 0 0.85rem;
+  font-size: 1.1rem;
+  font-weight: 650;
+}
+
+.help-step__note {
+  margin: -0.4rem 0 0.75rem;
+  color: var(--ink-soft);
+}
+
+.partner-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.partner {
+  display: grid;
+  align-content: start;
+  gap: 0.45rem;
+  padding: 1.15rem 1.25rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+}
+
+.partner--other-home {
+  background: var(--mist);
+}
+
+.partner--other-home .partner__headline {
+  color: var(--slate);
+}
+
+.partner p {
+  margin: 0;
+}
+
+.partner__name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--blue);
+}
+
+.partner__headline {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.partner__detail {
+  color: var(--ink-soft);
+}
+
+.partner__plans {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.3rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.partner__plans li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.15rem 0.6rem;
+  border: 1px dashed var(--line);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: var(--slate);
+  text-decoration: line-through;
+}
+
+.partner__plans li.is-included {
+  border: 1px solid transparent;
+  background: var(--sky);
+  color: var(--blue-deep);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.partner__plans svg {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+.partner__condition {
+  font-size: 0.85rem;
+  color: var(--slate);
+}
+
+.partner__link {
+  justify-self: start;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-underline-offset: 3px;
+}
+
+.help-tips {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0 0 1.1rem;
+  padding-left: 1.2rem;
+  color: var(--ink-soft);
+}
+
+.help-step__bookings {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 40rem;
+}
+
+@media (max-width: 960px) {
+  .plan-head,
+  .plan-risk-card .risk-rows {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .partner-grid,
+  .help-step__bookings {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .step-panel {
+    padding: 1.25rem;
+  }
+
+  .step-panel__head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .step-panel__head .icon-tile {
+    display: none;
+  }
+
+  .step-panel__actions {
+    grid-auto-flow: column;
+    justify-content: start;
+    gap: 0.75rem;
+  }
+}

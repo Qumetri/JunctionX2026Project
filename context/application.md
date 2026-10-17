@@ -137,7 +137,7 @@ fit(p) = 100 × Σ weight(f) × match(p, f)  /  Σ weight(f)
 
 ## 7. AI Layer
 
-**Status:** the demo ships the **template summary** only. It is built by `shared/engine/summary.ts` from the same inputs as below, so it needs no key and cannot fail. The live Claude layer is deferred; it needs an API key, so it waits for the optional Express server, which would hold the key. See [techStack.md](techStack.md#ai-layer).
+**Status (2026-10-17):** the Detailed risk overview shows an "In short" summary. The template version (`shared/engine/summary.ts`) appears at once and cannot fail. When Ollama runs locally, a small local model (`qwen2.5:3b`, through `shared/services/aiSummary.ts`) rewrites the risk sentences; the score sentence and the plan sentence stay computed. The live Claude layer described below is still deferred to the optional Express server, which would hold the API key. Details and guardrails: [techStack.md → AI layer](techStack.md#ai-layer).
 
 ### What it does
 

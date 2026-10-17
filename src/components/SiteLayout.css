@@ -90,7 +90,8 @@ main {
   list-style: none;
 }
 
-.site-nav a {
+.site-nav > li > a,
+.site-nav__trigger {
   display: block;
   padding: 0.45rem 0.75rem;
   border-radius: 999px;
@@ -100,12 +101,98 @@ main {
   transition: background-color 150ms ease;
 }
 
-.site-nav a:hover {
+.site-nav > li > a:hover,
+.site-nav__trigger:hover {
   background: rgb(255 255 255 / 0.1);
 }
 
-.site-nav a[aria-current='page'] {
+.site-nav > li > a[aria-current='page'],
+.site-nav__trigger.is-active {
   background: rgb(255 255 255 / 0.14);
+}
+
+/* Pop-up menu (Moving) */
+
+.site-nav__menu {
+  position: relative;
+}
+
+.site-nav__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.site-nav__trigger svg {
+  width: 0.75rem;
+  height: 0.75rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: rotate 150ms ease;
+}
+
+.site-nav__trigger[aria-expanded='true'] svg {
+  rotate: 180deg;
+}
+
+.site-nav__popup {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 50%;
+  translate: -50% 0;
+  z-index: 20;
+  display: grid;
+  gap: 0.15rem;
+  width: 17rem;
+  margin: 0;
+  padding: 0.4rem;
+  list-style: none;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+  box-shadow: 0 24px 48px -20px rgb(10 30 74 / 0.45);
+}
+
+.site-nav__popup[hidden] {
+  display: none;
+}
+
+.site-nav__popup a {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.65rem 0.8rem;
+  border-radius: 0.7rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.site-nav__popup a:hover {
+  background: var(--mist);
+}
+
+.site-nav__popup a[aria-current='page'] {
+  background: var(--sky);
+}
+
+.site-nav__popup a:focus-visible {
+  outline-color: var(--blue);
+}
+
+.site-nav__popup-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.site-nav__popup-hint {
+  font-size: 0.8rem;
+  color: var(--slate);
 }
 
 /* Footer */
@@ -167,20 +254,28 @@ main {
     position: static;
   }
 
+  .site-nav__popup {
+    left: 0;
+    translate: none;
+  }
+
   .site-nav {
     flex-wrap: wrap;
     gap: 0;
     margin-left: -0.55rem;
   }
 
-  .site-nav a {
+  .site-nav > li > a,
+  .site-nav__trigger {
     padding: 0.4rem 0.55rem;
     font-size: 0.9rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-nav a,
+  .site-nav > li > a,
+  .site-nav__trigger,
+  .site-nav__trigger svg,
   .site-header__login {
     transition: none;
   }

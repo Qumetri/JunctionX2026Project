@@ -63,6 +63,12 @@ export function loadMovingReport() {
   return report?.signals?.sources ? report : undefined;
 }
 
+/**
+ * Recommended actions live in the moving plan as their own step and do not change the risk:
+ * the score describes the move, not how far along the user is.
+ */
+const noActions: ReadonlySet<string> = new Set();
+
 export type CalcState =
   | { phase: 'idle' }
   | { phase: 'loading'; progress: Partial<Record<SourceId, SourceStatus>> }
@@ -113,9 +119,9 @@ export function useMovingAssessment() {
   const derived = useMemo(() => {
     if (!report) return undefined;
     const request = { ...plan, to: report.request.to };
-    const assessment = assess(evaluateRules(request, report.signals), doneActions);
+    const assessment = assess(evaluateRules(request, report.signals), noActions);
     return { assessment, suggestion: suggestPlan(assessment.flags, assessment.level) };
-  }, [plan, report, doneActions]);
+  }, [plan, report]);
 
   return { plan, setPlan, report, calc, calculate, doneActions, toggleAction, ...derived };
 }
