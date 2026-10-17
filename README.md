@@ -72,6 +72,38 @@ data/        raw open-data samples and PDFs used while building (not shipped)
 context/     product spec, data-source research, plans
 ```
 
+## Demo addresses
+
+Addresses for showing the Moving risk check at each risk level. Enter them in **Moving to** with one of these answer sets:
+
+| Answer set | Moving from | Home | Answers |
+| --- | --- | --- | --- |
+| **Careful** | (empty) | Flat, 55 m² | Upper floor, buying, movers, home insurance, no valuables, no dog |
+| **Mixed** | Hämeenkatu 20, Tampere | Flat, 70 m² | Like Careful, but renting and moving yourself |
+| **Risky** | Hämeenkatu 20, Tampere | Flat, 95 m² | Ground floor, renting, moving yourself, valuables, dog, no home insurance |
+
+| Address | Answers | Score | What drives it |
+| --- | --- | --- | --- |
+| Hämeenkatu 20, Tampere | Careful | 18, low | Burglary 0.77× the national rate, no flood area. Outside HSY, so the pipe age is unknown (+5) |
+| Kuninkaantammenkierto 1, Helsinki | Careful | 20, low | Inland, no flood area, burglary at the national rate |
+| Välimerenkatu 1, Helsinki | Careful | 25, low | Apartment block from 2019, so no pipe risk, but inside the coastal flood area (+10) |
+| Hakunilantie 48, Vantaa | Careful | 40, medium | Address alone: building from 1976 (pipes +14) and burglary 1.63× the national rate |
+| Välimerenkatu 1, Helsinki | Mixed | 50, medium | The same new building as above; renting and moving yourself add the rest |
+| Itäpuisto 1, Pori | Mixed | 61, medium | Burglary 1.74× the national rate, flood area, and a long drive from Tampere |
+| Kontulankaari 1, Helsinki | Risky | 95, high | Building from 1967 (pipes +14), no flood area |
+| Mannerheimintie 10, Helsinki | Risky | 100, high | Building from 1961 (pipes +14), coastal flood area, and every risky answer |
+
+Scores were measured on 18 October 2026 for a move on **17 November 2026**. The date matters:
+
+- A move within 16 days adds the moving-day forecast (rain, snow, wind).
+- The 28th to the 1st adds the end-of-month rush.
+- A move within two weeks adds the booking squeeze.
+- November to March adds winter roads when you drive yourself.
+
+The open data also changes, for example new crime statistics.
+
+The flood check uses SYKE's proposed flood risk *areas*, which are broad outlines, so central Helsinki, Leppävaara and central Pori count as flood areas even where SYKE's detailed maps show dry land. If the check moves to the detailed maps, Välimerenkatu, Itäpuisto and Mannerheimintie lose some flood points.
+
 ## What's needed for it to work fully
 
 **To deploy it**
