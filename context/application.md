@@ -55,7 +55,7 @@ Real quotes and payments, login, real customer data, more than one fully develop
 
 ## 5. Flag system
 
-A **flag** represents a specific risk for this user in this life event, explaining what triggered it. Flags are calculated by the rule engine in `shared/` (deterministic, testable) and are never handed over to AI.
+A **flag** represents a specific risk for this user in this life event, explaining what triggered it. Flags are calculated by the rule engine in `src/engine/` (deterministic, testable, runs in the browser) and are never handed over to AI.
 
 ### Flag structure
 
@@ -95,9 +95,9 @@ type Flag = {
 | FMI forecast: Rain on moving day (open data) | Water damage in transit | Low | Plastic covers, reschedule tip | `transit` |
 | Ground-floor apartment | Burglary risk | Medium | Smart lock / Verisure alarm discount | `theft`, `home-contents` |
 
-Rules live as data in the code (see the `Rule` type in [techStack.md](https://www.google.com/search?q=https://www.doubao.com/chat/techStack.md)), so the team can add new flags without touching the UI.
+Rules live as code in `src/engine/rules.ts` (see the `Rule` type in [techStack.md](techStack.md#risk-engine--srcengine)), so the team can add new flags without touching the UI.
 
-Whenever possible, flags are driven by **Finnish open data**, not user guesses. Examples: real building year (HSY), area crime rate and housing prices (Statistics Finland), flood zones (SYKE), moving day weather forecast (FMI). Euro amounts from published statistics (Finance Finland) make the severity tangible. Provider lists and backend pipeline are in [techStack.md → Open data](https://www.google.com/search?q=https://www.doubao.com/chat/techStack.md%23open-data-finland).
+Whenever possible, flags are driven by **Finnish open data**, not user guesses. Examples: real building year (HSY), area crime rate and housing prices (Statistics Finland), flood zones (SYKE), moving day weather forecast (FMI). Euro amounts from published statistics (Finance Finland) make the severity tangible. Provider lists and the data pipeline are in [techStack.md → Open data](techStack.md#open-data-finland).
 
 ## 6. Ranking insurance plans
 
@@ -133,9 +133,11 @@ fit(p) = 100 × Σ weight(f) × match(p, f)  /  Σ weight(f)
 
 ## 7. AI Layer
 
+**Status:** the demo ships the **template summary** only. It is built in the browser (`src/engine/summary.ts`) from the same inputs as below, so it needs no key and cannot fail. The live Claude layer is deferred until a serverless function can hold the API key. See [techStack.md](techStack.md#ai-layer).
+
 ### What it does
 
-1. **Gathers context per flag:** For the user's open flags and the top three ranked products, the server loads the `why` texts, the matching products' `termsExcerpt`, and relevant partner offers. This is a simple query by coverage tag, no vector search needed.
+1. **Gathers context per flag:** For the user's open flags and the top three ranked products, the app loads the `why` texts, the matching products' `termsExcerpt`, and relevant partner offers. This is a simple query by coverage tag, no vector search needed.
 2. **Summary generation:** Claude turns this context into a short, personalized summary:
 * 2–3 sentences explaining the user's overall situation ("Your biggest risk is…").
 * One line per high/medium flag, in plain language.
@@ -146,16 +148,16 @@ fit(p) = 100 × Σ weight(f) × match(p, f)  /  Σ weight(f)
 ### Guardrails
 
 * **The model only explains, it never decides.** Flags and rankings are passed as inputs; the prompt strictly forbids adding new risks, products, or prices.
-* **Structured output:** Response is in JSON, validated by a Zod schema (`summary`, `flagExplanations[{flagId, text}]`, `topPlan{productId, reason, caveat}`). The server verifies all `flagId`s and `productId`s against the input. On mismatch, refusal, or API error, it gracefully falls back to template text built from the `why` fields. **The demo must never break because of AI.**
+* **Structured output (live mode):** Response is in JSON, validated by a Zod schema (`summary`, `flagExplanations[{flagId, text}]`, `topPlan{productId, reason, caveat}`). The function checks all `flagId`s and `productId`s against the input. On mismatch, refusal, or API error, it gracefully falls back to template text built from the `why` fields. **The demo must never break because of AI.**
 * **Grounded in terms:** Coverage statements must come from the provided `termsExcerpt`. The UI shows "Based on If's published terms" and includes a disclaimer: "This is guidance, not a binding offer."
-* **Server-side only:** API keys are stored in the Express server's `.env`.
+* **Keys never reach the browser:** Live mode calls a serverless function that reads the API key from the host's environment. Template mode needs no key.
 
-### Implementation notes
+### Implementation notes (live mode, deferred)
 
-* `POST /api/journeys/:id/summary` → Returns a cached summary, or generates a new one.
+* `POST /api/summary` → A serverless function that takes the flags and ranking and returns the validated JSON. Not built yet.
 * **Model:** `claude-opus-5-5`, `effort: "low"`. Since this is a short, bounded summary task, low effort keeps latency minimal. Uses `client.messages.parse()` + `zodOutputFormat(schema)` from `@anthropic-ai/sdk/helpers/zod`.
 * **Refusals:** Enable server-side refusal fallback (`fallbacks: "default"` + beta `server-side-fallback-2026-07-01`), and check `stop_reason` before reading content.
-* **Caching (Cost + Demo Reliability):** Results are stored in the `ai_summaries` table, keyed by a hash of (open flags + ranking). Repeating the same demo is instant and free, and "what if" toggles reuse generated summaries. Keeping the system prompt and product catalog as a stable prefix also optimizes Prompt Caching.
+* **Caching (Cost + Demo Reliability):** Live results are kept in memory, keyed by a hash of (open flags + ranking). Repeating the same demo is instant and free, and "what if" toggles reuse generated summaries. The template is cheap enough to recompute on every render, so it needs no cache. Keeping the system prompt and product catalog as a stable prefix also optimizes Prompt Caching.
 * **UX:** Deterministic flags and rankings are shown instantly. The AI summary fades in once ready. Nothing blocks the UI waiting for the model.
 
 ## 8. Screens
@@ -167,17 +169,17 @@ fit(p) = 100 × Σ weight(f) × match(p, f)  /  Σ weight(f)
 5. **Journey timeline:** A dated checklist; checking off items resolves flags and increases the score.
 6. **Flag detail (Bottom sheet):** Why it triggered, evidence, actions to take, and which plans cover it.
 
-## 9. Data model changes
+## 9. Data model
 
-This extends the tables in [techStack.md](https://www.google.com/search?q=https://www.doubao.com/chat/techStack.md):
+There is no database. These shapes exist only in code. [techStack.md](techStack.md) lists the modules that hold them.
 
-| Table | Contents |
-| --- | --- |
-| `insurance_products` | Catalog: name, price, `covers` (`jsonb`), `terms_excerpt` |
-| `journeys` | A user's life event: event type, answers (`jsonb`), event date |
-| `journey_flags` | Computed flags with `status` (open / mitigated / covered) |
-| `journey_tasks` | Timeline items (actions, partner offers, insurance step) with `done` state |
-| `ai_summaries` | Cached AI outputs keyed by input hash |
+| Shape | Where | Contents |
+| --- | --- | --- |
+| `InsuranceProduct` | `src/data/products.ts` | Name, illustrative price, `covers` (tag + level), `termsExcerpt` |
+| `Journey` | `src/state/` | Event type, answers, event date, completed task ids. Saved to `localStorage` |
+| `Flag` | Computed by `src/engine/` | Severity, `why`, actions, status (open / mitigated / covered). Never stored |
+| `Task` | `src/data/events.ts` | Timeline item (action, partner offer, insurance step). Its `done` state lives in `Journey` |
+| `Summary` | Computed by `src/engine/summary.ts` | Template text built from flags and ranking. Live AI output is deferred |
 
 ## 10. Build plan (48-hour agile sprint · 2-person team)
 
