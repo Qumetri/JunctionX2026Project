@@ -1,8 +1,9 @@
 /**
  * Dog parks and vets near a point, from OpenStreetMap through the Overpass API (no key, sends
  * CORS headers). Finnish dog parks are mostly fenced "koira-aitaus" areas tagged leisure=dog_park.
- * The free Overpass servers are often slow or busy, so in the capital region a saved copy
- * (shared/reference/petPlaces.ts) answers when the live query fails.
+ * The free Overpass servers are often slow or busy, so the query tries the main server and then
+ * two community mirrors with the full planet; in the capital region a saved copy
+ * (shared/reference/petPlaces.ts) answers when all of them fail.
  */
 import { days } from '../cache/store';
 import { cached, distanceKm, fetchJson, type AdapterContext, type AdapterResult } from './http';
@@ -19,6 +20,8 @@ export type PetPlace = {
   km: number;
 };
 
+type OverpassAnswer = { elements?: OverpassElement[]; remark?: string };
+
 type OverpassElement = {
   type: 'node' | 'way' | 'relation';
   id: number;
@@ -31,6 +34,18 @@ type OverpassElement = {
 type RawPlace = Omit<PetPlace, 'km'>;
 
 const RADIUS_M = 3000;
+
+/**
+ * Tried in order until one answers. Only instances that hold the whole planet and send CORS
+ * headers belong here (overpass.osm.ch, for example, has Switzerland only).
+ */
+const endpoints = [
+  'https://overpass-api.de/api/interpreter',
+  'https://overpass.private.coffee/api/interpreter',
+  'https://overpass.kumi.systems/api/interpreter',
+];
+/** Per server; a busy one usually fails fast (429/502/504), a hung one waits for this. */
+const TIMEOUT_MS = 7000;
 /** How many of each kind the page lists, nearest first. */
 const LIMIT: Record<PetPlaceKind, number> = { 'dog-park': 4, vet: 2 };
 const fallbackName: Record<PetPlaceKind, string> = { 'dog-park': 'Dog park', vet: 'Vet clinic' };
@@ -55,15 +70,34 @@ function nearest(lat: number, lon: number, raw: RawPlace[]): PetPlace[] {
   });
 }
 
+/** The first server that gives a complete answer. */
+async function query(data: string, signal?: AbortSignal): Promise<OverpassElement[]> {
+  let lastError: unknown;
+  for (const url of endpoints) {
+    if (signal?.aborted) break;
+    try {
+      const json = await fetchJson<OverpassAnswer>(
+        url,
+        { method: 'POST', body: new URLSearchParams({ data }), timeoutMs: TIMEOUT_MS },
+        signal,
+      );
+      // An overloaded server still answers 200, with a "runtime error" remark and no or only
+      // some elements. Treat that as a failure, or "nothing nearby" gets cached for a week.
+      if (!Array.isArray(json.elements) || json.remark)
+        throw new Error(json.remark ?? 'no elements');
+      return json.elements;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  throw lastError ?? new Error('aborted');
+}
+
 async function live(lat: number, lon: number, ctx: AdapterContext): Promise<RawPlace[]> {
   const around = `(around:${RADIUS_M},${lat},${lon})`;
-  const query = `[out:json][timeout:10];(nwr["leisure"="dog_park"]${around};nwr["amenity"="veterinary"]${around};);out center tags;`;
-  const json = await fetchJson<{ elements: OverpassElement[] }>(
-    'https://overpass-api.de/api/interpreter',
-    { method: 'POST', body: new URLSearchParams({ data: query }), timeoutMs: 10_000 },
-    ctx.signal,
-  );
-  return json.elements.flatMap((element) => {
+  const data = `[out:json][timeout:10];(nwr["leisure"="dog_park"]${around};nwr["amenity"="veterinary"]${around};);out center tags;`;
+  const elements = await query(data, ctx.signal);
+  return elements.flatMap((element) => {
     const point = element.center ?? element;
     if (point.lat === undefined || point.lon === undefined) return [];
     const tags = element.tags ?? {};

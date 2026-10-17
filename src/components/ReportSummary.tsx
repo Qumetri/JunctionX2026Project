@@ -34,7 +34,7 @@ export function ReportSummary({ input }: { input: SummaryInput }) {
         {writing
           ? 'Writing a summary with the local AI model…'
           : summary.source === 'ai'
-            ? `Written by a local AI model (${summary.model}) from the results below. It runs on this computer.`
+            ? `Written by a local AI model (${summary.model}) from the results below. It runs on our own hardware, not a cloud AI service.`
             : summary.reason === 'rejected'
               ? "Built from the results below. The local AI model's answer didn't pass our checks."
               : 'Built from the results below. The local AI model was not available.'}

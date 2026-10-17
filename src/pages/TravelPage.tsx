@@ -413,7 +413,7 @@ export function TravelPage() {
                   {brief.writing
                     ? 'Writing a summary with the local AI model…'
                     : brief.summary.source === 'ai'
-                      ? `Written by a local AI model (${brief.summary.model}) from the results below. It runs on this computer.`
+                      ? `Written by a local AI model (${brief.summary.model}) from the results below. It runs on our own hardware, not a cloud AI service.`
                       : brief.summary.reason === 'rejected'
                         ? "Built from the results below. The local AI model's answer didn't pass our checks."
                         : 'Built from the results below. The local AI model was not available.'}
