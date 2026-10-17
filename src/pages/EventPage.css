@@ -1,0 +1,131 @@
+/* Shared layout for life-event pages (Moving, Travel). */
+
+.event-hero {
+  background:
+    radial-gradient(55rem 28rem at 90% 10%, var(--sky-strong) 0%, transparent 70%),
+    linear-gradient(180deg, var(--mist), var(--surface));
+}
+
+.event-hero__inner,
+.event-body {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+
+.event-hero__inner {
+  padding-top: clamp(2rem, 5vw, 3.5rem);
+  padding-bottom: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.event-hero h1 {
+  margin: 0;
+  max-width: 30ch;
+  font-size: clamp(2rem, 4.2vw, 3.1rem);
+  line-height: 1.08;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.event-hero__lead {
+  margin: 1rem 0 0;
+  max-width: 60ch;
+  font-size: 1.1rem;
+  color: var(--ink-soft);
+}
+
+.event-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.event-card {
+  padding: 1.6rem 1.75rem;
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+  background: var(--surface);
+  box-shadow: 0 28px 56px -36px rgb(10 30 74 / 0.4);
+}
+
+.event-card h2 {
+  margin: 0 0 1.25rem;
+  font-size: 1.3rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.event-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.event-form__submit {
+  width: 100%;
+  margin-top: 1.25rem;
+}
+
+.event-form__note {
+  margin: 0.75rem 0 0;
+  font-size: 0.85rem;
+  color: var(--slate);
+}
+
+.preview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(8rem, 11rem);
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.preview__caption-level {
+  font-weight: 650;
+}
+
+.preview__caption-sub {
+  font-size: 0.8rem;
+  color: var(--slate);
+}
+
+.preview__progress {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 1.25rem;
+  font-size: 0.85rem;
+  color: var(--slate);
+}
+
+.event-body {
+  padding-top: clamp(2rem, 4vw, 2.75rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  display: grid;
+  gap: clamp(2.25rem, 5vw, 3.25rem);
+}
+
+.event-services {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+@media (max-width: 960px) {
+  .event-top,
+  .event-services {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .event-form__grid,
+  .preview {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .preview .liquid-ring {
+    max-width: 11rem;
+    justify-self: center;
+  }
+}

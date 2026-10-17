@@ -14,6 +14,12 @@
   --line: #d7e2f6;
   --line-soft: #e8eef9;
 
+  /* Risk severity (context/application.md §5) */
+  --risk-high: #d2392a;
+  --risk-medium: #c98a00;
+  --risk-low: #7c89a6;
+  --resolved: #1d8a5a;
+
   --content-max: 76rem;
   --gutter: clamp(1rem, 4vw, 2.5rem);
 
@@ -59,4 +65,74 @@ html {
 .site-header :focus-visible,
 .site-footer :focus-visible {
   outline-color: #8fb2ff;
+}
+
+/* Shared primitives */
+
+.button {
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0 1.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition:
+    background-color 150ms ease,
+    transform 150ms ease;
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button--primary {
+  background: var(--blue);
+  color: #fff;
+  box-shadow: 0 10px 24px -10px rgb(21 87 232 / 0.65);
+}
+
+.button--primary:hover {
+  background: var(--blue-deep);
+}
+
+.button--soft {
+  background: var(--sky);
+  color: var(--ink);
+}
+
+.button--soft:hover {
+  background: var(--sky-strong);
+}
+
+.icon-tile {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.75rem;
+  background: var(--sky);
+  color: var(--blue);
+  flex-shrink: 0;
+}
+
+.icon-tile svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.icon-tile--small {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 0.6rem;
+}
+
+.icon-tile--small svg {
+  width: 1.15rem;
+  height: 1.15rem;
 }
