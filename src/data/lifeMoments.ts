@@ -21,7 +21,7 @@ export const lifeMoments: LifeMoment[] = [
     services: [
       'Verified mover discounts',
       'Van and tool rental',
-      'Single-trip insurance by If',
+      'Single-trip insurance by IF',
       'Moving checklist and safety tips',
     ],
   },
@@ -35,7 +35,7 @@ export const lifeMoments: LifeMoment[] = [
       'Remote vet consultations',
       'Deworming and vaccine reminders',
       'Pet travel tips',
-      'Single-trip pet cover by If',
+      'Single-trip pet cover by IF',
     ],
   },
   {
@@ -48,7 +48,7 @@ export const lifeMoments: LifeMoment[] = [
       'Travel risk checks',
       'Medical support guidance',
       'Trip cancellation support',
-      'Flexible cover by If',
+      'Flexible cover by IF',
     ],
   },
 ];
@@ -56,5 +56,5 @@ export const lifeMoments: LifeMoment[] = [
 export const memberBenefits: { icon: IconName; text: string }[] = [
   { icon: 'wrench', text: 'Free tool rental for annual members' },
   { icon: 'stethoscope', text: 'Free remote vet sessions for members' },
-  { icon: 'tag', text: 'Partner discounts across the If ecosystem' },
+  { icon: 'tag', text: 'Partner discounts across the IF ecosystem' },
 ];

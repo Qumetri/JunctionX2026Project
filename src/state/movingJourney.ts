@@ -23,7 +23,7 @@ export const movingSteps: { id: MovingStepId; title: string; icon: IconName; lea
     id: 'help',
     title: 'Partners and help',
     icon: 'tag',
-    lead: 'If partner benefits for your new home, and what to check before you book movers or a van.',
+    lead: 'IF partner benefits for your new home, and what to check before you book movers or a van.',
   },
   {
     id: 'day',

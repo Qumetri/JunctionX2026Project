@@ -7,6 +7,7 @@ type Figure = { value: number; unit: string; year: number; source: string; url: 
 
 const financeFinland = 'https://www.finanssiala.fi/aiheet/palo-murto-vuotovahingot/';
 const pronto = 'https://www.pelastusopisto.fi/tutkimus-ja-kehitys/pronto/';
+const eurocontrol = 'https://ansperformance.eu/csv/';
 
 export const figures = {
   waterClaimEur: {
@@ -36,6 +37,14 @@ export const figures = {
     year: 2024,
     source: 'Pelastusopisto PRONTO',
     url: pronto,
+  },
+  /** Computed from Eurocontrol apt_dly_2025 (context/techStack.md, "Travel disruption data"). */
+  helsinkiWeatherDelayShare: {
+    value: 95,
+    unit: "% of Helsinki Airport's air-traffic flow delay caused by weather",
+    year: 2025,
+    source: 'EUROCONTROL',
+    url: eurocontrol,
   },
 } satisfies Record<string, Figure>;
 

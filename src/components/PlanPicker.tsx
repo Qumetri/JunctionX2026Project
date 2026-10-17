@@ -182,7 +182,7 @@ export function PlanPicker({
           >
             Get a {plan.name} quote at if.fi
           </a>
-          <p>Guidance based on If's published terms, not a binding offer.</p>
+          <p>Guidance based on IF's published terms, not a binding offer.</p>
         </div>
       </div>
     </section>

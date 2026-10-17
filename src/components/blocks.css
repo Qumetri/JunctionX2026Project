@@ -21,6 +21,10 @@
   box-shadow: 0 0 0 3px rgb(21 87 232 / 0.15);
 }
 
+.field:has([aria-invalid='true']) {
+  border-color: var(--risk-high);
+}
+
 .field__icon {
   grid-row: span 2;
   width: 1.2rem;

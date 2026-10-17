@@ -30,7 +30,7 @@ export type MovingRequest = {
 };
 
 export type SourceId =
-  'geocode' | 'building' | 'flood' | 'crime' | 'accidents' | 'weather' | 'traffic';
+  'geocode' | 'route' | 'building' | 'flood' | 'crime' | 'accidents' | 'weather' | 'traffic';
 
 /**
  * live: fetched now. cache: fetched earlier and still fresh. reference: built-in figure.
@@ -39,8 +39,8 @@ export type SourceId =
  */
 export type SourceStatus = 'live' | 'cache' | 'reference' | 'missing' | 'skipped';
 
-export type SourceRef = {
-  id: SourceId;
+export type SourceRef<I extends string = SourceId> = {
+  id: I;
   provider: string;
   dataset: string;
   status: SourceStatus;
@@ -55,8 +55,21 @@ export type GeoPoint = {
   municipality?: string;
 };
 
+/** The drive from the old address to the new one. */
+export type MoveRoute = {
+  distanceKm: number;
+  durationMin?: number;
+  /** [lat, lon] points along the road, or just the two ends when `byRoad` is false. */
+  path: [number, number][];
+  /** False when the router was unreachable and the distance is a straight line. */
+  byRoad: boolean;
+};
+
 export type Signals = {
   location?: GeoPoint;
+  /** The address the user moves from, when given. */
+  origin?: GeoPoint;
+  route?: MoveRoute;
   building?: { year?: number; floors?: number; use?: string; heating?: string };
   /** null = checked and the point is outside every flood risk area. */
   flood?: { name: string; type: string } | null;
@@ -91,9 +104,10 @@ export type Signals = {
 /** One line of the points breakdown: "+6 Ground-floor flat". */
 export type PointLine = { label: string; points: number };
 
-export type Flag = {
+/** Generic over the journey's categories and coverage tags; the defaults are Moving's. */
+export type Flag<C extends string = CategoryId, T extends string = CoverageTag> = {
   id: string;
-  category: CategoryId;
+  category: C;
   severity: Level;
   title: string;
   why: string;
@@ -103,7 +117,7 @@ export type Flag = {
   /** The flag's points are the sum of these lines. */
   points: PointLine[];
   /** Which insurance cover pays if this happens. */
-  coverageTags: CoverageTag[];
+  coverageTags: T[];
   actionIds: string[];
   /** Average claim size in Finland, when published figures exist. */
   estimateEur?: number;
@@ -126,4 +140,70 @@ export type Action = {
   id: string;
   title: string;
   partnerOffer?: string;
+};
+
+/* Travel */
+
+export type TravelPurpose = 'holiday' | 'active' | 'business' | 'family';
+
+export type TravelCategoryId = 'health' | 'trip' | 'destination' | 'belongings';
+
+/** What travel insurance pays for; `pet` is pet insurance, not travel insurance. */
+export type TravelCoverageTag =
+  'medical-abroad' | 'trip-cancellation' | 'travel-delay' | 'baggage' | 'pet';
+
+export type TravelAnswers = {
+  purpose: TravelPurpose;
+  withPet: boolean;
+  hasTravelInsurance: boolean;
+};
+
+export type TravelRequest = {
+  /** Id from shared/data/destinations.ts. */
+  destinationId: string;
+  /** ISO dates, YYYY-MM-DD. */
+  startDate: string;
+  endDate: string;
+  answers: TravelAnswers;
+};
+
+export type TravelSourceId = 'advisory' | 'weather' | 'departure' | 'hazards';
+
+export type TripWeather = {
+  /** forecast: the trip is within 16 days. last-year: the same dates a year earlier. */
+  basis: 'forecast' | 'last-year';
+  from: string;
+  to: string;
+  days: number;
+  hotDays: number;
+  heavyRainDays: number;
+  stormDays: number;
+  snowDays: number;
+  coldDays: number;
+  maxTempC: number;
+  minTempC: number;
+};
+
+export type TravelSignals = {
+  /** UK FCDO advice. Empty `alerts` = no warning for the country. */
+  advisory?: { alerts: string[]; change: string; updated: string };
+  weather?: TripWeather;
+  /** Helsinki Airport on departure day, when it is within 16 days. */
+  departure?: NonNullable<Signals['weather']>;
+  /** Current orange or red GDACS events in or near the destination country. */
+  hazards?: { type: string; name: string; alert: 'Orange' | 'Red'; distanceKm: number }[];
+  sources: SourceRef<TravelSourceId>[];
+  collectedAt: string;
+};
+
+export type TravelFlag = Flag<TravelCategoryId, TravelCoverageTag>;
+
+/** A preparation step, with when to do it relative to departure. */
+export type TravelAction = {
+  id: string;
+  title: string;
+  /** Do it at least this many days before departure; 0 = on the day or during the trip. */
+  dueDays: number;
+  /** A practical tip shown in "Tips for this trip" and given to the AI model. */
+  tip: string;
 };

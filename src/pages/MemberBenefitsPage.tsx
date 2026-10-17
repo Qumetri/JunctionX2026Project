@@ -34,7 +34,7 @@ export function MemberBenefitsPage() {
           <h1 id="benefits-page-title">Member benefits — More support for your big decisions</h1>
           <p className="event-hero__lead">
             Annual members get free tool rental, free remote vet sessions and partner discounts
-            across the If ecosystem.
+            across the IF ecosystem.
           </p>
 
           <div className="membership-top">
@@ -110,7 +110,7 @@ export function MemberBenefitsPage() {
             })}
           </ol>
           <p className="membership-note">
-            On top of this, If customers get 10% off qualifying insurance with one policy, and 15%
+            On top of this, IF customers get 10% off qualifying insurance with one policy, and 15%
             with two or more.
           </p>
         </section>

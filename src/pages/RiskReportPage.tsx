@@ -4,6 +4,7 @@ import { planMatch, type Match } from '../../shared/engine/plans';
 import { levelForScore } from '../../shared/engine/score';
 import { summaryInput } from '../../shared/engine/summary';
 import type { CategoryId, HousingType, Level, SourceStatus } from '../../shared/types';
+import { FlagItem } from '../components/FlagItem';
 import { Icon, type IconName } from '../components/Icon';
 import { LiquidMeter } from '../components/LiquidMeter';
 import { ReportSummary } from '../components/ReportSummary';
@@ -41,12 +42,6 @@ const sourceStatusText: Record<SourceStatus, string> = {
   missing: 'no answer',
   skipped: 'not needed',
 };
-
-const euro = new Intl.NumberFormat('en-GB', {
-  style: 'currency',
-  currency: 'EUR',
-  maximumFractionDigits: 0,
-});
 
 function formatMoveDate(isoDate: string) {
   const date = new Date(`${isoDate}T00:00:00`);
@@ -94,7 +89,9 @@ export function RiskReportPage() {
       <header className="report__intro">
         <h1>Your risk report</h1>
         <p>
-          {plan.from ? `Moving from ${plan.from} to ${address}. ` : `Moving to ${address}. `}
+          {report.request.from
+            ? `Moving from ${report.request.from} to ${address}. `
+            : `Moving to ${address}. `}
           Every risk adds points to your score. Open a risk to see where its points come from. The
           recommended actions are a step in your moving plan.
         </p>
@@ -108,7 +105,9 @@ export function RiskReportPage() {
         </div>
       </header>
 
-      <ReportSummary input={summaryInput(assessment, suggestion, address, plan.moveDate)} />
+      <ReportSummary
+        input={summaryInput(assessment, suggestion, address, report.request.moveDate)}
+      />
 
       <section className="report__overview" aria-label="Risk overview">
         <article className="summary-card">
@@ -121,7 +120,7 @@ export function RiskReportPage() {
               </div>
               <div>
                 <dt>Moving date</dt>
-                <dd>{formatMoveDate(plan.moveDate)}</dd>
+                <dd>{formatMoveDate(report.request.moveDate)}</dd>
               </div>
               <div>
                 <dt>New address</dt>
@@ -159,47 +158,11 @@ export function RiskReportPage() {
               </div>
 
               <ul className="risk-card__flags">
-                {category.flags.map((flag) => {
-                  const handled = flag.status === 'handled';
-                  return (
-                    <li key={flag.id}>
-                      <details className={handled ? 'flag flag--resolved' : 'flag'}>
-                        <summary>
-                          <span
-                            className={`flag__dot flag__dot--${handled ? 'resolved' : flag.severity}`}
-                            aria-hidden="true"
-                          />
-                          <span className="flag__title">{flag.title}</span>
-                          <span className="flag__points">{handled ? '0' : `+${flag.open}`}</span>
-                          <span className="visually-hidden">
-                            {handled ? ', handled' : `, ${flag.severity} risk`}
-                          </span>
-                        </summary>
-                        <div className="flag__body">
-                          <p>{flag.why}</p>
-                          <ul className="flag__lines" aria-label="Where the points come from">
-                            {flag.points.map((line) => (
-                              <li key={line.label}>
-                                <span>+{line.points}</span>
-                                {line.label}
-                              </li>
-                            ))}
-                          </ul>
-                          {flag.estimateEur !== undefined && (
-                            <p className="flag__estimate">
-                              Average claim in Finland: {euro.format(flag.estimateEur)}
-                            </p>
-                          )}
-                          {flag.evidence.map((line) => (
-                            <p className="flag__evidence" key={line}>
-                              {line}
-                            </p>
-                          ))}
-                        </div>
-                      </details>
-                    </li>
-                  );
-                })}
+                {category.flags.map((flag) => (
+                  <li key={flag.id}>
+                    <FlagItem flag={flag} />
+                  </li>
+                ))}
               </ul>
 
               <LiquidMeter

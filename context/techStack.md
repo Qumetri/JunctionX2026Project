@@ -492,6 +492,8 @@ None of these sources needs a key. **Access** says how the frontend-first app re
 | `airport-connection` | Rail `LEN` lateness/cancellation share, or ferry `ata − eta` | Last 30 days | ratio ≥ 1.5 against the 30-day mean |
 | `thin-route` | No direct HEL route, or few flights in `avia_par_fi` | — | informative only |
 
+**Built (2026-10-17):** the Travel page uses FCDO (`shared/opendata/fcdo.ts`), Open-Meteo trip weather (`tripWeather` in `weather.ts`: forecast within 16 days, otherwise the archive for the same dates in the latest past year, first 31 days at most), the Helsinki Airport departure-day forecast, and GDACS (`gdacs.ts`: current orange/red events in the country or within 500 km, for trips within 30 days). The Eurocontrol snapshot, rail, ferry and route data are not connected; the Helsinki winter figure (95% weather share, 2025) is a built-in reference in `shared/reference/figures.ts`. The flags and points are in [application.md §5](application.md#example-travel-built).
+
 Coverage tags for product ranking: `trip-cancellation`, `travel-delay`, `baggage-delay`, `medical-abroad`. Outside the Eurocontrol area, `flight-delay` is "unknown" and the explanation says so.
 
 ### Caching and failure handling

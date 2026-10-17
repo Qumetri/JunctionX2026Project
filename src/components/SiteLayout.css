@@ -48,16 +48,9 @@ main {
 }
 
 .brand__mark {
-  display: grid;
-  place-items: center;
+  display: block;
   width: 2rem;
   height: 2rem;
-  border-radius: 50%;
-  background: var(--blue);
-  color: #fff;
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
 }
 
 .site-header nav {

@@ -97,6 +97,31 @@ type Flag = {
 
 Each flag now carries points. The risk bar and readiness are built from those points. The full catalogue with point lines is in [backendMovingPlan.md §5](backendMovingPlan.md#5-signals--flags).
 
+### Example: Travel (built)
+
+The Travel page uses the same points system (`shared/engine/travelRules.ts`, scored by `assessFlags` in `score.ts`). Three things move the points most:
+
+- **Season:** winter departures from Helsinki (+4, Eurocontrol: 95% of Helsinki Airport's flow delay in 2025 was weather), flu season (+2), Finnish holiday peaks such as Christmas and the ski weeks (+3 cancellation, +2 delay), seasonal hazards per destination (typhoons, rainy season, winter storms) and the measured weather on the dates (heat, heavy rain, storm gusts, snow, frost).
+- **Days before departure:** booked far ahead (+3 for 31–90 days, +5 beyond 90), too late for cancellation cover (under 3 days, +6), vaccines with under 30 days to go (+6), a new rabies vaccine under 21 days old (+8), and entry forms like the ESTA due now (+6). Current GDACS disaster alerts are only checked for trips within 30 days.
+- **Trip length:** medical exposure (+2 for 8–21 days, +4 to 45, +6 beyond), more luggage after 14 days (+2), a delay hurting more on trips of 4 days or less (+3), and trips longer than continuous cover (45 days, +10).
+
+| Flag | Category | Typical points | Coverage tags |
+| --- | --- | --- | --- |
+| Medical costs abroad | Health abroad | 2 (EHIC) to 12 (US) + length + sports | `medical-abroad` |
+| Travel vaccines | Health abroad | 3, +6 when close | none |
+| Trip cancellation | Cancellation and delay | 2–5 + booking lead + flu + peak | `trip-cancellation` |
+| No travel insurance yet | Cancellation and delay | 12 + no EHIC + US prices + too late | `medical-abroad`, `trip-cancellation`, `travel-delay` |
+| Trip longer than continuous cover | Cancellation and delay | 10 | none |
+| Delays and missed connections | Cancellation and delay | 1–4 + winter + peak + short trip + departure-day forecast | `travel-delay` |
+| Weather on your dates | Safety and weather | per weather line and season | `travel-delay` |
+| Travel warning (UK FCDO) | Safety and weather | 5 (parts, essential only) to 25 (whole country) | none |
+| Natural hazard alert nearby (GDACS) | Safety and weather | 10 orange, 18 red | `trip-cancellation`, `travel-delay` |
+| Entry form (ESTA, Thailand arrival card) | Safety and weather | 3, +6 when due now | none |
+| Lost or stolen luggage | Luggage and pets | 2 + connection + long trip + sports gear | `baggage` |
+| Pet travel rules | Luggage and pets | 4 (EU) to 14 (unlisted country) + timing | `pet` |
+
+Each flag lists preparation steps with a due day ("by 15 December"). They make the "Before you go" checklist; like Moving, ticking them shows readiness and does not lower the score.
+
 Rules live as code in `shared/engine/rules.ts` (see the `Rule` type in [techStack.md](techStack.md#risk-engine--sharedengine)), so the team can add new flags without touching the UI.
 
 Whenever possible, flags are driven by **Finnish open data**, not user guesses. Examples: real building year (HSY), area crime rate and housing prices (Statistics Finland), flood zones (SYKE), moving-day weather forecast (Open-Meteo). Euro amounts from published statistics (Finance Finland) make the severity tangible. Provider lists and the data pipeline are in [techStack.md → Open data](techStack.md#open-data-finland).
@@ -137,7 +162,7 @@ fit(p) = 100 × Σ weight(f) × match(p, f)  /  Σ weight(f)
 
 ## 7. AI Layer
 
-**Status (2026-10-17):** the Detailed risk overview shows an "In short" summary. The template version (`shared/engine/summary.ts`) appears at once and cannot fail. When Ollama runs locally, a small local model (`qwen2.5:3b`, through `shared/services/aiSummary.ts`) rewrites the risk sentences; the score sentence and the plan sentence stay computed. The live Claude layer described below is still deferred to the optional Express server, which would hold the API key. Details and guardrails: [techStack.md → AI layer](techStack.md#ai-layer).
+**Status (2026-10-17):** the Detailed risk overview shows an "In short" summary. The template version (`shared/engine/summary.ts`) appears at once and cannot fail. When Ollama runs locally, a small local model (`qwen2.5:3b`, through `shared/services/aiSummary.ts`) rewrites the risk sentences; the score sentence and the plan sentence stay computed. The Travel page does the same in two parallel calls (`shared/services/aiTravelSummary.ts`): one rewrites the two biggest risks and sees only the risks, because a 3B model shown the tips copies their advice into the overview; the other turns the expert tips of the top flags into 3–5 "Tips for this trip". Each part is checked on its own (numbers from the input only, insurance words only if the input uses them, no tip wording in the overview unless the risk text has it too, no repeated tips), gets one retry and falls back to its template. The source line says whether the model was unavailable or its answer failed the checks. The live Claude layer described below is still deferred to the optional Express server, which would hold the API key. Details and guardrails: [techStack.md → AI layer](techStack.md#ai-layer).
 
 ### What it does
 
@@ -177,6 +202,10 @@ fit(p) = 100 × Σ weight(f) × match(p, f)  /  Σ weight(f)
    * Preview card: progress per source while loading, then the top 5 flags with their points, a liquid ring with the score and level, a readiness meter, and **See detailed overview** (goes to the risk report).
    * A separate **Create moving plan** block below: moving from, moving date, home size, home type, and toggles for self-move, valuables, ground floor, renting, dog and home insurance. Answers re-score at once on the saved signals. The **Create moving plan** button recalculates and opens the report.
    * Risk report: points per flag, "−N points" per action, a protection gap check against the suggested plan, and data sources with their status.
+8. **Travel page (built):**
+   * Form: destination, purpose, dates, pet and "I already have travel insurance". **Check travel risks** fetches UK FCDO advice, the weather on the dates (forecast within 16 days, otherwise the same dates last year), the departure-day forecast at Helsinki Airport and current GDACS alerts. Purpose, pet and insurance re-score at once; a new destination or new dates ask for a new check.
+   * Risk snapshot: category levels, the score ring, the three biggest flags, preparation progress and **See the detailed overview**.
+   * Overview: "In short" (AI or template) beside a cover card (fixed-term or continuous, from If's published terms), category cards with points per flag, "Tips for this trip" (AI or template), the dated "Before you go" checklist and data sources.
 
 ## 9. Data model
 

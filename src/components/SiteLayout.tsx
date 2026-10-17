@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import type { Route } from '../routes';
+import ifLogo from '../assets/if-logo.png';
 import './SiteLayout.css';
 
 type NavLink = { href: string; label: string; route?: Route; hint?: string };
@@ -103,10 +104,8 @@ export function SiteLayout({ route, children }: SiteLayoutProps) {
     <div className="page" id="top">
       <header className="site-header">
         <div className="site-header__inner">
-          <a className="brand" href="#top" aria-label="If Life Moments, home">
-            <span className="brand__mark" aria-hidden="true">
-              If
-            </span>
+          <a className="brand" href="#top" aria-label="IF Life Moments, home">
+            <img className="brand__mark" src={ifLogo} alt="" />
             <span className="brand__name">Life Moments</span>
           </a>
           <nav aria-label="Main">
@@ -144,7 +143,7 @@ export function SiteLayout({ route, children }: SiteLayoutProps) {
       <footer className="site-footer">
         <div className="site-footer__inner">
           <p className="site-footer__tagline">
-            If Life Moments. Insurance by If, practical support for your big decisions.
+            IF Life Moments. Insurance by IF, practical support for your big decisions.
           </p>
           <ul className="site-footer__links">
             <li>
