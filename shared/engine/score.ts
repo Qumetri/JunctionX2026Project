@@ -19,8 +19,6 @@ export const categoryNames: Record<CategoryId, string> = {
   property: 'New home',
 };
 
-const categoryOrder: CategoryId[] = ['transport', 'schedule', 'keys', 'property'];
-
 /** Points that fill one category meter. */
 const categoryFullAt = 30;
 
@@ -30,16 +28,20 @@ export function levelForScore(score: number): Level {
   return 'low';
 }
 
-export const flagPoints = (flag: Flag) => flag.points.reduce((sum, line) => sum + line.points, 0);
+/** Any journey's flag: Moving's (the default) or Travel's. */
+type AnyFlag = Flag<string, string>;
 
-export type ScoredFlag = Flag & {
+export const flagPoints = (flag: AnyFlag) =>
+  flag.points.reduce((sum, line) => sum + line.points, 0);
+
+export type ScoredFlag<F extends AnyFlag = Flag> = F & {
   total: number;
   open: number;
   doneActions: number;
   status: 'open' | 'reduced' | 'handled';
 };
 
-export function scoreFlag(flag: Flag, done: ReadonlySet<string>): ScoredFlag {
+export function scoreFlag<F extends AnyFlag>(flag: F, done: ReadonlySet<string>): ScoredFlag<F> {
   const total = flagPoints(flag);
   const doneActions = flag.actionIds.filter((id) => done.has(id)).length;
   const share = flag.actionIds.length === 0 ? 0 : doneActions / flag.actionIds.length;
@@ -48,35 +50,44 @@ export function scoreFlag(flag: Flag, done: ReadonlySet<string>): ScoredFlag {
   return { ...flag, total, open, doneActions, status };
 }
 
-export type Assessment = {
-  flags: ScoredFlag[];
+export type Assessment<F extends AnyFlag = Flag> = {
+  flags: ScoredFlag<F>[];
   score: number;
   level: Level;
   readiness: number;
   categories: {
-    id: CategoryId;
+    id: F['category'];
     name: string;
     points: number;
     score: number;
     level: Level;
-    flags: ScoredFlag[];
+    flags: ScoredFlag<F>[];
   }[];
 };
 
-/** Everything the preview card, the report and the plan picker need. */
+/** Moving: everything the preview card, the report and the plan picker need. */
 export function assess(flags: Flag[], done: ReadonlySet<string>): Assessment {
+  return assessFlags(flags, done, categoryNames);
+}
+
+/** Any journey; categories are listed in the order they appear in `names`. */
+export function assessFlags<F extends AnyFlag>(
+  flags: F[],
+  done: ReadonlySet<string>,
+  names: Record<F['category'], string>,
+): Assessment<F> {
   const scored = flags.map((flag) => scoreFlag(flag, done)).sort((a, b) => b.open - a.open);
   const totalPoints = scored.reduce((sum, flag) => sum + flag.total, 0);
   const openPoints = scored.reduce((sum, flag) => sum + flag.open, 0);
   const score = Math.min(100, openPoints);
 
-  const categories = categoryOrder.map((id) => {
+  const categories = (Object.keys(names) as F['category'][]).map((id) => {
     const inCategory = scored.filter((flag) => flag.category === id);
     const points = inCategory.reduce((sum, flag) => sum + flag.open, 0);
     const categoryScore = Math.min(100, Math.round((points / categoryFullAt) * 100));
     return {
       id,
-      name: categoryNames[id],
+      name: names[id],
       points,
       score: categoryScore,
       level: levelForScore(categoryScore),

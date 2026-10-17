@@ -310,3 +310,116 @@
     gap: 0.75rem;
   }
 }
+
+/* Risk and route side by side */
+
+.plan-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: stretch;
+  margin-top: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+.plan-overview .plan-risk-card {
+  margin-top: 0;
+}
+
+/* With the route beside it, the risks fit one column. */
+.plan-overview .plan-risk-card .risk-rows {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.route-card {
+  display: grid;
+  grid-template-rows: auto minmax(15rem, 1fr) auto;
+  gap: 1rem;
+}
+
+.route-card h2 {
+  margin: 0;
+}
+
+.route-card p {
+  margin: 0;
+}
+
+.route-card__facts {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.route-card__distance {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.route-card__how {
+  font-size: 0.9rem;
+  color: var(--slate);
+}
+
+.route-card__ends {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.route-card__ends li {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.route-card__dot {
+  flex-shrink: 0;
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 3px solid var(--blue);
+  border-radius: 50%;
+  background: var(--surface);
+}
+
+.route-card__dot--end {
+  background: var(--blue);
+}
+
+.route-card__missing {
+  color: var(--ink-soft);
+}
+
+.route-card__missing a {
+  font-weight: 600;
+  color: var(--blue);
+}
+
+.plan-stale {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin-top: 1.25rem;
+  padding: 0.9rem 1.25rem;
+  border: 1px solid var(--risk-medium);
+  border-radius: 1rem;
+  background: var(--surface);
+}
+
+.plan-stale p {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 960px) {
+  .plan-overview {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

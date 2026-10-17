@@ -32,6 +32,43 @@ export function useStoredSet(key: string) {
   return [ids as ReadonlySet<string>, toggle] as const;
 }
 
+export const stepColumns = ['todo', 'done'] as const;
+export type StepColumn = (typeof stepColumns)[number];
+/** Ids of the steps in each column, in order. Steps missing from every column count as to do. */
+export type StepBoard = Record<StepColumn, string[]>;
+
+const emptyBoard: StepBoard = { todo: [], done: [] };
+
+function loadBoard(key: string): StepBoard {
+  try {
+    const saved: unknown = JSON.parse(localStorage.getItem(key) ?? 'null');
+    if (!saved || typeof saved !== 'object') return emptyBoard;
+    const column = (name: string) => {
+      const ids = (saved as Partial<Record<string, unknown>>)[name];
+      return Array.isArray(ids) ? ids.filter((id): id is string => typeof id === 'string') : [];
+    };
+    // Booked was merged into To do; its saved steps keep their place after the to-do ones.
+    return { todo: [...column('todo'), ...column('booked')], done: column('done') };
+  } catch {
+    return emptyBoard;
+  }
+}
+
+/** Kanban-style step columns kept in localStorage under `key`. */
+export function useStoredBoard(key: string) {
+  const [board, setBoard] = useState(() => loadBoard(key));
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(key, JSON.stringify(board));
+    } catch {
+      // Private mode or blocked storage: the board just won't survive a reload.
+    }
+  }, [key, board]);
+
+  return [board, setBoard] as const;
+}
+
 export const storageKeys = {
   journeyDone: 'lifeMoments.moving.journeyDone',
   journeySkipped: 'lifeMoments.moving.journeySkipped',
@@ -40,5 +77,7 @@ export const storageKeys = {
   movingChecklist: 'lifeMoments.moving.checklist',
   movingPlan: 'lifeMoments.moving.plan.v2',
   movingReport: 'lifeMoments.moving.report',
-  travelChecklist: 'lifeMoments.travel.checklist',
+  travelBoard: 'lifeMoments.travel.board.v1',
+  travelPlan: 'lifeMoments.travel.plan',
+  travelReport: 'lifeMoments.travel.report',
 };

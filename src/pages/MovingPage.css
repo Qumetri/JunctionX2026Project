@@ -66,6 +66,28 @@
   color: var(--blue);
 }
 
+.source-progress .is-waiting {
+  color: var(--ink-soft);
+}
+
+/* A status fades in as it changes, so each check reads as it lands */
+@keyframes source-status-in {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+
+.source-progress__status {
+  animation: source-status-in 240ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .source-progress__status {
+    animation: none;
+  }
+}
+
 /* Risk check form */
 
 .risk-check {
@@ -139,4 +161,51 @@
   .risk-check__answers {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+
+/* Live risk beside the form */
+
+.risk-check__side {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.live-risk__body {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.live-risk__text p {
+  margin: 0;
+}
+
+.live-risk__text {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.live-risk__address {
+  font-weight: 600;
+}
+
+.live-risk__change {
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.live-risk__change.is-up {
+  color: var(--risk-high);
+}
+
+.live-risk__change.is-down {
+  color: var(--resolved);
+}
+
+.live-risk__note {
+  font-size: 0.875rem;
+  color: var(--slate);
 }

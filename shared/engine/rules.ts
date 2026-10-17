@@ -39,7 +39,7 @@ export const actions: Record<string, Action> = {
   'moisture-check': {
     id: 'moisture-check',
     title: 'Book a moisture and condition check',
-    partnerOffer: 'Anticimex check for If customers',
+    partnerOffer: 'Anticimex check for IF customers',
   },
   'find-shutoff': { id: 'find-shutoff', title: 'Find the main water shut-off on day one' },
   'change-lock': {
@@ -103,6 +103,25 @@ function flag(base: Omit<Flag, 'severity' | 'points'>, points: PointLine[]): Fla
 
 const groundLevel = ({ answers }: MovingRequest) =>
   answers.housing !== 'flat' || answers.groundFloor;
+
+const km = (value: number) => `${Math.round(value).toLocaleString('en-GB')} km`;
+
+/** How the move's distance reads in evidence lines. */
+function routeEvidence(signals: Signals) {
+  const { route } = signals;
+  if (!route) return undefined;
+  return route.byRoad
+    ? `${km(route.distanceKm)} by road from your current address (OSRM)`
+    : `About ${km(route.distanceKm)} from your current address, in a straight line`;
+}
+
+/** More rooms, more to carry: points by home size. */
+function sizeLine({ homeSizeM2 }: MovingRequest): PointLine {
+  if (homeSizeM2 >= 140)
+    return { label: `Large home (${homeSizeM2} m²): a lot to carry`, points: 5 };
+  if (homeSizeM2 >= 90) return { label: `${homeSizeM2} m² home: more to carry`, points: 3 };
+  return { label: '', points: 0 };
+}
 
 const oldPlumbing: Rule = (request, signals) => {
   const year = signals.building?.year;
@@ -281,8 +300,13 @@ function wetWeather(signals: Signals) {
 const transitDamage: Rule = (request, signals) => {
   const { selfMove, valuables } = request.answers;
   const wet = wetWeather(signals);
+  const distance = signals.route?.distanceKm ?? 0;
+  const size = sizeLine(request);
   const evidence = [selfMove ? 'Your answer: moving yourself' : 'Your answer: using movers'];
+  if (size.points > 0) evidence.push(`Your answer: ${request.homeSizeM2} m² home`);
   if (wet) evidence.push(`${wet} (Open-Meteo)`);
+  const routeLine = routeEvidence(signals);
+  if (routeLine && distance >= 150) evidence.push(routeLine);
 
   return flag(
     {
@@ -304,7 +328,12 @@ const transitDamage: Rule = (request, signals) => {
         ? { label: 'Moving it yourself', points: 8 }
         : { label: 'Movers carry your things', points: 3 },
       { label: 'Fragile or valuable items', points: valuables ? 5 : 0 },
+      size,
       { label: wet ?? '', points: wet ? 4 : 0 },
+      {
+        label: `Long haul (${km(distance)}): loads shift on the way`,
+        points: distance >= 150 ? 3 : 0,
+      },
     ],
   );
 };
@@ -316,7 +345,10 @@ const roadAccident: Rule = (request, signals) => {
   const { accidents, weather } = signals;
   const month = Number(request.moveDate.slice(5, 7));
   const icy = winterMonths.has(month) || (weather !== undefined && weather.tempMinC < 0);
+  const distance = signals.route?.distanceKm;
   const evidence = ['Your answer: driving the van yourself'];
+  const routeLine = routeEvidence(signals);
+  if (routeLine) evidence.push(routeLine);
   if (accidents) {
     evidence.push(
       `${accidents.municipality}: ${accidents.count} road accidents with injuries (${accidents.year}), ${rate(accidents.rate)} per 10,000 residents vs ${rate(accidents.nationalRate)} in Finland`,
@@ -339,6 +371,13 @@ const roadAccident: Rule = (request, signals) => {
         ? ratioLine(accidents.rate / accidents.nationalRate, [1, 2, 4, 6])
         : { label: 'Driving a van yourself', points: 3 },
       { label: 'Winter roads on moving day', points: icy ? 3 : 0 },
+      distance === undefined
+        ? { label: '', points: 0 }
+        : distance >= 150
+          ? { label: `${km(distance)} with a loaded van`, points: 6 }
+          : distance >= 40
+            ? { label: `${km(distance)} with a loaded van`, points: 3 }
+            : { label: '', points: 0 },
     ],
   );
 };
@@ -365,6 +404,11 @@ const scheduleDelay: Rule = (request, signals) => {
     evidence.push(`${work.title}, ${work.distanceKm.toFixed(1)} km away (Digitraffic)`);
   }
   if (day >= 28 || day === 1) evidence.push('End or start of the month');
+  const distance = signals.route?.distanceKm ?? 0;
+  const routeLine = routeEvidence(signals);
+  if (routeLine && distance >= 100) evidence.push(routeLine);
+  const bigSelfMove = request.answers.selfMove && request.homeSizeM2 >= 90;
+  if (bigSelfMove) evidence.push(`Your answers: moving a ${request.homeSizeM2} m² home yourself`);
 
   return flag(
     {
@@ -373,7 +417,7 @@ const scheduleDelay: Rule = (request, signals) => {
       title: 'Moving day running late',
       why: 'A late mover or a blocked street pushes everything back, including the key handover and the lift booking.',
       evidence,
-      source: stormy || nearby.length > 0 ? 'open-data' : 'derived',
+      source: stormy || nearby.length > 0 || distance >= 100 ? 'open-data' : 'derived',
       coverageTags: ['delay'],
       actionIds: ['book-early', 'buffer-day', 'route-check'],
     },
@@ -387,6 +431,11 @@ const scheduleDelay: Rule = (request, signals) => {
         points: days >= 0 && days <= 14 ? 4 : 0,
       },
       { label: 'Wind or snow forecast on moving day', points: stormy ? 5 : 0 },
+      {
+        label: `Long move (${km(distance)}): keys and unloading wait for the drive`,
+        points: distance >= 100 ? 4 : 0,
+      },
+      { label: 'A big home is hard to move yourself in one day', points: bigSelfMove ? 3 : 0 },
       ...nearby.map((work) => ({
         label: `Traffic announcement ${work.distanceKm.toFixed(1)} km away`,
         points: 3,

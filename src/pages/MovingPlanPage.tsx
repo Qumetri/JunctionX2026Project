@@ -3,13 +3,14 @@ import { homePlans, planOrder } from '../../shared/data/homePlans';
 import { partnerBenefits, type PartnerBenefit } from '../../shared/data/partners';
 import { actions } from '../../shared/engine/rules';
 import type { Assessment } from '../../shared/engine/score';
-import type { CategoryId, HousingType } from '../../shared/types';
+import type { CategoryId, HousingType, Signals } from '../../shared/types';
 import { Checklist, RiskRows, ServiceCard } from '../components/blocks';
 import { Icon, type IconName } from '../components/Icon';
 import { JourneyPath } from '../components/JourneyPath';
 import { LiquidMeter } from '../components/LiquidMeter';
 import { LiquidRing } from '../components/LiquidRing';
 import { PlanPicker } from '../components/PlanPicker';
+import { RouteMap } from '../components/RouteMap';
 import {
   actionIdsFor,
   movingChecklist,
@@ -45,7 +46,8 @@ function formatMoveDate(iso: string) {
 
 /** Step two of the Moving journey: the plan built from the risk check. */
 export function MovingPlanPage() {
-  const { plan, report, assessment, suggestion, doneActions, toggleAction } = useMovingAssessment();
+  const { plan, report, assessment, suggestion, doneActions, toggleAction, stale } =
+    useMovingAssessment();
   const journey = useMovingJourney(assessment, doneActions);
   const [selected, setSelected] = useState<MovingStepId>();
 
@@ -72,7 +74,7 @@ export function MovingPlanPage() {
   const index = movingSteps.indexOf(current);
   const state = states[current.id];
   const address = report.signals.location?.label ?? report.request.to;
-  const moveDate = formatMoveDate(plan.moveDate);
+  const moveDate = formatMoveDate(report.request.moveDate);
 
   // After finishing or skipping a step, show the next open one after it.
   const advanceFrom = (id: MovingStepId) => {
@@ -108,7 +110,22 @@ export function MovingPlanPage() {
             </div>
           </div>
 
-          <RiskSummary assessment={assessment} />
+          {stale.length > 0 && (
+            <aside className="plan-stale" role="status">
+              <p>
+                You changed your move details since the last check. This plan still shows the risk
+                for the old details.
+              </p>
+              <a className="button button--primary button--small" href="#moving">
+                Calculate again
+              </a>
+            </aside>
+          )}
+
+          <div className="plan-overview">
+            <RiskSummary assessment={assessment} />
+            <RouteCard signals={report.signals} from={report.request.from} />
+          </div>
         </div>
       </section>
 
@@ -204,7 +221,7 @@ export function MovingPlanPage() {
               <div className="help-step">
                 <section aria-labelledby="partners-title">
                   <h3 className="help-step__title" id="partners-title">
-                    If partner benefits
+                    IF partner benefits
                   </h3>
                   <ul className="partner-grid">
                     {partnerBenefits.map((benefit) => (
@@ -222,7 +239,7 @@ export function MovingPlanPage() {
                     Movers and van rental
                   </h3>
                   <p className="help-step__note">
-                    If has no official moving or van-rental partner. Whoever you book, check these
+                    IF has no official moving or van-rental partner. Whoever you book, check these
                     first.
                   </p>
                   <ul className="help-tips">
@@ -329,6 +346,67 @@ function BookButton({ booked, onToggle }: { booked: boolean; onToggle: () => voi
         'Mark as booked'
       )}
     </button>
+  );
+}
+
+function formatDuration(minutes: number) {
+  if (minutes < 60) return `${minutes} min`;
+  const hours = Math.floor(minutes / 60);
+  const rest = minutes % 60;
+  return rest === 0 ? `${hours} h` : `${hours} h ${rest} min`;
+}
+
+/** C55: where the move goes, and how far. */
+function RouteCard({ signals, from }: { signals: Signals; from: string }) {
+  const { location, origin, route } = signals;
+  if (!location) return null;
+  const to: [number, number] = [location.lat, location.lon];
+
+  return (
+    <article className="event-card route-card" aria-labelledby="route-title">
+      <h2 id="route-title">Your route</h2>
+      <RouteMap
+        to={to}
+        from={origin ? [origin.lat, origin.lon] : undefined}
+        path={route?.path}
+        label={
+          origin && route
+            ? `Map of the route from ${origin.label} to ${location.label}, ${route.distanceKm} km`
+            : `Map of ${location.label}`
+        }
+      />
+      {origin && route ? (
+        <div className="route-card__facts">
+          <p className="route-card__distance">
+            {route.distanceKm.toLocaleString('en-GB', { maximumFractionDigits: 1 })} km
+          </p>
+          <p className="route-card__how">
+            {route.byRoad
+              ? route.durationMin !== undefined
+                ? `By road, about ${formatDuration(route.durationMin)} without stops`
+                : 'By road'
+              : 'In a straight line. The route service did not answer.'}
+          </p>
+          <ol className="route-card__ends">
+            <li>
+              <span className="route-card__dot" aria-hidden="true" />
+              {origin.label}
+            </li>
+            <li>
+              <span className="route-card__dot route-card__dot--end" aria-hidden="true" />
+              {location.label}
+            </li>
+          </ol>
+        </div>
+      ) : (
+        <p className="route-card__missing">
+          {from.trim()
+            ? `We could not find “${from}”. `
+            : 'Add the address you move from to see the distance. '}
+          <a href="#moving">Change your answers</a>
+        </p>
+      )}
+    </article>
   );
 }
 

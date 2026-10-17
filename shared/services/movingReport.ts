@@ -10,8 +10,17 @@ import { building } from '../opendata/hsy';
 import { geocode } from '../opendata/nominatim';
 import { crimeRates, roadAccidents } from '../opendata/statfin';
 import { floodArea } from '../opendata/syke';
+import { drivingRoute } from '../opendata/osrm';
 import { moveDayWeather } from '../opendata/weather';
-import type { Flag, MovingRequest, Signals, SourceId, SourceRef, SourceStatus } from '../types';
+import type {
+  Flag,
+  MoveRoute,
+  MovingRequest,
+  Signals,
+  SourceId,
+  SourceRef,
+  SourceStatus,
+} from '../types';
 
 export type MovingReport = {
   request: MovingRequest;
@@ -32,6 +41,11 @@ export const sourceInfo: Record<SourceId, Omit<SourceRef, 'id' | 'status'>> = {
     provider: 'OpenStreetMap Nominatim',
     dataset: 'Address search',
     url: 'https://nominatim.openstreetmap.org/',
+  },
+  route: {
+    provider: 'OSRM',
+    dataset: 'Driving route (OpenStreetMap)',
+    url: 'https://project-osrm.org/',
   },
   building: {
     provider: 'HSY',
@@ -95,7 +109,15 @@ export async function buildMovingReport(
   }
   const { lat, lon, municipality } = location;
 
-  const [buildingInfo, flood, weather, traffic, crime] = await Promise.all([
+  // The old address only gives the distance. Nominatim allows one request a second.
+  const moveRoute = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const origin = (await geocode(request.from, ctx)).value;
+    if (!origin) return { origin, route: (await skip('route')) as MoveRoute | undefined };
+    return { origin, route: await track('route', drivingRoute(origin, location, ctx)) };
+  };
+
+  const [buildingInfo, flood, weather, traffic, crime, trip] = await Promise.all([
     municipality && hsyArea.has(municipality)
       ? track('building', building(lat, lon, ctx))
       : skip('building'),
@@ -103,6 +125,9 @@ export async function buildMovingReport(
     track('weather', moveDayWeather(lat, lon, request.moveDate, ctx)),
     track('traffic', trafficNearby(lat, lon, request.moveDate, ctx)),
     municipality ? track('crime', crimeRates(municipality, ctx)) : skip('crime'),
+    request.from.trim()
+      ? moveRoute()
+      : skip('route').then(() => ({ origin: undefined, route: undefined })),
   ]);
 
   // Accidents per resident need the population that comes with the crime rates.
@@ -120,6 +145,8 @@ export async function buildMovingReport(
 
   const signals: Signals = {
     location,
+    origin: trip.origin,
+    route: trip.route,
     building: buildingInfo,
     flood: flood?.area,
     crime: crime && {

@@ -31,7 +31,7 @@ export const partnerBenefits: PartnerBenefit[] = [
     detail:
       'A building expert visits the new home and writes a maintenance plan, then visits again every four years. Free phone advice in between.',
     plans: ['laaja', 'laajaplus'],
-    condition: 'Detached houses insured by you with If.',
+    condition: 'Detached houses insured by you with IF.',
     housing: ['detached'],
     sourceUrl:
       'https://www.if.fi/henkiloasiakkaat/vakuutukset/kotivakuutus/omakotitalo/omakotitalon-kunnossapitosuunnitelma',
@@ -40,7 +40,7 @@ export const partnerBenefits: PartnerBenefit[] = [
     id: 'nordea',
     partner: 'Nordea',
     headline: '25% off the first year',
-    detail: 'Nordea customers get 25% off the first insurance period of a new If home insurance.',
+    detail: 'Nordea customers get 25% off the first insurance period of a new IF home insurance.',
     plans: allLevels,
     condition: 'New home insurance only, first insurance period.',
     sourceUrl:
@@ -51,18 +51,18 @@ export const partnerBenefits: PartnerBenefit[] = [
     partner: 'Member organisations',
     headline: '10%, up to 15% off',
     detail:
-      'Members of If’s partner organisations, such as Suomen Omakotiliitto, Tehy, Jyty and Talentia, get a lasting discount.',
+      'Members of IF’s partner organisations, such as Suomen Omakotiliitto, Tehy, Jyty and Talentia, get a lasting discount.',
     plans: allLevels,
-    condition: 'Home or casco insurance with If, and insurance mail in Omat sivut.',
+    condition: 'Home or casco insurance with IF, and insurance mail in Omat sivut.',
     sourceUrl:
       'https://www.if.fi/henkiloasiakkaat/vakuutukset/asiakasedut/etuja-jarjestojen-jasenille',
   },
   {
     id: 'loyalty',
-    partner: 'Ifin etuohjelma',
+    partner: 'IFin etuohjelma',
     headline: '10%, up to 15% with two policies',
     detail:
-      'If’s own loyalty programme. One qualifying policy gives 10%. Two from home, casco and personal cover give up to 15% on every eligible policy.',
+      'IF’s own loyalty programme. One qualifying policy gives 10%. Two from home, casco and personal cover give up to 15% on every eligible policy.',
     plans: allLevels,
     condition: 'Insurance mail in Omat sivut. Applied from the next insurance year.',
     sourceUrl: 'https://www.if.fi/henkiloasiakkaat/vakuutukset/asiakasedut/if-etuohjelma',

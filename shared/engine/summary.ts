@@ -24,7 +24,11 @@ export type Summary = {
   plan: string;
   source: 'ai' | 'template';
   model?: string;
+  /** Why the template is shown: no model answered, or its answers failed the checks. */
+  reason?: FallbackReason;
 };
+
+export type FallbackReason = 'unavailable' | 'rejected';
 
 /** The most relevant open risks; the model sees nothing else. */
 const maxRisks = 5;

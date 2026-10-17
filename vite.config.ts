@@ -13,12 +13,14 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/proxy\/hsy/, ''),
       },
-      // Local Ollama for the report summary (shared/services/aiSummary.ts). Same-origin, so no
-      // OLLAMA_ORIGINS setup is needed.
+      // Local Ollama for the report summaries (shared/services/ollama.ts). Ollama answers 403 to
+      // browser origins it doesn't know, such as the Network URL (http://10.x.x.x:5173) or a
+      // phone on the same Wi-Fi, so the proxy drops the Origin header: no OLLAMA_ORIGINS needed.
       '/proxy/ollama': {
         target: 'http://127.0.0.1:11434',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/proxy\/ollama/, ''),
+        configure: (proxy) => proxy.on('proxyReq', (request) => request.removeHeader('origin')),
       },
     },
   },

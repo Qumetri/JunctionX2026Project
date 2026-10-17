@@ -69,6 +69,19 @@ export function loadMovingReport() {
  */
 const noActions: ReadonlySet<string> = new Set();
 
+/** Fields that need new open data, so the risk has to be calculated again. */
+export type StaleField = 'to' | 'from' | 'moveDate';
+
+const same = (a: string, b: string) => a.trim().toLowerCase() === b.trim().toLowerCase();
+
+export function staleFields(plan: MovingPlan, calculated: MovingRequest): StaleField[] {
+  const fields: StaleField[] = [];
+  if (!same(plan.to, calculated.to)) fields.push('to');
+  if (!same(plan.from, calculated.from ?? '')) fields.push('from');
+  if (plan.moveDate !== calculated.moveDate) fields.push('moveDate');
+  return fields;
+}
+
 export type CalcState =
   | { phase: 'idle' }
   | { phase: 'loading'; progress: Partial<Record<SourceId, SourceStatus>> }
@@ -115,13 +128,17 @@ export function useMovingAssessment() {
     }
   }, []);
 
-  // The signals belong to the address that was calculated; answers and date come from the form.
+  // The signals belong to the addresses and date that were calculated, so those come from the
+  // report. Answers and home size come from the form and change the risk straight away.
   const derived = useMemo(() => {
     if (!report) return undefined;
-    const request = { ...plan, to: report.request.to };
+    const { to, from, moveDate } = report.request;
+    const request = { ...plan, to, from, moveDate };
     const assessment = assess(evaluateRules(request, report.signals), noActions);
     return { assessment, suggestion: suggestPlan(assessment.flags, assessment.level) };
   }, [plan, report]);
 
-  return { plan, setPlan, report, calc, calculate, doneActions, toggleAction, ...derived };
+  const stale = report ? staleFields(plan, report.request) : [];
+
+  return { plan, setPlan, report, calc, calculate, doneActions, toggleAction, stale, ...derived };
 }

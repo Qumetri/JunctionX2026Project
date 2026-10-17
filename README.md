@@ -1,6 +1,6 @@
 # If Life Moments
 
-A Junction 2026 prototype for the If Insurance challenge. It helps people before a big life decision instead of after something goes wrong. The finished journey is **Moving**: enter the address you're moving to and the app checks the building, the area and moving day against Finnish open data. It then shows the risks, a suggested If home insurance level and a step-by-step moving plan.
+A Junction 2026 prototype for the If Insurance challenge. It helps people before a big life decision instead of after something goes wrong. The finished journey is **Moving**: enter the address you're moving to and the app checks the building, the area and moving day against Finnish open data. It then shows the risks, a suggested If home insurance level and a step-by-step moving plan. **Travel** works the same way for a trip abroad: risks from the season, how soon you leave and how long you stay, plus tips and a dated checklist.
 
 Background and product decisions are in [`context/`](context/) (start with `context.md` and `application.md`).
 
@@ -10,17 +10,15 @@ Needs Node 20.19+ or 22.12+.
 
 ```bash
 npm install
-npm run dev        # http://localhost:5173
+npm run dev        # http://localhost:5173, plus Ollama and the model if installed
+npm run dev:web    # Vite only (or OLLAMA=off npm run dev)
 npm run build      # type-check + production build to dist/
 npm run lint
 ```
 
-Optional, for the AI summary on the Detailed risk overview:
+Optional, for the AI summary on the Detailed risk overview and the AI summary and tips on Travel:
 
-```bash
-# install Ollama from https://ollama.com, then
-ollama pull qwen2.5:3b
-```
+install Ollama from https://ollama.com. `npm run dev` then does the rest (`scripts/dev.mjs`): it starts `ollama serve` if Ollama isn't already running (and stops it with Vite), pulls `qwen2.5:3b` the first time (about 2 GB, or `VITE_OLLAMA_MODEL` if set), and loads it so the first summary is quick. Its lines in the terminal start with `[ollama]`.
 
 Without Ollama the app still works and shows a template summary instead.
 
@@ -33,12 +31,14 @@ Without Ollama the app still works and shows a template summary instead.
 3. **Moving plan** (`#moving-plan`) has four steps: choose cover (Perus, Laaja or LaajaPlus, with the suggested level marked), recommended actions, partners and help, and a moving-day checklist.
 4. **Detailed risk overview** (`#risk-report`) shows where every point comes from, a protection gap check against the suggested level and a short "In short" summary.
 
+**The Travel journey** (`#travel`): pick a destination, dates, purpose, pet and whether you already have travel insurance, and press **Check travel risks**. The snapshot shows the score and the biggest risks; the overview below adds an "In short" summary, a cover card (fixed-term or continuous), points per risk, "Tips for this trip" and a "Before you go" checklist with a date on every step.
+
 **The risk engine** (`shared/engine/`) is plain TypeScript with no React:
 
-- Each risk is a **flag** made of point lines, for example "+12 Burglary rate 1.6× the national rate" and "+4 Windows at street level". There are 10 flags (`rules.ts`).
+- Each risk is a **flag** made of point lines, for example "+12 Burglary rate 1.6× the national rate" and "+4 Windows at street level". Moving has 10 flags (`rules.ts`), Travel 12 (`travelRules.ts`). Travel points come mostly from the season (winter at Helsinki Airport, flu season, holiday peaks, weather on the dates), the days left before departure and the trip length.
 - Flag points add up to the **risk bar** (0–100): 40 or more is medium, 70 or more is high (`score.ts`).
 - The **suggested plan** follows the risk level and is raised if a higher level is needed to cover a high risk (`plans.ts`). Plan perks come from If's published pages (`shared/data/homePlans.ts`).
-- The **summary** (`summary.ts`, `shared/services/aiSummary.ts`) always computes the score and plan sentences. A local model through Ollama may rewrite only the risk sentences, and its answer is checked: no new numbers, no insurance claims, length limits. Otherwise the template is used.
+- The **summary** (`summary.ts`, `shared/services/aiSummary.ts`) always computes the score and plan sentences. A local model through Ollama may rewrite only the risk sentences, and its answer is checked: no new numbers, no insurance claims, length limits. Otherwise the template is used. Travel (`travelSummary.ts`, `aiTravelSummary.ts`) also asks for 3–5 tips built from the expert tips of the biggest risks, checked the same way.
 
 **Data** is fetched from the browser. No server, database or API keys are needed.
 
@@ -48,9 +48,11 @@ Without Ollama the app still works and shows a template summary instead.
 | HSY building register | Building year and heating | Helsinki, Espoo, Vantaa, Kauniainen only. No CORS, so it goes through `/proxy/hsy` |
 | SYKE | Flood risk areas | |
 | Statistics Finland | Burglary, arson and road-accident rates vs the national rate | Falls back to built-in 2025 figures for the capital region |
-| Open-Meteo | Moving-day weather | Only when the move is within 16 days |
+| Open-Meteo | Moving-day weather; weather on travel dates; departure day at Helsinki Airport | Forecast within 16 days. Later trips use the same dates last year (archive) |
+| UK FCDO travel advice | Warnings for the destination country | Finland's um.fi has no API, so the page links to it |
+| GDACS | Current disaster alerts near the destination | Only for trips within 30 days |
 | Fintraffic Digitraffic | Traffic announcements near the address | Only when the move is within 7 days |
-| Finance Finland, Pelastusopisto PRONTO | Average claim sizes shown on flags | Static figures in `shared/reference/figures.ts` |
+| Finance Finland, Pelastusopisto PRONTO, EUROCONTROL | Average claim sizes; Helsinki Airport winter delays | Static figures in `shared/reference/figures.ts` |
 
 A source that fails or times out is marked "no answer" and only the flags that need it drop out. Answers are cached in `localStorage` (`lm:cache:*`). The user's answers, report and progress are saved there too; **Reset progress** on the home page clears them.
 
@@ -70,14 +72,14 @@ context/     product spec, data-source research, plans
 **To deploy it**
 
 - **HSY proxy rewrite.** `/proxy/hsy/*` only works in `npm run dev`. On Vercel or Netlify, add a rewrite to `https://kartta.hsy.fi/geoserver/*`. Without it, building year is "unknown" and the pipe-age flag is less precise.
-- **AI summary on a deployed site.** A visitor's browser can't reach Ollama on our machine, so a deployed site always shows the template summary. A live model needs the optional server in `context/backendMovingPlan.md` §9, which would hold an API key.
+- **AI summary on a deployed site.** A visitor's browser can't reach Ollama on our machine, so a deployed site always shows the template summary and tips. A live model needs the optional server in `context/backendMovingPlan.md` §9, which would hold an API key.
 
 **Not built yet**
 
 - **Offline demo mode.** Snapshots of the demo addresses (`scripts/snapshot.ts`, `VITE_OPEN_DATA_MODE=snapshot`) so a venue without network still works.
 - **Tests.** Vitest for the rules, scores and adapter parsers. `data/opendata/` already has sample responses to use as fixtures.
 - **Home-value flag.** It would use the Statistics Finland price per m² (`13mu`) and the home size.
-- **Travel uses static data.** It runs on a hand-written destination list (`src/data/destinations.ts`). The researched sources (Eurocontrol delays, FCDO advisories, Open-Meteo, GDACS) are documented in `context/techStack.md` but not connected.
+- **More travel data.** Travel has 8 fixed destinations (`shared/data/destinations.ts`); any city would need geocoding and a country lookup. Eurocontrol airport delays, rail to the airport and ferries are researched in `context/techStack.md` but not connected.
 - **Pet Care.** Only a card on the home page.
 - **Real quotes and login.** Out of scope for the prototype. "Get a quote" links go to if.fi.
 

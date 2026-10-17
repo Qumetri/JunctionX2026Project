@@ -5,18 +5,29 @@
  */
 import { createBrowserCache } from '../../shared/cache/store';
 import type { Summary, SummaryInput } from '../../shared/engine/summary';
+import type { TravelSummary, TravelSummaryInput } from '../../shared/engine/travelSummary';
 import { aiSummary } from '../../shared/services/aiSummary';
+import { aiTravelSummary } from '../../shared/services/aiTravelSummary';
 import {
   buildMovingReport,
   type MovingReport,
   type Progress,
 } from '../../shared/services/movingReport';
-import type { MovingRequest } from '../../shared/types';
+import {
+  buildTravelReport,
+  type TravelProgress,
+  type TravelReport,
+} from '../../shared/services/travelReport';
+import type { MovingRequest, TravelRequest } from '../../shared/types';
 
 export interface ReportService {
   movingReport(request: MovingRequest, onProgress?: Progress): Promise<MovingReport>;
   /** Never rejects: falls back to the template summary when the model is unavailable. */
   summary(input: SummaryInput, signal?: AbortSignal): Promise<Summary>;
+  /** Never rejects: a source that fails is marked missing. */
+  travelReport(request: TravelRequest, onProgress?: TravelProgress): Promise<TravelReport>;
+  /** Never rejects: falls back to the template summary and tips. */
+  travelSummary(input: TravelSummaryInput, signal?: AbortSignal): Promise<TravelSummary>;
 }
 
 const cache = createBrowserCache();
@@ -30,8 +41,10 @@ const ollama = {
 const localService: ReportService = {
   movingReport: (request, onProgress) => buildMovingReport(request, cache, onProgress),
   summary: (input, signal) => aiSummary(input, ollama, cache, signal),
+  travelReport: (request, onProgress) => buildTravelReport(request, cache, onProgress),
+  travelSummary: (input, signal) => aiTravelSummary(input, ollama, cache, signal),
 };
 
 export const reportService: ReportService = localService;
 
-export type { MovingReport, Summary };
+export type { MovingReport, Summary, TravelReport, TravelSummary };
