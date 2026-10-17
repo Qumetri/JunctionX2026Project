@@ -53,6 +53,8 @@ export type GeoPoint = {
   label: string;
   postcode?: string;
   municipality?: string;
+  /** False when the geocoder matched only the street, not the house number. */
+  exact?: boolean;
 };
 
 /** The drive from the old address to the new one. */

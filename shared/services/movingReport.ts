@@ -118,7 +118,9 @@ export async function buildMovingReport(
   };
 
   const [buildingInfo, flood, weather, traffic, crime, trip] = await Promise.all([
-    municipality && hsyArea.has(municipality)
+    // A street-only match has several buildings around it; guessing one would borrow a
+    // neighbour's year.
+    municipality && hsyArea.has(municipality) && location.exact !== false
       ? track('building', building(lat, lon, ctx))
       : skip('building'),
     track('flood', floodArea(lat, lon, ctx)),

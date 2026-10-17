@@ -22,13 +22,17 @@ type NominatimHit = {
 
 export function geocode(query: string, ctx: AdapterContext) {
   const q = query.trim();
-  return cached<GeoPoint>(ctx, `geocode:${q.toLowerCase()}`, days(30), async () => {
+  // `fi:` because answers cached before names were pinned to Finnish may hold "Helsingfors".
+  return cached<GeoPoint>(ctx, `geocode:fi:${q.toLowerCase()}`, days(30), async () => {
     const params = new URLSearchParams({
       q,
       format: 'jsonv2',
       addressdetails: '1',
       countrycodes: 'fi',
       limit: '1',
+      // Without this the browser's language decides: "Helsingfors" or "Хельсинки" match neither
+      // the HSY area nor Statistics Finland's Finnish municipality names.
+      'accept-language': 'fi',
     });
     const [hit] = await fetchJson<NominatimHit[]>(
       `https://nominatim.openstreetmap.org/search?${params}`,
@@ -49,6 +53,7 @@ export function geocode(query: string, ctx: AdapterContext) {
           .join(', ') || hit.display_name,
       postcode: address.postcode,
       municipality,
+      exact: Boolean(address.house_number),
     };
   });
 }

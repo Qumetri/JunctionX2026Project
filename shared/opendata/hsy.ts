@@ -69,11 +69,18 @@ export function building(lat: number, lon: number, ctx: AdapterContext) {
       { timeoutMs: 5000 },
       ctx.signal,
     );
-    const dated = data.features.filter((feature) => feature.properties.valm_v);
-    // Geocoded points often land on the street, so take the containing building or the nearest.
-    const match =
-      dated.find((feature) => rings(feature).some((ring) => contains(ring, lon, lat))) ??
-      [...dated].sort((a, b) => nearestCornerKm(a, lon, lat) - nearestCornerKm(b, lon, lat))[0];
+    // Sheds, garages and saunas (talousrakennus) share the plot but say nothing about the home.
+    const dated = data.features.filter(
+      (feature) => feature.properties.valm_v && feature.properties.kayttark !== 'Talousrakennus',
+    );
+    const homes = dated.filter((feature) => feature.properties.kayttark === 'Asuinrakennus');
+    const inside = (feature: BuildingFeature) =>
+      rings(feature).some((ring) => contains(ring, lon, lat));
+    const nearest = (list: BuildingFeature[]) =>
+      [...list].sort((a, b) => nearestCornerKm(a, lon, lat) - nearestCornerKm(b, lon, lat))[0];
+    // Geocoded points often land on the street, so take the containing building or the nearest,
+    // a residential one first.
+    const match = homes.find(inside) ?? dated.find(inside) ?? nearest(homes) ?? nearest(dated);
     if (!match) return undefined;
     const { valm_v, kerrosluku, kayttark, polttoaine } = match.properties;
     return {

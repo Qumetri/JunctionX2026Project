@@ -125,12 +125,18 @@ function sizeLine({ homeSizeM2 }: MovingRequest): PointLine {
 
 const oldPlumbing: Rule = (request, signals) => {
   const year = signals.building?.year;
+  const streetOnly = signals.location?.exact === false;
   const detached = request.answers.housing === 'detached';
   const lines: PointLine[] = [];
   let why: string;
 
   if (year === undefined) {
-    lines.push({ label: 'Building year not found in the HSY register', points: 5 });
+    lines.push({
+      label: streetOnly
+        ? 'Building year unknown: only the street was found'
+        : 'Building year not found in the HSY register',
+      points: 5,
+    });
     why =
       'We could not look up when the building was finished. Pipes older than 40 years are the most common source of leaks.';
   } else if (year >= 2005) {
@@ -157,7 +163,11 @@ const oldPlumbing: Rule = (request, signals) => {
       title: year === undefined ? 'Pipe age unknown' : `Pipes in a ${year} building`,
       why,
       evidence: [
-        year === undefined ? 'Not in the HSY building register' : `Completed in ${year} (HSY)`,
+        year === undefined
+          ? streetOnly
+            ? 'The address matched the street, not a house number'
+            : 'Not in the HSY building register'
+          : `Completed in ${year} (HSY)`,
       ],
       source: year === undefined ? 'derived' : 'open-data',
       coverageTags: detached ? ['water-damage', 'structure-moisture'] : ['water-damage'],

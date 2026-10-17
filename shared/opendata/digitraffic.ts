@@ -17,9 +17,16 @@ type Geometry =
 type Messages = {
   features: {
     geometry: Geometry;
-    properties: { announcements?: { title?: string }[] };
+    properties: {
+      announcements?: {
+        title?: string;
+        timeAndDuration?: { startTime?: string; endTime?: string };
+      }[];
+    };
   }[];
 };
+
+type Announcement = { title: string; points: Position[]; start?: string; end?: string };
 
 function positions(geometry: Geometry): Position[] {
   if (!geometry) return [];
@@ -43,9 +50,9 @@ export async function trafficNearby(
   const daysAhead = (new Date(`${date}T00:00:00`).getTime() - Date.now()) / 86_400_000;
   if (daysAhead < -1 || daysAhead > 7) return { value: undefined, status: 'skipped' };
 
-  const all = await cached<{ title: string; points: Position[] }[]>(
+  const all = await cached<Announcement[]>(
     ctx,
-    'digitraffic:announcements',
+    'digitraffic:announcements:v2',
     hours(0.25),
     async () => {
       const data = await fetchJson<Messages>(
@@ -53,15 +60,29 @@ export async function trafficNearby(
         { headers: { 'Digitraffic-User': 'LifeMoments/JunctionX2026' } },
         ctx.signal,
       );
-      return data.features.map((feature) => ({
-        title: feature.properties.announcements?.[0]?.title?.trim() ?? 'Traffic announcement',
-        points: positions(feature.geometry),
-      }));
+      return data.features.map((feature) => {
+        const announcement = feature.properties.announcements?.[0];
+        return {
+          title: announcement?.title?.trim() ?? 'Traffic announcement',
+          points: positions(feature.geometry),
+          start: announcement?.timeAndDuration?.startTime,
+          end: announcement?.timeAndDuration?.endTime,
+        };
+      });
     },
   );
   if (!all.value) return { value: undefined, status: all.status };
 
+  // Only what is still on during moving day: an accident cleared tonight says nothing about a
+  // move next week. No end time means open-ended.
+  const dayStart = new Date(`${date}T00:00:00`).getTime();
+  const dayEnd = dayStart + 86_400_000;
   const near = all.value
+    .filter(
+      (message) =>
+        (!message.end || Date.parse(message.end) > dayStart) &&
+        (!message.start || Date.parse(message.start) < dayEnd),
+    )
     .map((message) => ({
       title: message.title.replace(/\.\s*$/, ''),
       distanceKm: Math.min(...message.points.map(([x, y]) => distanceKm(lat, lon, y, x))),
