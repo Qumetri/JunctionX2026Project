@@ -1,0 +1,153 @@
+/* Moving page: risk form, preview states and the Create moving plan block. */
+
+.risk-form {
+  align-self: start;
+}
+
+.risk-form__error {
+  margin: 0.6rem 0 0;
+  font-size: 0.9rem;
+  color: var(--risk-high);
+}
+
+.event-form__submit:disabled,
+.plan-block button:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.preview__address {
+  margin: -0.75rem 0 1rem;
+  font-size: 0.9rem;
+  color: var(--slate);
+}
+
+.preview__empty {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.preview-flags {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.preview-flags li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 0.95rem;
+}
+
+.preview-flags__points {
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+}
+
+.preview__more {
+  margin: 0.75rem 0 0;
+  font-size: 0.85rem;
+  color: var(--slate);
+}
+
+.preview__overview {
+  width: 100%;
+  margin-top: 1.1rem;
+}
+
+/* Source checks while the risk is calculated */
+
+.source-progress {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.source-progress li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 0.92rem;
+}
+
+.source-progress__status {
+  flex-shrink: 0;
+  color: var(--slate);
+}
+
+.source-progress .is-live .source-progress__status,
+.source-progress .is-cache .source-progress__status {
+  color: var(--resolved);
+  font-weight: 600;
+}
+
+.source-progress .is-pending .source-progress__status {
+  color: var(--blue);
+}
+
+/* Create moving plan */
+
+.plan-block__head p {
+  margin: -0.75rem 0 1.25rem;
+  max-width: 62ch;
+  color: var(--ink-soft);
+}
+
+.plan-block__fields {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.plan-block__answers {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 1.5rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.plan-block__answers legend {
+  margin-bottom: 0.25rem;
+  padding: 0;
+  font-weight: 650;
+}
+
+.plan-block__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.25rem;
+  margin-top: 1.25rem;
+}
+
+.plan-block__footer .event-form__note {
+  margin: 0;
+}
+
+@media (max-width: 960px) {
+  .plan-block__fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .plan-block__answers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .plan-block__fields,
+  .plan-block__answers {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

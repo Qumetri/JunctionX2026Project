@@ -1,0 +1,226 @@
+/*
+ * The path sits behind a row of equal columns. Each step's dot is placed at its own height on
+ * the track (--y, 0–100), so the dots land on the curve's turning points.
+ */
+
+.journey {
+  --track: 7.5rem;
+  --dot: 2.75rem;
+  position: relative;
+}
+
+.journey__track {
+  position: absolute;
+  inset: 0 0 auto;
+  height: var(--track);
+  pointer-events: none;
+}
+
+.journey__track svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.journey__line {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+
+.journey__reveal {
+  transition: width 900ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.journey__line--drawn {
+  stroke: var(--blue);
+}
+
+.journey__bubbles {
+  fill: none;
+  stroke: rgb(255 255 255 / 0.75);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  /* A non-scaling stroke measures dashes in screen pixels. */
+  stroke-dasharray: 0 14;
+  animation: journey-flow 1.2s linear infinite;
+}
+
+@keyframes journey-flow {
+  to {
+    stroke-dashoffset: -14;
+  }
+}
+
+.journey__steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--count), minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.journey__steps li {
+  position: relative;
+  min-height: calc(var(--track) + 1.75rem);
+}
+
+.journey__step {
+  position: absolute;
+  top: calc(var(--track) * var(--y) / 100 - var(--dot) / 2);
+  left: 50%;
+  translate: -50% 0;
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+  width: min(100%, 9.5rem);
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--slate);
+  cursor: pointer;
+}
+
+.journey__dot {
+  display: grid;
+  place-items: center;
+  width: var(--dot);
+  height: var(--dot);
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  background: var(--surface);
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    scale 200ms ease;
+}
+
+.journey__dot svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.journey__title {
+  font-size: 0.9rem;
+  font-weight: 550;
+  line-height: 1.3;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.journey__note {
+  margin-top: -0.35rem;
+  font-size: 0.75rem;
+}
+
+.journey__step.is-done .journey__dot {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #fff;
+}
+
+.journey__step.is-skipped .journey__dot {
+  border-style: dashed;
+  border-color: var(--risk-low);
+  background: var(--mist);
+}
+
+.journey__step.is-current .journey__dot {
+  border-color: var(--blue);
+  color: var(--blue);
+  box-shadow: 0 0 0 6px var(--sky-strong);
+}
+
+.journey__step.is-done,
+.journey__step.is-current {
+  color: var(--ink-soft);
+}
+
+.journey__step.is-selected {
+  color: var(--ink);
+}
+
+.journey__step.is-selected .journey__title {
+  font-weight: 700;
+}
+
+.journey__step.is-selected .journey__dot {
+  scale: 1.12;
+}
+
+.journey__step:hover .journey__dot {
+  border-color: var(--blue);
+}
+
+.journey__step:focus-visible {
+  outline: none;
+}
+
+.journey__step:focus-visible .journey__dot {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
+/* Narrow screens: the steps stack, joined by a straight line down the left. */
+@media (max-width: 760px) {
+  .journey__track {
+    display: none;
+  }
+
+  .journey__steps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  .journey__steps li {
+    min-height: 0;
+  }
+
+  .journey__steps li + li::before {
+    content: '';
+    position: absolute;
+    left: calc(var(--dot) / 2 - 2px);
+    bottom: 100%;
+    width: 4px;
+    height: 0.75rem;
+    border-radius: 2px;
+    background: var(--line);
+  }
+
+  .journey__step {
+    position: static;
+    translate: none;
+    grid-template-columns: var(--dot) minmax(0, 1fr) auto;
+    align-items: center;
+    justify-items: start;
+    gap: 0.85rem;
+    width: 100%;
+  }
+
+  .journey__title {
+    text-align: left;
+    font-size: 1rem;
+  }
+
+  .journey__note {
+    margin: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey__bubbles {
+    animation: none;
+  }
+
+  .journey__reveal,
+  .journey__dot {
+    transition: none;
+  }
+}

@@ -1,20 +1,14 @@
 import { useEffect, useState, type CSSProperties } from 'react';
+import { homePlans } from '../../shared/data/homePlans';
+import { planMatch, type Match } from '../../shared/engine/plans';
+import { levelForScore, type ScoredFlag } from '../../shared/engine/score';
+import { actions } from '../../shared/engine/rules';
+import type { CategoryId, HousingType, Level, SourceStatus } from '../../shared/types';
 import { Icon, type IconName } from '../components/Icon';
 import { LiquidMeter } from '../components/LiquidMeter';
 import { liquidColor } from '../components/liquidColor';
-import { demoMovingReport } from '../data/movingReport';
-import {
-  levelForScore,
-  scoreReport,
-  type CategoryId,
-  type GapStatus,
-  type Level,
-} from '../engine/movingRisk';
-import { loadMovingPlan } from '../state/movingPlan';
-import { storageKeys, useStoredSet } from '../state/useStoredSet';
+import { useMovingAssessment } from '../state/movingPlan';
 import './RiskReportPage.css';
-
-const report = demoMovingReport;
 
 const categoryIcons: Record<CategoryId, IconName> = {
   transport: 'truck',
@@ -25,11 +19,26 @@ const categoryIcons: Record<CategoryId, IconName> = {
 
 const levelLabel: Record<Level, string> = { low: 'Low', medium: 'Medium', high: 'High' };
 
-const gapIcons: Record<GapStatus, IconName> = { covered: 'check', partial: 'shield', gap: 'alert' };
-const gapLabel: Record<GapStatus, string> = {
-  covered: 'Covered',
+const housingLabel: Record<HousingType, string> = {
+  flat: 'Flat',
+  terraced: 'Terraced house',
+  detached: 'Detached house',
+};
+
+const gapIcons: Record<Match, IconName> = { full: 'check', partial: 'shield', none: 'alert' };
+const gapLabel: Record<Match, string> = {
+  full: 'Covered',
   partial: 'Partly covered',
-  gap: 'Not covered',
+  none: 'Not covered',
+};
+const gapClass: Record<Match, string> = { full: 'covered', partial: 'partial', none: 'gap' };
+
+const sourceStatusText: Record<SourceStatus, string> = {
+  live: 'checked now',
+  cache: 'checked recently',
+  reference: 'built-in figures',
+  missing: 'no answer',
+  skipped: 'not needed',
 };
 
 const euro = new Intl.NumberFormat('en-GB', {
@@ -40,6 +49,7 @@ const euro = new Intl.NumberFormat('en-GB', {
 
 function formatMoveDate(isoDate: string) {
   const date = new Date(`${isoDate}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return 'Not set';
   const days = Math.ceil((date.getTime() - Date.now()) / 86_400_000);
   const label = date.toLocaleDateString('en-GB', {
     day: 'numeric',
@@ -52,18 +62,49 @@ function formatMoveDate(isoDate: string) {
   return label;
 }
 
+/** Points an action removes: its share of every flag it belongs to. */
+function actionPoints(actionId: string, flags: ScoredFlag[]) {
+  return Math.round(
+    flags
+      .filter((flag) => flag.actionIds.includes(actionId))
+      .reduce((sum, flag) => sum + flag.total / flag.actionIds.length, 0),
+  );
+}
+
 export function RiskReportPage() {
-  const [doneActions, toggleAction] = useStoredSet(storageKeys.movingActions);
-  const [plan] = useState(loadMovingPlan);
-  const { mitigated, categories, overall, readiness: ready } = scoreReport(report, doneActions);
+  const { plan, report, assessment, suggestion, doneActions, toggleAction } = useMovingAssessment();
+
+  if (!report || !assessment || !suggestion) {
+    return (
+      <div className="report">
+        <header className="report__intro">
+          <h1>Your risk report</h1>
+          <p>
+            No report yet. Enter the address you're moving to on the Moving page and press Calculate
+            risk.
+          </p>
+          <a className="button button--primary report__start" href="#moving">
+            Go to Moving
+          </a>
+        </header>
+      </div>
+    );
+  }
+
+  const address = report.signals.location?.label ?? report.request.to;
+  const suggested = homePlans[suggestion.suggested];
+  const gaps = assessment.flags.filter(
+    (flag) => flag.status !== 'handled' && flag.severity !== 'low',
+  );
 
   return (
     <div className="report">
       <header className="report__intro">
         <h1>Your risk report</h1>
         <p>
-          Moving from {plan.from} to {plan.to}. Based on your answers, public data about the
-          building and area, and your current If home insurance.
+          {plan.from ? `Moving from ${plan.from} to ${address}. ` : `Moving to ${address}. `}
+          Every risk adds points to your score. Open a risk to see where its points come from, and
+          tick off actions to remove them.
         </p>
       </header>
 
@@ -82,25 +123,26 @@ export function RiskReportPage() {
               </div>
               <div>
                 <dt>New address</dt>
-                <dd>{plan.to}</dd>
+                <dd>{address}</dd>
               </div>
               <div>
                 <dt>New home</dt>
                 <dd>
-                  {report.summary.homeLabel}, {plan.homeSizeM2} m²
+                  {housingLabel[plan.answers.housing]}, {plan.homeSizeM2} m²
+                  {report.signals.building?.year ? `, built ${report.signals.building.year}` : ''}
                 </dd>
               </div>
               <div>
                 <dt>Ready for moving day</dt>
-                <dd>{ready}%</dd>
+                <dd>{assessment.readiness}%</dd>
               </div>
             </dl>
-            <RiskGauge score={overall} />
+            <RiskGauge score={assessment.score} />
           </div>
         </article>
 
         <div className="risk-grid">
-          {categories.map((category) => (
+          {assessment.categories.map((category) => (
             <article className="risk-card" key={category.id}>
               <div className="risk-card__head">
                 <span className="icon-tile icon-tile--small">
@@ -109,35 +151,58 @@ export function RiskReportPage() {
                 <h3 className="risk-card__title">
                   {category.name}
                   <span className={`level-text level-text--${category.level}`}>
-                    {category.score === 0 ? 'Handled' : levelLabel[category.level]}
+                    {category.flags.length === 0
+                      ? 'No risks found'
+                      : category.points === 0
+                        ? 'Handled'
+                        : `${levelLabel[category.level]}, ${category.points} points`}
                   </span>
                 </h3>
               </div>
 
               <ul className="risk-card__flags">
                 {category.flags.map((flag) => {
-                  const isMitigated = mitigated.has(flag.id);
+                  const handled = flag.status === 'handled';
                   return (
                     <li key={flag.id}>
-                      <details className={isMitigated ? 'flag flag--resolved' : 'flag'}>
+                      <details className={handled ? 'flag flag--resolved' : 'flag'}>
                         <summary>
                           <span
-                            className={`flag__dot flag__dot--${isMitigated ? 'resolved' : flag.severity}`}
+                            className={`flag__dot flag__dot--${handled ? 'resolved' : flag.severity}`}
                             aria-hidden="true"
                           />
                           <span className="flag__title">{flag.title}</span>
+                          <span className="flag__points">{handled ? '0' : `+${flag.open}`}</span>
                           <span className="visually-hidden">
-                            {isMitigated ? ', handled' : `, ${flag.severity} risk`}
+                            {handled ? ', handled' : `, ${flag.severity} risk`}
                           </span>
                         </summary>
                         <div className="flag__body">
                           <p>{flag.why}</p>
+                          <ul className="flag__lines" aria-label="Where the points come from">
+                            {flag.points.map((line) => (
+                              <li key={line.label}>
+                                <span>+{line.points}</span>
+                                {line.label}
+                              </li>
+                            ))}
+                            {flag.doneActions > 0 && (
+                              <li className="flag__lines-done">
+                                <span>−{flag.total - flag.open}</span>
+                                {flag.doneActions} of {flag.actionIds.length} actions done
+                              </li>
+                            )}
+                          </ul>
                           {flag.estimateEur !== undefined && (
                             <p className="flag__estimate">
                               Average claim in Finland: {euro.format(flag.estimateEur)}
                             </p>
                           )}
-                          <p className="flag__evidence">{flag.evidence}</p>
+                          {flag.evidence.map((line) => (
+                            <p className="flag__evidence" key={line}>
+                              {line}
+                            </p>
+                          ))}
                         </div>
                       </details>
                     </li>
@@ -158,69 +223,97 @@ export function RiskReportPage() {
       <section className="report__section" aria-labelledby="actions-title">
         <div className="section-head">
           <h2 id="actions-title">Recommended actions</h2>
-          <p>Tick off what you have done. Your risk levels update as you go.</p>
+          <p>Tick off what you have done. Each action removes its share of the points.</p>
         </div>
         <div className="actions-panel">
-          {categories.map((category) => {
-            const actions = report.actions.filter((action) =>
-              action.resolves.some((flagId) => category.flags.some((flag) => flag.id === flagId)),
-            );
-            return (
-              <div className="actions-group" key={category.id}>
-                <h3 className="actions-group__title">{category.name}</h3>
-                <ul className="actions-group__list">
-                  {actions.map((action) => (
-                    <li key={action.id}>
-                      <label className="action">
-                        <input
-                          type="checkbox"
-                          checked={doneActions.has(action.id)}
-                          onChange={() => toggleAction(action.id)}
-                        />
-                        <span className="action__text">
-                          {action.title}
-                          {action.partnerOffer && (
-                            <span className="action__offer">{action.partnerOffer}</span>
-                          )}
-                        </span>
-                      </label>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
+          {assessment.categories
+            .filter((category) => category.flags.length > 0)
+            .map((category) => {
+              const ids = [...new Set(category.flags.flatMap((flag) => flag.actionIds))];
+              return (
+                <div className="actions-group" key={category.id}>
+                  <h3 className="actions-group__title">{category.name}</h3>
+                  <ul className="actions-group__list">
+                    {ids.map((id) => {
+                      const action = actions[id];
+                      return (
+                        <li key={id}>
+                          <label className="action">
+                            <input
+                              type="checkbox"
+                              checked={doneActions.has(id)}
+                              onChange={() => toggleAction(id)}
+                            />
+                            <span className="action__text">
+                              {action.title}
+                              <span className="action__points">
+                                −{actionPoints(id, assessment.flags)} points
+                              </span>
+                              {action.partnerOffer && (
+                                <span className="action__offer">{action.partnerOffer}</span>
+                              )}
+                            </span>
+                          </label>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              );
+            })}
         </div>
       </section>
 
       <section className="report__section" aria-labelledby="gaps-title">
         <div className="section-head">
           <h2 id="gaps-title">Protection gap check</h2>
-          <p>Compared with your If home insurance, Perus level.</p>
+          <p>Your medium and high risks against the suggested level, {suggested.name}.</p>
         </div>
-        <ul className="gaps-panel">
-          {report.protectionGaps.map((gap) => (
-            <li className={`gap gap--${gap.status}`} key={gap.id}>
-              <span className="gap__icon">
-                <Icon name={gapIcons[gap.status]} />
-              </span>
-              <div className="gap__text">
-                <p className="gap__status">{gapLabel[gap.status]}</p>
-                <h3 className="gap__title">{gap.title}</h3>
-                <p className="gap__detail">{gap.detail}</p>
-                {gap.suggestion && (
-                  <a className="gap__link" href="#risk-report">
-                    {gap.suggestion}
-                  </a>
-                )}
-              </div>
-            </li>
-          ))}
-        </ul>
+        {gaps.length === 0 ? (
+          <p className="report__empty">No medium or high risks are left open.</p>
+        ) : (
+          <ul className="gaps-panel">
+            {gaps.map((flag) => {
+              const match = planMatch(suggestion.suggested, flag);
+              return (
+                <li className={`gap gap--${gapClass[match]}`} key={flag.id}>
+                  <span className="gap__icon">
+                    <Icon name={gapIcons[match]} />
+                  </span>
+                  <div className="gap__text">
+                    <p className="gap__status">{gapLabel[match]}</p>
+                    <h3 className="gap__title">{flag.title}</h3>
+                    <p className="gap__detail">
+                      {match === 'full'
+                        ? `${suggested.name} pays if this happens.`
+                        : match === 'partial'
+                          ? `${suggested.name} pays up to its per-item limit. LaajaPlus raises it to €17,000.`
+                          : 'Home insurance does not pay for this. The actions above lower it.'}
+                    </p>
+                    {match !== 'none' && (
+                      <a className="gap__link" href="#moving">
+                        Compare home insurance levels
+                      </a>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </section>
 
       <footer className="report__sources">
-        <p>Data from {report.sources.join(', ')}.</p>
+        <p>
+          Data:{' '}
+          {report.signals.sources
+            .map(
+              (source) =>
+                `${source.provider}, ${source.dataset} (${sourceStatusText[source.status]})`,
+            )
+            .join('; ')}
+          . Claim figures from Finance Finland and Pelastusopisto PRONTO.
+        </p>
         <p>This is guidance, not a binding offer. Check your policy terms for exact cover.</p>
       </footer>
     </div>

@@ -35,19 +35,19 @@ All chosen sources are **free and need no API key**. Verified with live requests
 | | `asvu/15fa` rents | Region (no postal code) | `avgRentPerM2` | Optional: renter context | Yes | 30 days |
 | | `rpk/13h4` offences per 10,000 residents, class `101T103a0101` | Municipality | `homeBurglaryRate` and national rate | Burglary / key safety | Yes | 30 days |
 | | `rpk/13h4`, class `351` (arson) | Municipality | `arsonRate` and national rate | Fire safety | Yes | 30 days |
-| | `ton/12qh` road accidents with injuries | Municipality | `injuryAccidents` (5-year mean) | Transport (self-drive move) | Yes | 30 days |
+| | `ton/12qh` road accidents with injuries | Municipality | `injuryAccidents` (2024, per 10,000 residents) | Transport (self-drive move) | Yes | 30 days |
 | **SYKE** | Flood risk areas, ArcGIS REST `Tulva/Tulvariskialueet_2024_ehdotetut` and `Tulva/VHSTULVAMERISuunnitelmat` | Point | `floodRiskArea` (name, sea/river, significance) | Flood | Yes (echoes the origin) | 30 days |
-| **Fintraffic Digitraffic** | Traffic messages `/api/traffic-message/v1/messages` (announcements, road works) | Point / route | `routeDisruptions[]` | Schedule delay | Yes (`*`; the `Digitraffic-User` header is allowed) | 15 min (live), none for future dates |
+| **Fintraffic Digitraffic** | Traffic announcements `/api/traffic-message/v1/messages`, `situationType=TRAFFIC_ANNOUNCEMENT` only (road works are ~6 MB, too big for the browser). Used for moves within 7 days, 1.5 km from the route | Point / route | `routeDisruptions[]` | Schedule delay | Yes (`*`; the `Digitraffic-User` header is allowed) | 15 min (live), none for future dates |
 | **Pelastusopisto PRONTO** | Pelastustoimen taskutilasto 2020–2024 (PDF) | National | Static figures in `shared/reference/figures.ts` | Fire safety (€ and "why" text) | Not called (static) | Static |
 | **Finance Finland** | Fire / burglary / water-damage claim figures (web page, updated 4.10.2026) | National | Static figures | € per claim on water, burglary and fire flags | Not called (static) | Static |
-| **FMI** | Forecasts and warnings, WFS `opendata.fmi.fi/wfs` | Point | `weatherOnMoveDay` | Transport damage, schedule delay | Yes (`*`) | 1 h |
+| **Open-Meteo** | Moving-day forecast, `api.open-meteo.com/v1/forecast` (`start_date` = `end_date` = move date, up to 16 days ahead, `wind_speed_unit=ms`) | Point | `weatherOnMoveDay` (rain, snow, gusts, frost) | Transport damage, schedule delay | Yes (`*`) | 1 h |
 | **Geocoding** (Nominatim, no key) | Address search | Point | `lat`, `lon`, `postalCode`, `municipalityCode` | Input to every adapter above | Yes (`*`) | 30 days |
 
 ### Fire and arson by area
 
 No free source gives building fires per municipality. The plan combines two:
 
-1. **Area signal:** Statistics Finland `rpk/13h4`, class `351` (arson, traffic arson, aggravated arson; police-recorded), as a rate per 10,000 residents for the destination municipality, compared to the national rate. In 2025 it was 0.40 nationally, 0.37 Helsinki, 0.43 Espoo and 0.51 Vantaa.
+1. **Area signal:** Statistics Finland `rpk/13h4`, class `351` (arson, traffic arson, aggravated arson; police-recorded), as a rate per 10,000 residents for the destination municipality, compared to the national rate. In 2025 it was 0.40 nationally, 0.43 Helsinki, 0.37 Espoo and 0.51 Vantaa.
 2. **National context and €:** PRONTO 2024. There were 1,875 building fires and 3,149 building fire hazards; 2,898 of these incidents were in residential buildings. 423 building fires were intentional. Average building and contents damage was €36,796 per building fire. 605 residential fires happened where there was no smoke detector.
 
 The UI must call the area figure "police-recorded arson offences", not "fire risk". PRONTO's online tool has rescue-department figures, but no export, so it is not used. The live alarm sites (tilannehuone.fi, paloasema.fi, missapalaa.fi) are third-party and have no API or terms, so they are not used either.
@@ -65,8 +65,8 @@ Digitraffic has **no accident data**. Its traffic messages are announcements, ro
 | Fire damage paid | ~€200M a year | Finance Finland |
 | Average damage per building fire | **€36,796** (2024) | PRONTO, taskutilasto 2020–2024 |
 | Building fires / hazards (2024) | 1,875 / 3,149, of which residential 2,898 | PRONTO |
-| Home burglary rate (2025, per 10,000) | Finland 6.03, Helsinki 6.02, Espoo 6.11, Vantaa 9.84 | Statistics Finland `rpk/13h4` |
-| Arson rate (2025, per 10,000) | Finland 0.40, Helsinki 0.37, Espoo 0.43, Vantaa 0.51 | Statistics Finland `rpk/13h4` |
+| Home burglary rate (2025, per 10,000) | Finland 6.03, Helsinki 6.11, Espoo 6.02, Vantaa 9.84 | Statistics Finland `rpk/13h4` |
+| Arson rate (2025, per 10,000) | Finland 0.40, Helsinki 0.43, Espoo 0.37, Vantaa 0.51 | Statistics Finland `rpk/13h4` |
 
 These live in `shared/reference/figures.ts`, each with `{ value, unit, year, source, url }`, so every number shown to the user can carry its source.
 
@@ -158,9 +158,11 @@ The base URL is a constant in `shared/opendata/hsy.ts` that each platform can ov
 | roadAccidents | `shared/opendata/statfin/ton.ts` | municipality | `injuryAccidents` |
 | floodRisk | `shared/opendata/syke.ts` | lat, lon | `floodRiskArea` |
 | routeDisruptions | `shared/opendata/digitraffic.ts` | from/to points, move date | `routeDisruptions` |
-| weather | `shared/opendata/fmi.ts` | lat, lon, move date | `weatherOnMoveDay` |
+| weather | `shared/opendata/weather.ts` | lat, lon, move date | `weatherOnMoveDay` |
 
 The HSY query uses a small bbox around the point (about ±15 m). It picks the building whose polygon contains the point, or the nearest one.
+
+* **WFS details:** The bbox is `minLon,minLat,maxLon,maxLat,EPSG:4326` (lon first). The `urn:ogc:def:crs:EPSG::4326` form takes lat, lon instead. `geom` must be listed in `propertyName`, or no polygons come back. Geocoded points often fall outside every polygon, so the adapter takes the containing building or the nearest one. `kerrosluku` can be the sentinel 999999999.
 
 `shared/services/collectSignals.ts` runs the adapters in parallel, except the StatFin ones, which share the queue, and merges them into one `Signals` object. On a fast connection the report should be ready in 2–3 s. The UI shows each category card as soon as its signals arrive.
 
@@ -176,31 +178,48 @@ relativeLevel(local, national): 'low' | 'medium' | 'high'
 
 ### Moving flag catalogue
 
-| Flag | Category (design card) | Triggered when | Severity | Evidence shown | € estimate | Actions | Coverage tags |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `old-plumbing` | Property | HSY `valm_v` < 1985, or user answer; outside HSY: `shareBuiltBefore1980` > 50% and the user doesn't know | 1960–1984: high; before 1960: medium (likely renovated, ask); unknown: medium | "Completed in 1964 (HSY)" | ≈ €4,300 per leak claim | Leak sensor, Anticimex moisture check, find the water shut-off | `water-damage`, `home` |
-| `burglary` | Key safety | Always on a move | `relativeLevel(homeBurglaryRate)`, +1 level if ground floor or detached house | "Vantaa: 9.84 home burglaries per 10,000 residents vs 6.03 nationally (2025)" | ≈ €1,000 per claim | Change the lock cylinder, Verisure alarm discount, don't leave boxes visible | `theft`, `home-contents` |
-| `key-handover` | Key safety | Old keys not all returned, or rental with previous tenants | Medium | Answer | — | Change the lock cylinder, record key count at handover | `theft` |
-| `fire-safety` | Property | Always on a move | Medium by default; high if arson ratio ≥ 1.5, or wood/fireplace heating (HSY `polttoaine`), or the user has no smoke detector | "605 residential fires in 2024 had no smoke detector (PRONTO)" | €36,796 average building fire damage | Test or install smoke alarms, stove guard, fire blanket | `fire`, `home`, `home-contents` |
-| `flood` | Property | SYKE point is in a flood risk area | High if ground floor, detached house or basement storage; else medium | "Inside the Helsinki–Espoo coastal flood risk area (SYKE)" | — | Raise basement storage, check whether the home policy covers flooding | `flood`, `home` |
-| `transit-damage` | Transport damage | Self-move, or valuables/fragile items | Medium; high if self-move and rain or frost forecast | Answers + FMI | — | Book a verified mover, rent a dolly, pack electronics in plastic | `transit`, `home-contents` |
-| `road-accident` | Transport damage | Self-drive van and destination accidents above the national per-capita rate | `relativeLevel` on accidents per 10,000 residents | "Helsinki: 302 injury accidents (2024)" | — | Rent from a mover, avoid rush hours | `transit`, `vehicle` |
-| `schedule-delay` | Schedule delay | Road works or announcements within 1 km of the route (move in the next 7 days), or an FMI warning on the move date, or moving on the last/first day of a month | Low; medium if two triggers | Digitraffic message title, FMI warning | — | Book the mover early, add a buffer day, plan another route | `delay` |
-| `home-value` | Property (info) | `pricePerM2` and home size known | Low (informative) | "≈ €7,400/m² in 00120 (2025)" | `pricePerM2 × homeSize` | Check that the sum insured matches the value | `home` |
-| `uninsured-contents` | Property | No home contents insurance at the new address | High | Answer | Contents value estimate | Get home contents cover before moving day | `home-contents` |
-| `pet-liability` | Liability | Has a dog | Medium | Answer | — | — | `liability`, `pet` |
+Each flag lists its point lines. Severity comes from the total (see below).
 
-### Category and overall scores (for the design's cards and gauge)
+| Flag | Category | Point lines | Evidence source | € estimate | Actions | Coverage tags |
+| --- | --- | --- | --- | --- | --- | --- |
+| `old-plumbing` | New home | HSY `valm_v` 1960–1989: +14; before 1960: +8; 1990–2004: +4; 2005 or later: no flag; year unknown: +5. Detached house: +4 (adds tag `structure-moisture`) | HSY buildings (`valm_v`) | ≈ €4,300 per leak claim | Ask the housing company when the pipes were renewed (detached: Anticimex moisture check), leak sensors, find the water shut-off | `water-damage` (+ `structure-moisture` for a detached house) |
+| `burglary` | Break-in and keys | StatFin `rpk/13h4` home-burglary rate ÷ national rate: below 0.85 +2, below 1.15 +4, below 1.5 +8, 1.5 or more +12 (no data: +5). Detached house +4, or street-level windows (ground floor / terraced) +4 | StatFin `rpk/13h4`; home answers | ≈ €1,000 per claim | Change the lock cylinder, keep boxes out of sight, home alarm (member discount) | `theft` |
+| `key-handover` | Break-in and keys | Renting +6; buying +4 | Answers | — | Change the lock cylinder, count and sign for keys at handover | `theft` |
+| `fire-safety` | New home | Always +4 (smoke alarm). Wood, pellet or peat heating (HSY `polttoaine`) +6, else detached house +3. Arson rate ≥ 1.15× national +3 | PRONTO 2024; HSY `polttoaine`; StatFin `rpk/13h4` class 351 | €36,796 average building fire damage | Test or fit smoke alarms, stove guard and fire blanket, chimney sweep (wood heating) | `fire` |
+| `flood` | New home | Inside SYKE flood risk area +10; home at ground level +6 | SYKE flood risk areas; home answers | — | Keep stored boxes off the floor, turn on flood and storm warnings | `natural-hazard` |
+| `transit-damage` | Transport damage | Self-move +8, or movers +3; fragile or valuable items +5 (adds tag `valuables`); rain ≥ 2 mm or snow on move day +4 (Open-Meteo) | Answers; Open-Meteo | — | Book a verified mover, rent a dolly, wrap fragile items and photograph valuables, plastic covers if wet | `transit` (+ `valuables`) |
+| `road-accident` | Transport damage | Self-move only. StatFin `ton/12qh` injury accidents per 10,000 residents ÷ national: below 0.85 +1, below 1.15 +2, below 1.5 +4, 1.5 or more +6 (no data: +3). Winter month (Nov–Mar) or frost forecast +3 | StatFin `ton/12qh`, `rpk/13h4` (population); Open-Meteo | — | Book a verified mover, drive outside rush hours | `vehicle` |
+| `schedule-delay` | Schedule delay | Move on day 28–31 or day 1 +5; move within 14 days +4; gusts ≥ 15 m/s or snow ≥ 2 cm +5; Digitraffic traffic announcement within 1.5 km +3 each (max 2) | Digitraffic; Open-Meteo; move date | — | Book the mover and lift now, keep the next day free, check the route the day before | `delay` |
+| `uninsured-contents` | New home | No home insurance +20 | Answer | Contents value estimate | Arrange home insurance from moving day | `home-contents`, `liability` |
+| `pet-liability` | New home | Dog +6 | Answer | — | Read the housing company's pet rules | `liability` |
+
+Coverage tags are the ones in `shared/types.ts` (`CoverageTag`); each plan's coverage per tag is in `shared/data/homePlans.ts`. Each done action removes an equal share of its flag's points. The `home-value` flag is not built, so it is listed under [§12](#12-open-items).
+
+### Points, risk bar and readiness
 
 ```
-flagScore     = high: 85 · medium: 55 · low: 25       (mitigated/covered: 0)
-categoryScore = max(flagScore in category) + 5 × (other open flags in category), capped at 100
-categoryLevel = score ≥ 70 → high · ≥ 40 → medium · else low
-overallRisk   = level of the mean of the three highest category scores
-readiness     = 100 − weighted share of open flags (application.md §4)
+flag points    = sum of the flag's point lines
+severity       = flag points ≥ 14: high · ≥ 7: medium · else low
+open points    = flag points × share of actions not done (each done action removes an equal share)
+risk bar       = min(100, sum of open points of all flags); ≥ 70 high · ≥ 40 medium · else low
+category meter = min(100, open points in the category ÷ 30)
+readiness      = share of all flag points removed by done actions
 ```
 
-The cards show `categoryScore` as the progress bar and `categoryLevel` as the label ("Transport damage: Medium").
+Categories: Transport damage, Schedule delay, Break-in and keys, New home. The category cards show the category meter as the progress bar.
+
+Calibration (live data, 2026-10-17): a careful move with movers, insurance and a new building ≈ 15–25 (low). A Helsinki self-move with valuables and rain ≈ 60 (medium). A 1967 Vantaa building, ground floor, self-move ≈ 60–70.
+
+### Suggested plan and plan fit
+
+Plan match is strict. A plan fully covers a flag only if it fully covers **all** of the flag's coverage tags. The old rule was "any tag". A plan that covers some of the tags is a partial match. Fit = 100 × Σ weight × match ÷ Σ weight, with weight high 3, medium 2, low 1. Only open flags count.
+
+Suggested plan is the higher of:
+
+* the plan for the risk level: low → Perus, medium → Laaja, high → LaajaPlus
+* the cheapest plan that fully covers every open high flag that any plan can cover
+
+Code: `shared/engine/plans.ts`.
 
 ### Protection gaps
 
@@ -284,20 +303,22 @@ Not needed for the MVP. Journeys stay in the browser (`localStorage`), and so do
 
 ## 11. Build order
 
-| Step | Work | Done when | Est. |
-| --- | --- | --- | --- |
-| 1 | `shared/types.ts`, `shared/` in `tsconfig.app.json`, Vitest, Vite proxy for `/proxy/hsy`, `ReportService` stub | `npm run build` passes and one Vitest test runs | 1 h |
-| 2 | Geocode adapter; municipality-code map from StatFin metadata | Entering "Mannerheimintie 1" returns a postcode and `KU091` | 1.5 h |
-| 3 | HSY, StatFin (`13mu`, `13h4`, `12qh`, `15er`), SYKE adapters, with parser tests on the saved samples | `collectSignals` returns real figures for 00100 in the browser | 3 h |
-| 4 | Engine in `shared/engine/`: flag catalogue, scores, gaps, ranking; Vitest tests | Engine tests pass for the demo personas | 3 h |
-| 5 | `buildMovingReport`, reference figures, `sources[]`, `local` `ReportService` | Report object matches the Risk Report design | 1 h |
-| 6 | `localStorage` cache, snapshot script, `VITE_OPEN_DATA_MODE=snapshot` | Report works with Wi-Fi off | 1.5 h |
-| 7 | FMI and Digitraffic adapters (schedule delay, weather) | Move date within 7 days shows live disruptions | 2 h |
-| 8 | Frontend wiring: form → report → cards, gauge, actions, gaps | Full Moving flow in the browser | separate frontend plan |
+| Step | Work | Done when | Est. | Status (2026-10-17) |
+| --- | --- | --- | --- | --- |
+| 1 | `shared/types.ts`, `shared/` in `tsconfig.app.json`, Vitest, Vite proxy for `/proxy/hsy`, `ReportService` stub | `npm run build` passes and one Vitest test runs | 1 h | Built. Vitest tests not built |
+| 2 | Geocode adapter; municipality-code map from StatFin metadata | Entering "Mannerheimintie 1" returns a postcode and `KU091` | 1.5 h | Built |
+| 3 | HSY, StatFin (`13mu`, `13h4`, `12qh`, `15er`), SYKE adapters, with parser tests on the saved samples | `collectSignals` returns real figures for 00100 in the browser | 3 h | Built. `13mu` price not built; parser tests not built |
+| 4 | Engine in `shared/engine/`: flag catalogue, scores, gaps, ranking; Vitest tests | Engine tests pass for the demo personas | 3 h | Built. Vitest tests not built |
+| 5 | `buildMovingReport`, reference figures, `sources[]`, `local` `ReportService` | Report object matches the Risk Report design | 1 h | Built |
+| 6 | `localStorage` cache, snapshot script, `VITE_OPEN_DATA_MODE=snapshot` | Report works with Wi-Fi off | 1.5 h | Not built: snapshot script and `VITE_OPEN_DATA_MODE` |
+| 7 | FMI and Digitraffic adapters (schedule delay, weather) | Move date within 7 days shows live disruptions | 2 h | Built, with Open-Meteo instead of FMI and Digitraffic `TRAFFIC_ANNOUNCEMENT` only |
+| 8 | Frontend wiring: form → report → cards, gauge, actions, gaps | Full Moving flow in the browser | separate frontend plan | Built: Moving page and risk report |
 
 Steps 1–6 are the data and engine MVP (~11 h). Step 7 is a stretch goal. The server ([§9](#9-optional-server-when-and-how)) is not in the build order.
 
 ## 12. Open items
+
+Status on 2026-10-17: the engine, adapters, `ReportService`, Moving page and risk report are built. The items below are not built yet, or are open.
 
 | Item | Status | Action |
 | --- | --- | --- |
@@ -306,6 +327,10 @@ Steps 1–6 are the data and engine MVP (~11 h). Step 7 is a stretch goal. The s
 | Finance Finland and PRONTO licences | Not stated | Cite as facts with the source; don't reproduce their charts |
 | PRONTO rescue-department building-fire export | No endpoint found | Ask Pelastusopisto; not needed for the MVP |
 | HSY rate limits | Not documented | Cache aggressively; snapshots for the demo addresses |
-| Population denominator for `ton/12qh` accident rates | Not yet picked | Derive it from `13h4` (`rikokset_lkm ÷ rik_10000 × 10,000`) or use a population table; verify before step 3 |
-| FMI request details | CORS verified; query not re-verified | Verify in step 7 |
-| `old-plumbing` thresholds (1960–1984 = high) | Product assumption | Confirm with If mentors (pipe renovation is typically due at ~50 years) |
+| Population denominator for `ton/12qh` accident rates | Resolved: derived from `13h4` (`rikokset_lkm ÷ rik_10000 × 10,000`) | None |
+| Open-Meteo request (replaces FMI) | Can return 503 "service is overloaded" | The adapter marks the source missing; flags that need it drop out |
+| `old-plumbing` points by build year | Product assumption: 1960–1989 +14, before 1960 +8 | Confirm with If mentors (pipe renovation is typically due at ~50 years) |
+| StatFin price `13mu` and the home-value flag | Not built | Add the adapter and flag later. The flag was removed from the catalogue |
+| Snapshots, `scripts/snapshot.ts` and `VITE_OPEN_DATA_MODE` | Not built | Build in step 6 |
+| Vitest tests | Not built | Engine rules, scores and parser tests (see §8) |
+| Deploy rewrites for `/proxy/hsy` | Not built | Add the Vercel or Netlify rewrite when deploying (see §4) |

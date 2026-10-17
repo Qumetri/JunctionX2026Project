@@ -43,6 +43,8 @@ JunctionX2026Project/
 
 No `server/` yet. When it is added ([backendMovingPlan.md §9](backendMovingPlan.md#9-optional-server-when-and-how)) it gets its own `package.json` and imports `shared/`. No npm workspaces. `shared/` is a plain folder included by `tsconfig.app.json`. The Vite dev server proxies `/proxy/hsy` to HSY, the only source without CORS.
 
+Moving risk files that now exist: `shared/engine/rules.ts` (flags and points), `shared/engine/score.ts` (risk bar), `shared/engine/plans.ts` (plan fit and suggestion), `shared/data/homePlans.ts`, `shared/opendata/{nominatim,hsy,syke,statfin,weather,digitraffic,http}.ts`, `shared/cache/store.ts`, `shared/services/movingReport.ts`, `src/api/report.ts`, `src/state/movingPlan.ts` and `src/components/PlanPicker.tsx`.
+
 ## Frontend
 
 | Concern       | Choice                                    | Why                                                                                   |
@@ -108,6 +110,8 @@ evaluate(journey: Journey, signals: Signals, products: InsuranceProduct[])
 
 Rules emit **flags**. A separate ranking function scores insurance products against the open flags. The summary template (see [AI layer](#ai-layer)) turns the result into text. See [application.md](application.md) §5–6. The Moving flag catalogue, severity thresholds and category scores are in [backendMovingPlan.md §5](backendMovingPlan.md#5-signals--flags).
 
+**Moving rules (built 2026-10-17):** `shared/engine/rules.ts` scores flags with points, not only severity. Each flag lists point lines (`{label, points}`), and its points are their sum. Severity comes from points: 14 or more is high, 7 or more is medium, otherwise low. Each done action removes an equal share of its flag's points. The risk bar is the sum of open points across flags, capped at 100 (70 or more is high, 40 or more is medium). `shared/engine/score.ts` computes the risk bar. `shared/engine/plans.ts` ranks plans by coverage of each open flag (full, partial or none), weighted by severity.
+
 Rules are data in spirit, so the team can write them in parallel and tune the demo story without touching UI code.
 
 ## Open data (Finland)
@@ -146,7 +150,7 @@ Also checked and not useful for incidents: **Helsinki Region Infoshare (hri.fi)*
 
 None of the in-scope sources needs an API key or registration. HSY, Statistics Finland, SYKE, Digitraffic, PRONTO and Finance Finland all work without one.
 
-Two geocoders need a free key, and both are optional: **Digitransit** (geocoding and routing) and **NLS** (Maanmittauslaitos geocoder). Nominatim needs no key and is the fallback. A key can't be used from the browser, because anything in the bundle is public. Using one is a reason to build the optional server, where it would live in `server/.env`, never in the bundle or the repo. Until then, geocode with Nominatim.
+Two geocoders need a free key, and both are optional: **Digitransit** (geocoding and routing) and **NLS** (Maanmittauslaitos geocoder). Nominatim needs no key and is the fallback. A key can't be used from the browser, because anything in the bundle is public. Using one is a reason to build the optional server, where it would live in `server/.env`, never in the bundle or the repo. Until then, geocode with Nominatim. From Nominatim, the town is `address.city` (or town/village). `address.municipality` is the sub-region (e.g. "Helsingin seutukunta").
 
 ### HSY buildings (WFS)
 
@@ -158,13 +162,14 @@ Two geocoders need a free key, and both are optional: **Digitransit** (geocoding
   - The old layer name `pks_rakennukset_paivittyva` is wrong.
 - **Key fields:**
   - `valm_v`: completion year (integer). Use this. `valm_pvm` was null in all samples.
-  - `kerrosluku`: floors above ground.
+  - `kerrosluku`: floors above ground. Can be the sentinel `999999999`, so check for it before using the value.
   - `kayttark`: use label (e.g. "Liikerakennus"). `kayt_luok` was null in samples.
   - `kerrosala`: floor area (m²).
   - `kunta` (`091` = Helsinki), `kuntanimi`.
   - Others: `vtj_prt` (VTJ building ID), `lamm_tapa`, `polttoaine`, `panel_ala`, `elec_kwh_v`, `viherk`.
-  - Add `propertyName=valm_v,kerrosluku,kayttark,kuntanimi` to trim the response (verified).
-- **CRS:** native EPSG:3879 (ETRS-GK25). EPSG:4326 is accepted. With a `urn:ogc:def:crs:EPSG::4326` bbox, WFS 2.0 uses lat,lon axis order.
+  - Add `propertyName=valm_v,kerrosluku,kayttark,kuntanimi` to trim the response (verified). Add `geom` to `propertyName` to get polygons.
+- **CRS:** native EPSG:3879 (ETRS-GK25). EPSG:4326 is accepted. Bbox axis order: `bbox=<minLon>,<minLat>,<maxLon>,<maxLat>,EPSG:4326` (lon,lat). With `urn:ogc:def:crs:EPSG::4326`, the order is lat,lon.
+- **Matching a point to a building:** geocoded points often fall outside every building polygon, so the adapter takes the building that contains the point or, failing that, the nearest one.
 - **Example:**
   ```bash
   curl -G "https://kartta.hsy.fi/geoserver/wfs" \
@@ -209,6 +214,8 @@ Two geocoders need a free key, and both are optional: **Digitransit** (geocoding
 
 Municipality codes: `KU091` = Helsinki, `KU049` = Espoo, `KU092` = Vantaa. `SSS` = whole country.
 
+For `12qh`, provisional years are marked with `*` in `valueTexts` (`2025*`, `2026*`), not in the codes. The last full year is 2024. The road class and road user totals use code `SSS`.
+
 #### Example: Paavo buildings, postal code 00100, 2024
 
 ```bash
@@ -234,7 +241,7 @@ curl -s -X POST -H 'Content-Type: application/json' \
     {"code":"contentscode","selection":{"filter":"item","values":["rik_10000"]}}],
     "response":{"format":"json-stat2"}}'
 ```
-Verified. Response `value` (area × class): `[6.03, 0.4, 6.02, 0.37, 6.11, 0.43, 9.84, 0.51]`, i.e. home burglary / arson per 10,000 residents for Finland, Helsinki, Espoo, Vantaa.
+Verified 2026-10-17. 2025 home burglary / arson per 10,000 residents: Finland 6.03 / 0.40, Helsinki 6.11 / 0.43, Espoo 6.02 / 0.37, Vantaa 9.84 / 0.51, Tampere 4.67 / 0.30.
 
 Offence classes used: `101T103a0101` = theft by breaking into a dwelling (home burglary); `351` = arson, traffic arson and aggravated arson; `352` = attempts. For yearly counts by place of offence, query `13ex.px` with area variable `alue_23_20230101` instead (verified: arson in Helsinki 11 in 2024, 30 in 2025).
 
@@ -298,13 +305,13 @@ Offence classes used: `101T103a0101` = theft by breaking into a dwelling (home b
   - `Tulvariskiaineistot_perusskenaariot_toistuvuuksittain/MapServer`: river flood data by return period. Group layers `5` (1/1000), `11` (1/250), `17` (1/100), `23` (1/50), `29` (1/20), `35` (1/10), `41` (1/5), `47` (1/2).
   - Leaf layer `22` (1/100, depth fields `SyvSuojLuokka`, `SyvVyohLuokka`, `KorkeusAin`): schema verified, but a point query returned no usable features in testing (unverified).
   - Sea return-period layers were not located (unverified).
-- **Key fields:** `Merkittavyys` (significance), `TulvaTyyppi`, `Nimi`, `APSFRCode`.
+- **Key fields:** `TulvaTyyppi`, `Nimi`, `APSFRCode`. `VHSTULVAMERISuunnitelmat` has no `Merkittavyys` field: asking for it returns HTTP 200 with an error body. Request `outFields=Nimi,TulvaTyyppi`. ArcGIS CORS echoes the `Origin` header.
 - **Example** (verified, Kaivopuisto, Helsinki):
   ```bash
   curl -G "https://paikkatieto.ymparisto.fi/arcgis/rest/services/Tulva/VHSTULVAMERISuunnitelmat/MapServer/0/query" \
     --data-urlencode "geometry=24.9495,60.1544" --data-urlencode "geometryType=esriGeometryPoint" \
     --data-urlencode "inSR=4326" --data-urlencode "spatialRel=esriSpatialRelIntersects" \
-    --data-urlencode "outFields=*" --data-urlencode "returnGeometry=false" --data-urlencode "f=json"
+    --data-urlencode "outFields=Nimi,TulvaTyyppi" --data-urlencode "returnGeometry=false" --data-urlencode "f=json"
   ```
   Returns `Nimi` = "Helsingin ja Espoon rannikkoalue", `TulvaTyyppi` = `meritulva`.
 - **CORS:** echoes the request origin (verified from `http://localhost:5173`).
@@ -321,6 +328,7 @@ Offence classes used: `101T103a0101` = theft by breaking into a dwelling (home b
 - **CORS:** `*`, and `Digitraffic-User` is in the allowed headers (verified).
 - **Base URL:** `https://tie.digitraffic.fi/api/traffic-message/v1/messages`
 - **Situation types** (`situationType`): `TRAFFIC_ANNOUNCEMENT`, `ROAD_WORK` (495 features on 2026-10-17), `WEIGHT_RESTRICTION` (0), `EXEMPTED_TRANSPORT` (0).
+- **What the app uses:** only `situationType=TRAFFIC_ANNOUNCEMENT` (~28 KB). `ROAD_WORK` is ~6 MB, too heavy for the browser. The text is in `announcements[0].title` (there is no `description`). It is used only for moves within 7 days.
 - **Gotchas:**
   - `limit` is not a parameter of v1 (`400`).
   - `/api/traffic-message/v3/messages/situation-types` returns 404. Do not use it.
@@ -508,14 +516,15 @@ browser ──► shared/services/collectSignals (adapters in shared/opendata/)
    ├─► crimeRates     (rpk 13h4, 13ex)               → burglary and arson rates vs. national
    ├─► roadAccidents  (ton 12qh)                     → injury and fatal accident counts
    ├─► floodRisk      (SYKE ArcGIS REST)             → inFloodZone, flood type
-   ├─► trafficNotices (Digitraffic)                  → road works on the route
-   └─► weather        (FMI)                          → forecast + warnings for the move date
+   ├─► trafficNotices (Digitraffic)                  → traffic announcements near the address
+   └─► weather        (Open-Meteo)                   → forecast for the move date
    │
    ▼
 Signals object ──► rules (shared/engine) ──► flags + severity + € estimates ──► MovingReport
 ```
 
 - **Adapters:** one adapter per provider in `shared/opendata/`, returning typed `Signals` fields. The rules see only `Signals`, never raw API responses, so a broken API means a missing signal instead of a crash.
+- **Weather:** `shared/opendata/weather.ts` calls Open-Meteo's forecast endpoint (`api.open-meteo.com/v1/forecast`) with `start_date` and `end_date` set to the move date, and `wind_speed_unit=ms`. The forecast reaches 16 days ahead. Open-Meteo can return 503 ("service is overloaded"), and then the adapter marks the source missing. FMI remains an alternative.
 - **Coverage limit:** building-level data (completion year) is available for the Helsinki region via HSY. Pick a Helsinki-region address for the demo persona.
 
 ### Example: what the user sees
@@ -541,10 +550,11 @@ Figures used in the summary text and the flags. Year and source are given for ea
 | Intentional building fires | 423 | 2024 | PRONTO |
 | Ignition cause, building fires (incl. secondary fires): cooking / electrical device / fireplace or flue / deliberately set | 805 / 813 / 479 / 365 | 2024 | PRONTO. "Deliberately set" (365, ignition-cause table) and "intentional" (423, intentionality table) come from two different classifications, so they differ |
 | Residential fires with no smoke detector | 605 | 2024 | PRONTO |
-| Home burglary (101T103a0101), per 10,000 residents: Finland / Helsinki / Espoo / Vantaa | 6.03 / 6.02 / 6.11 / 9.84 | 2025 | StatFin `rpk/13h4`, `rik_10000` |
-| Arson (351), per 10,000 residents: Finland / Helsinki / Espoo / Vantaa | 0.40 / 0.37 / 0.43 / 0.51 | 2025 | StatFin `rpk/13h4`, `rik_10000` |
+| Home burglary (101T103a0101), per 10,000 residents: Finland / Helsinki / Espoo / Vantaa / Tampere | 6.03 / 6.11 / 6.02 / 9.84 / 4.67 | 2025 | StatFin `rpk/13h4`, `rik_10000` |
+| Arson (351), per 10,000 residents: Finland / Helsinki / Espoo / Vantaa / Tampere | 0.40 / 0.43 / 0.37 / 0.51 / 0.30 | 2025 | StatFin `rpk/13h4`, `rik_10000` |
 | Arson (351), counts: Finland / Helsinki | 228 / 30 | 2025 | StatFin `rpk/13ex` (by place of offence). `13h4` counts by reporting year, so its rates don't divide out exactly from these counts. Use `13h4` for rates, `13ex` for counts |
 | Road accidents, Helsinki: with injuries / fatal / injury-only | 302 / 5 / 297 | 2024 | StatFin `ton/12qh` (`konn`, `kuolonn`, `loukonn`) |
+| Road accidents with injuries, 2024: Finland / Vantaa | 2,811 / 91 | 2024 | StatFin `ton/12qh` |
 
 ### Licences and attribution
 

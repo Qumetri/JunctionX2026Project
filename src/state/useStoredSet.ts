@@ -33,8 +33,11 @@ export function useStoredSet(key: string) {
 }
 
 export const storageKeys = {
-  movingActions: 'lifeMoments.moving.doneActions',
+  journeyDone: 'lifeMoments.moving.journeyDone',
+  journeySkipped: 'lifeMoments.moving.journeySkipped',
+  movingActions: 'lifeMoments.moving.doneActions.v2',
   movingChecklist: 'lifeMoments.moving.checklist',
-  movingPlan: 'lifeMoments.moving.plan',
+  movingPlan: 'lifeMoments.moving.plan.v2',
+  movingReport: 'lifeMoments.moving.report',
   travelChecklist: 'lifeMoments.travel.checklist',
 };

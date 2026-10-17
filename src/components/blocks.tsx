@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { Level } from '../engine/movingRisk';
+import type { Level } from '../../shared/types';
 import { Icon, type IconName } from './Icon';
 import { LiquidMeter } from './LiquidMeter';
 import './blocks.css';

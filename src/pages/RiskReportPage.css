@@ -476,3 +476,51 @@
     transition: none;
   }
 }
+
+/* Points (risk flag system) */
+
+.flag__points {
+  margin-left: auto;
+  padding-left: 0.5rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+}
+
+.flag__lines {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.flag__lines li {
+  display: grid;
+  grid-template-columns: 2.2rem minmax(0, 1fr);
+}
+
+.flag__lines span {
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.flag__lines-done {
+  color: var(--resolved);
+}
+
+.action__points {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--resolved);
+}
+
+.report__start {
+  margin-top: 1.5rem;
+}
+
+.report__empty {
+  margin: 0;
+  color: var(--slate);
+}

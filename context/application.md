@@ -92,12 +92,14 @@ type Flag = {
 | Moving yourself (no movers) + Valuables | Transit damage | Medium | Book vetted mover, rent a moving dolly | `transit`, `home-contents` |
 | Has a dog | Pet liability | Medium | — | `liability`, `pet` |
 | No current home contents insurance | Belongings uninsured at new address | High | — | `home-contents` |
-| FMI forecast: Rain on moving day (open data) | Water damage in transit | Low | Plastic covers, reschedule tip | `transit` |
+| Open-Meteo forecast: rain on moving day (open data) | Water damage in transit | Low | Plastic covers, reschedule tip | `transit` |
 | Ground-floor apartment | Burglary risk | Medium | Smart lock / Verisure alarm discount | `theft`, `home-contents` |
+
+Each flag now carries points. The risk bar and readiness are built from those points. The full catalogue with point lines is in [backendMovingPlan.md §5](backendMovingPlan.md#5-signals--flags).
 
 Rules live as code in `shared/engine/rules.ts` (see the `Rule` type in [techStack.md](techStack.md#risk-engine--sharedengine)), so the team can add new flags without touching the UI.
 
-Whenever possible, flags are driven by **Finnish open data**, not user guesses. Examples: real building year (HSY), area crime rate and housing prices (Statistics Finland), flood zones (SYKE), moving day weather forecast (FMI). Euro amounts from published statistics (Finance Finland) make the severity tangible. Provider lists and the data pipeline are in [techStack.md → Open data](techStack.md#open-data-finland).
+Whenever possible, flags are driven by **Finnish open data**, not user guesses. Examples: real building year (HSY), area crime rate and housing prices (Statistics Finland), flood zones (SYKE), moving-day weather forecast (Open-Meteo). Euro amounts from published statistics (Finance Finland) make the severity tangible. Provider lists and the data pipeline are in [techStack.md → Open data](techStack.md#open-data-finland).
 
 ## 6. Ranking insurance plans
 
@@ -120,7 +122,7 @@ type InsuranceProduct = {
 
 ```text
 weight(flag)  = high: 3 · medium: 2 · low: 1      (Flags already 'covered' by existing policies are skipped)
-match(p, f)   = 1.0 if p fully covers any of f.coverageTags · 0.5 if partial · 0 otherwise
+match(p, f)   = 1.0 if p fully covers all of f.coverageTags · 0.5 if it covers some · 0 otherwise
 fit(p) = 100 × Σ weight(f) × match(p, f)  /  Σ weight(f)
 
 ```
@@ -130,6 +132,8 @@ fit(p) = 100 × Σ weight(f) × match(p, f)  /  Σ weight(f)
 * **Each card shows its reasoning:** ✅ Covered flags, ⚠️ Partially covered, ❌ Not covered.
 * **Bundles:** When a combination (e.g., home contents + pet) has a significantly higher fit score than any single product, it is ranked as a single option.
 * **Honesty rule:** If all open high-severity flags can be resolved purely by actions, the top recommendation is an action, not a product. This builds trust and supports the "not just selling" narrative for the judges.
+* **Suggested level:** The higher of (a) the level for the risk (low → Perus, medium → Laaja, high → LaajaPlus) and (b) the cheapest level that fully covers every open high flag that any level can cover. The Moving page marks it with a "Suggested" badge.
+* **Plan picker:** The Moving page header has three buttons: Perus, Laaja and LaajaPlus (a tablist). The chosen level shows its perks, with "Not in Perus" and "Laaja: €5,000" comparisons, and a "Your moving risks" list marked covered, partial or not covered.
 
 ## 7. AI Layer
 
@@ -168,6 +172,11 @@ fit(p) = 100 × Σ weight(f) × match(p, f)  /  Σ weight(f)
 4. **Recommendations:** Ranked plan cards featuring fit score, covered/uncovered flags, price, and "why this fits" (AI). Partner offers sit alongside.
 5. **Journey timeline:** A dated checklist; checking off items resolves flags and increases the score.
 6. **Flag detail (Bottom sheet):** Why it triggered, evidence, actions to take, and which plans cover it.
+7. **Moving page (built):**
+   * Hero: only a **Moving to** field and a **Calculate risk** button. Geocoding and open-data calls run only when you press it.
+   * Preview card: progress per source while loading, then the top 5 flags with their points, a liquid ring with the score and level, a readiness meter, and **See detailed overview** (goes to the risk report).
+   * A separate **Create moving plan** block below: moving from, moving date, home size, home type, and toggles for self-move, valuables, ground floor, renting, dog and home insurance. Answers re-score at once on the saved signals. The **Create moving plan** button recalculates and opens the report.
+   * Risk report: points per flag, "−N points" per action, a protection gap check against the suggested plan, and data sources with their status.
 
 ## 9. Data model
 
