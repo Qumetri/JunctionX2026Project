@@ -1,7 +1,7 @@
 import type { IconName } from '../components/Icon';
 
 export type LifeMoment = {
-  id: 'moving' | 'pet-care' | 'travel';
+  id: 'moving' | 'pet-care' | 'travel' | 'seniors';
   name: string;
   icon: IconName;
   /** One line shown in the hero preview panel. */
@@ -49,6 +49,19 @@ export const lifeMoments: LifeMoment[] = [
       'Medical support guidance',
       'Trip cancellation support',
       'Flexible cover by IF',
+    ],
+  },
+  {
+    id: 'seniors',
+    name: 'Seniors',
+    icon: 'heart',
+    teaser: 'Fall prevention, help at home and scam safety',
+    readiness: 0,
+    services: [
+      'Home safety checklist',
+      'Help with heavy chores',
+      'Technology and scam guidance',
+      'Safety phone and home care tips',
     ],
   },
 ];

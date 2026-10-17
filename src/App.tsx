@@ -1,9 +1,11 @@
 import { useEffect, useSyncExternalStore } from 'react';
 import { SiteLayout } from './components/SiteLayout';
+import { ElderlyPage } from './pages/ElderlyPage';
 import { HomePage } from './pages/HomePage';
 import { MemberBenefitsPage } from './pages/MemberBenefitsPage';
 import { MovingPage } from './pages/MovingPage';
 import { MovingPlanPage } from './pages/MovingPlanPage';
+import { PetCarePage } from './pages/PetCarePage';
 import { RiskReportPage } from './pages/RiskReportPage';
 import { TravelPage } from './pages/TravelPage';
 import { routes, type Route } from './routes';
@@ -21,6 +23,8 @@ const pages: Record<Route, () => React.JSX.Element> = {
   moving: MovingPage,
   'moving-plan': MovingPlanPage,
   travel: TravelPage,
+  'pet-care': PetCarePage,
+  seniors: ElderlyPage,
   'member-benefits': MemberBenefitsPage,
 };
 

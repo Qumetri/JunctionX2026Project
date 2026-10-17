@@ -33,6 +33,10 @@ Without Ollama the app still works and shows a template summary instead.
 
 **The Travel journey** (`#travel`): pick a destination, dates, purpose, pet and whether you already have travel insurance, and press **Check travel risks**. The snapshot shows the score and the biggest risks; the overview below adds an "In short" summary, a cover card (fixed-term or continuous), points per risk, "Tips for this trip" and a "Before you go" checklist with a date on every step.
 
+**Pet Care** (`#pet-care`): a walk video banner with the demo dog's health record (vaccine, deworming, weight, allergies), a pet travel checklist (Finnish entry rules such as the tapeworm treatment before coming home), and dog parks and vets within 3 km on a map: near the new home after a moving check, near central Helsinki otherwise, or near the user with **Use my location**.
+
+**Seniors** (`#seniors`): home safety, help with heavy chores, and technology and scams as checklists with "who can help" notes. It is built for older readers: larger text with a text-size control, big targets and strong focus rings.
+
 **The risk engine** (`shared/engine/`) is plain TypeScript with no React:
 
 - Each risk is a **flag** made of point lines, for example "+12 Burglary rate 1.6× the national rate" and "+4 Windows at street level". Moving has 10 flags (`rules.ts`), Travel 12 (`travelRules.ts`). Travel points come mostly from the season (winter at Helsinki Airport, flu season, holiday peaks, weather on the dates), the days left before departure and the trip length.
@@ -51,6 +55,7 @@ Without Ollama the app still works and shows a template summary instead.
 | Open-Meteo | Moving-day weather; weather on travel dates; departure day at Helsinki Airport | Forecast within 16 days. Later trips use the same dates last year (archive) |
 | UK FCDO travel advice | Warnings for the destination country | Finland's um.fi has no API, so the page links to it |
 | GDACS | Current disaster alerts near the destination | Only for trips within 30 days |
+| OpenStreetMap Overpass | Dog parks and vets near a point (Pet Care) | Free servers are often slow; a saved capital-region copy (`shared/reference/petPlaces.ts`) answers then |
 | Fintraffic Digitraffic | Traffic announcements near the address | Only when the move is within 7 days |
 | Finance Finland, Pelastusopisto PRONTO, EUROCONTROL | Average claim sizes; Helsinki Airport winter delays | Static figures in `shared/reference/figures.ts` |
 
@@ -62,7 +67,7 @@ A source that fails or times out is marked "no answer" and only the flags that n
 shared/      types, open-data adapters, cache, risk engine, plans, partners (no React)
 src/api/     ReportService: the only way the UI reaches shared/ (swap for a server later)
 src/state/   hooks for the plan, report and journey progress
-src/pages/   Home, Moving, Moving plan, Risk report, Travel, Member benefits
+src/pages/   Home, Moving, Moving plan, Risk report, Travel, Pet Care, Seniors, Member benefits
 data/        raw open-data samples and PDFs used while building (not shipped)
 context/     product spec, data-source research, plans
 ```
@@ -80,7 +85,7 @@ context/     product spec, data-source research, plans
 - **Tests.** Vitest for the rules, scores and adapter parsers. `data/opendata/` already has sample responses to use as fixtures.
 - **Home-value flag.** It would use the Statistics Finland price per m² (`13mu`) and the home size.
 - **More travel data.** Travel has 8 fixed destinations (`shared/data/destinations.ts`); any city would need geocoding and a country lookup. Eurocontrol airport delays, rail to the airport and ferries are researched in `context/techStack.md` but not connected.
-- **Pet Care.** Only a card on the home page.
+- **Pet Care profiles.** The pet is a fixed demo dog; only the checklist and the deworming date are saved.
 - **Real quotes and login.** Out of scope for the prototype. "Get a quote" links go to if.fi.
 
 **To confirm with If**

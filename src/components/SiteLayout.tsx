@@ -33,9 +33,9 @@ const navEntries: NavEntry[] = [
       },
     ],
   },
-  // Pet Care has no page of its own yet; it points at its card on the home page.
-  { href: '#pet-care', label: 'Pet Care' },
+  { href: '#pet-care', label: 'Pet Care', route: 'pet-care' },
   { href: '#travel', label: 'Travel', route: 'travel' },
+  { href: '#seniors', label: 'Seniors', route: 'seniors' },
 ];
 
 /** Disclosure menu: opens on click, closes on Escape, outside click or picking a link. */

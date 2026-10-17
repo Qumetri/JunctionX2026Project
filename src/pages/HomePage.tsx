@@ -4,6 +4,7 @@ import { LiquidMeter } from '../components/LiquidMeter';
 import { lifeMoments, memberBenefits, type LifeMoment } from '../data/lifeMoments';
 import { movingSteps, resetAllProgress, useMovingJourney } from '../state/movingJourney';
 import { useMovingAssessment } from '../state/movingPlan';
+import { relativeDays, usePetCare } from '../state/petCare';
 import './HomePage.css';
 
 /** C89: the decision the hero is about, typed and replaced in turn. */
@@ -12,7 +13,7 @@ const heroWords = ['your move', 'a new pet', 'your next trip', 'life’s decisio
 const prefersReducedMotion = () =>
   typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/** Where a plan card leads: Moving to the plan once there is one, Pet Care to its services. */
+/** Where a plan card leads: Moving to the plan once there is one, the others to their page. */
 function momentHref(id: LifeMoment['id'], hasReport: boolean) {
   if (id === 'moving') return hasReport ? '#moving-plan' : '#moving';
   return `#${id}`;
@@ -23,8 +24,17 @@ export function HomePage() {
   const { report, assessment, doneActions } = useMovingAssessment();
   const journey = useMovingJourney(assessment, doneActions);
   const nextStep = movingSteps.find((step) => journey.states[step.id] === 'open');
+  const petCare = usePetCare();
 
   const moments = lifeMoments.map((moment) => {
+    if (moment.id === 'pet-care') {
+      const { days } = petCare.deworming;
+      return {
+        ...moment,
+        readiness: petCare.readiness,
+        teaser: days <= 14 ? `Deworming due ${relativeDays(days)}` : moment.teaser,
+      };
+    }
     if (moment.id !== 'moving') return moment;
     return {
       ...moment,
@@ -123,22 +133,14 @@ export function HomePage() {
         </h2>
         <div className="services__grid">
           {lifeMoments.map((moment) => (
-            <article
-              className="service-card"
-              key={moment.id}
-              id={moment.id === 'pet-care' ? moment.id : undefined}
-            >
+            <article className="service-card" key={moment.id}>
               <h3 className="service-card__title">
                 <span className="icon-tile icon-tile--small">
                   <Icon name={moment.icon} />
                 </span>
-                {moment.id === 'pet-care' ? (
-                  moment.name
-                ) : (
-                  <a className="service-card__link" href={`#${moment.id}`}>
-                    {moment.name}
-                  </a>
-                )}
+                <a className="service-card__link" href={`#${moment.id}`}>
+                  {moment.name}
+                </a>
               </h3>
               <ul className="service-card__list">
                 {moment.services.map((service) => (

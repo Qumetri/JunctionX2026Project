@@ -6,6 +6,8 @@
 import { createBrowserCache } from '../../shared/cache/store';
 import type { Summary, SummaryInput } from '../../shared/engine/summary';
 import type { TravelSummary, TravelSummaryInput } from '../../shared/engine/travelSummary';
+import type { AdapterResult } from '../../shared/opendata/http';
+import { nearbyPetPlaces, type PetPlace } from '../../shared/opendata/overpass';
 import { aiSummary } from '../../shared/services/aiSummary';
 import { aiTravelSummary } from '../../shared/services/aiTravelSummary';
 import {
@@ -28,6 +30,8 @@ export interface ReportService {
   travelReport(request: TravelRequest, onProgress?: TravelProgress): Promise<TravelReport>;
   /** Never rejects: falls back to the template summary and tips. */
   travelSummary(input: TravelSummaryInput, signal?: AbortSignal): Promise<TravelSummary>;
+  /** Dog parks and vets near a point. Never rejects: `reference` is the saved copy. */
+  petPlaces(lat: number, lon: number, signal?: AbortSignal): Promise<AdapterResult<PetPlace[]>>;
 }
 
 const cache = createBrowserCache();
@@ -43,8 +47,9 @@ const localService: ReportService = {
   summary: (input, signal) => aiSummary(input, ollama, cache, signal),
   travelReport: (request, onProgress) => buildTravelReport(request, cache, onProgress),
   travelSummary: (input, signal) => aiTravelSummary(input, ollama, cache, signal),
+  petPlaces: (lat, lon, signal) => nearbyPetPlaces(lat, lon, { cache, signal }),
 };
 
 export const reportService: ReportService = localService;
 
-export type { MovingReport, Summary, TravelReport, TravelSummary };
+export type { MovingReport, PetPlace, Summary, TravelReport, TravelSummary };
