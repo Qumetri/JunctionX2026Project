@@ -6,7 +6,7 @@ export type LifeMoment = {
   icon: IconName;
   /** One line shown in the hero preview panel. */
   teaser: string;
-  /** Demo readiness (0–100) shown in the hero preview panel. */
+  /** Readiness (0–100) in the hero preview panel; the home page replaces it with real progress. */
   readiness: number;
   services: string[];
 };

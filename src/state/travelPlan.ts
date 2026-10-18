@@ -2,7 +2,12 @@ import { useCallback, useMemo, useState } from 'react';
 import { destinationById } from '../../shared/data/destinations';
 import { suggestTravelCover, travelCategoryNames } from '../../shared/data/travelCover';
 import { assessFlags } from '../../shared/engine/score';
-import { evaluateTravelRules, localIsoDate, tripFacts } from '../../shared/engine/travelRules';
+import {
+  evaluateTravelRules,
+  localIsoDate,
+  travelActions,
+  tripFacts,
+} from '../../shared/engine/travelRules';
 import type { SourceStatus, TravelRequest, TravelSourceId } from '../../shared/types';
 import { reportService, type TravelReport } from '../api/report';
 import { storageKeys } from './useStoredSet';
@@ -48,6 +53,14 @@ function loadTrip(): TravelRequest {
 function loadReport() {
   const report = readJson<TravelReport>(storageKeys.travelReport);
   return report?.signals?.sources ? report : undefined;
+}
+
+/** The preparation steps for the open flags, the ones that need the longest lead time first. */
+export function travelSteps(flags: { actionIds: string[] }[] = []) {
+  return [...new Set(flags.flatMap((flag) => flag.actionIds))]
+    .map((id) => travelActions[id])
+    .filter(Boolean)
+    .sort((a, b) => b.dueDays - a.dueDays);
 }
 
 /** Preparation steps are a checklist; ticking them shows readiness, not a lower risk. */

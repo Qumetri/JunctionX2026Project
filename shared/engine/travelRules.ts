@@ -543,7 +543,7 @@ const belongings: Rule = ({ request, place, facts }) => {
       id: 'belongings',
       category: 'belongings',
       title: 'Lost or stolen luggage',
-      why: 'If home insurance covers your luggage on trips at every level, so check yours before buying extra baggage cover.',
+      why: 'IF home insurance covers your luggage on trips at every level, so check your home insurance before buying extra baggage cover.',
       evidence: [],
       source: 'derived',
       coverageTags: ['baggage'],

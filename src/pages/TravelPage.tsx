@@ -2,7 +2,6 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { RoughNotation } from 'react-rough-notation';
 import { destinations, travelPurposes } from '../../shared/data/destinations';
 import { travelCover } from '../../shared/data/travelCover';
-import { travelActions } from '../../shared/engine/travelRules';
 import { travelSummaryInput } from '../../shared/engine/travelSummary';
 import type {
   Level,
@@ -18,7 +17,7 @@ import { LiquidMeter } from '../components/LiquidMeter';
 import { LiquidRing } from '../components/LiquidRing';
 import { StepBoard } from '../components/StepBoard';
 import { isPastDate, todayIso } from '../state/dates';
-import { useTravelAssessment } from '../state/travelPlan';
+import { travelSteps, useTravelAssessment } from '../state/travelPlan';
 import { storageKeys, useStoredBoard } from '../state/useStoredSet';
 import { useTravelSummary } from '../state/useTravelSummary';
 import '../components/ReportSummary.css';
@@ -72,7 +71,7 @@ const shortDate = (date: Date) =>
 function dueHint(startDate: string, dueDays: number) {
   if (dueDays === 0) return 'On the day or during the trip';
   const due = new Date(new Date(`${startDate}T00:00:00Z`).getTime() - dueDays * dayMs);
-  const today = new Date(`${new Date().toISOString().slice(0, 10)}T00:00:00Z`);
+  const today = new Date(`${todayIso()}T00:00:00Z`);
   return due < today ? 'As soon as you can' : `By ${shortDate(due)}`;
 }
 
@@ -163,27 +162,28 @@ export function TravelPage() {
   };
 
   // Preparation steps from the open flags, earliest deadline first.
-  const stepIds = [...new Set(assessment?.flags.flatMap((flag) => flag.actionIds) ?? [])];
-  const steps = stepIds
-    .map((id) => travelActions[id])
-    .filter(Boolean)
-    .sort((a, b) => b.dueDays - a.dueDays)
-    .map((action) => ({
-      id: action.id,
-      label: action.title,
-      hint: request ? dueHint(request.startDate, action.dueDays) : undefined,
-    }));
+  const steps = travelSteps(assessment?.flags).map((action) => ({
+    id: action.id,
+    label: action.title,
+    hint: request ? dueHint(request.startDate, action.dueDays) : undefined,
+  }));
   const doneCount = steps.filter((step) => board.done.includes(step.id)).length;
   const readiness = steps.length === 0 ? 0 : Math.round((doneCount / steps.length) * 100);
 
   const formDays = tripLength(trip.startDate, trip.endDate);
   const formDaysUntil = Math.round(
     (new Date(`${trip.startDate}T00:00:00Z`).getTime() -
-      new Date(`${new Date().toISOString().slice(0, 10)}T00:00:00Z`).getTime()) /
+      new Date(`${todayIso()}T00:00:00Z`).getTime()) /
       dayMs,
   );
   const tripLabel = `${formDays} ${formDays === 1 ? 'day' : 'days'}, ${
-    formDaysUntil > 0 ? `leaving in ${formDaysUntil} days` : 'already started'
+    formDaysUntil > 1
+      ? `leaving in ${formDaysUntil} days`
+      : formDaysUntil === 1
+        ? 'leaving tomorrow'
+        : formDaysUntil === 0
+          ? 'leaving today'
+          : 'already started'
   }`;
 
   return (

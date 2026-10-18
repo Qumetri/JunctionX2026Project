@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { evaluateRules } from '../../shared/engine/rules';
 import { assess } from '../../shared/engine/score';
 import { suggestPlan } from '../../shared/engine/plans';
+import { localIsoDate } from '../../shared/engine/travelRules';
 import { ReportError } from '../../shared/services/movingReport';
 import type { MovingRequest, SourceId, SourceStatus } from '../../shared/types';
 import { reportService, type MovingReport } from '../api/report';
@@ -29,7 +30,7 @@ export const defaultMovingPlan: MovingPlan = {
 function defaultMoveDate() {
   const date = new Date();
   date.setDate(date.getDate() + 30);
-  return date.toISOString().slice(0, 10);
+  return localIsoDate(date);
 }
 
 function readJson<T>(key: string): T | undefined {

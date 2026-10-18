@@ -73,6 +73,8 @@ type PlacesState =
 /** The answer for one search; a different key means a newer search is still loading. */
 type PlacesResult = { key: string; places: PetPlace[] | undefined; saved: boolean };
 
+const noPlaces: PetPlace[] = [];
+
 function formatKm(km: number) {
   return km < 1 ? `${Math.round(km * 1000)} m` : `${km.toFixed(1)} km`;
 }
@@ -115,15 +117,20 @@ function PetPlaces() {
         setSelectedId(undefined);
         setOrigin({ lat: coords.latitude, lon: coords.longitude, label: 'your location' });
       },
-      () => {
+      (error) => {
         setLocating(false);
-        setLocateError('Location is off for this site. Showing places near ' + origin.label + '.');
+        setLocateError(
+          (error.code === error.PERMISSION_DENIED
+            ? 'Location is off for this site.'
+            : 'Your location couldn’t be found.') + ` Showing places near ${origin.label}.`,
+        );
       },
       { timeout: 10_000, maximumAge: 300_000 },
     );
   };
 
-  const places = state.phase === 'ready' ? state.places : [];
+  // A stable empty list, so the map doesn't re-fit on every render while loading.
+  const places = state.phase === 'ready' ? state.places : noPlaces;
 
   return (
     <section className="pet-section" aria-labelledby="pet-places-title">
@@ -256,7 +263,8 @@ export function PetCarePage() {
                 <div className="pet-record__row pet-record__row--half">
                   <dt>Deworming log</dt>
                   <dd>
-                    Next one {relativeDays(care.deworming.days)}
+                    {care.deworming.days < 0 ? 'Was due' : 'Next one'}{' '}
+                    {relativeDays(care.deworming.days)}
                     <span
                       className={
                         dewormingSoon ? 'pet-record__bar pet-record__bar--due' : 'pet-record__bar'

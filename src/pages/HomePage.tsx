@@ -2,9 +2,12 @@ import Typewriter from 'typewriter-effect';
 import { Icon } from '../components/Icon';
 import { LiquidMeter } from '../components/LiquidMeter';
 import { lifeMoments, memberBenefits, type LifeMoment } from '../data/lifeMoments';
+import { seniorsStepIds } from '../data/seniorsTopics';
 import { movingSteps, resetAllProgress, useMovingJourney } from '../state/movingJourney';
 import { useMovingAssessment } from '../state/movingPlan';
 import { relativeDays, usePetCare } from '../state/petCare';
+import { travelSteps, useTravelAssessment } from '../state/travelPlan';
+import { storageKeys, useStoredBoard, useStoredSet } from '../state/useStoredSet';
 import './HomePage.css';
 
 /** C89: the decision the hero is about, typed and replaced in turn. */
@@ -19,12 +22,17 @@ function momentHref(id: LifeMoment['id'], hasReport: boolean) {
   return `#${id}`;
 }
 
-/** The hub: every life moment, with Moving progress taken from the user's own plan. */
+/** The hub: every life moment, with its progress taken from what the user did on its page. */
 export function HomePage() {
   const { report, assessment, doneActions } = useMovingAssessment();
   const journey = useMovingJourney(assessment, doneActions);
   const nextStep = movingSteps.find((step) => journey.states[step.id] === 'open');
   const petCare = usePetCare();
+  const travel = useTravelAssessment();
+  const [travelBoard] = useStoredBoard(storageKeys.travelBoard);
+  const [seniorsDone] = useStoredSet(storageKeys.seniorsChecklist);
+  const percent = (done: number, total: number) =>
+    total === 0 ? 0 : Math.round((done / total) * 100);
 
   const moments = lifeMoments.map((moment) => {
     if (moment.id === 'pet-care') {
@@ -34,6 +42,16 @@ export function HomePage() {
         readiness: petCare.readiness,
         teaser: days <= 14 ? `Deworming due ${relativeDays(days)}` : moment.teaser,
       };
+    }
+    if (moment.id === 'travel') {
+      // Same steps and ticks as the Travel page: none until a trip has been checked.
+      const steps = travelSteps(travel.assessment?.flags);
+      const done = steps.filter((step) => travelBoard.done.includes(step.id)).length;
+      return { ...moment, readiness: percent(done, steps.length) };
+    }
+    if (moment.id === 'seniors') {
+      const done = seniorsStepIds.filter((id) => seniorsDone.has(id)).length;
+      return { ...moment, readiness: percent(done, seniorsStepIds.length) };
     }
     if (moment.id !== 'moving') return moment;
     return {

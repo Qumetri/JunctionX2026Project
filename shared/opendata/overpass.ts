@@ -1,9 +1,9 @@
 /**
  * Dog parks and vets near a point, from OpenStreetMap through the Overpass API (no key, sends
  * CORS headers). Finnish dog parks are mostly fenced "koira-aitaus" areas tagged leisure=dog_park.
- * The free Overpass servers are often slow or busy, so the query tries the main server and then
- * two community mirrors with the full planet; in the capital region a saved copy
- * (shared/reference/petPlaces.ts) answers when all of them fail.
+ * The free Overpass servers are often slow or busy, so the query asks the main server and two
+ * community mirrors with the full planet, one after another but without waiting long for each;
+ * anywhere in Finland a saved copy (shared/reference/petPlaces.ts) answers when none of them do.
  */
 import { days } from '../cache/store';
 import { cached, distanceKm, fetchJson, type AdapterContext, type AdapterResult } from './http';
@@ -44,8 +44,15 @@ const endpoints = [
   'https://overpass.private.coffee/api/interpreter',
   'https://overpass.kumi.systems/api/interpreter',
 ];
-/** Per server; a busy one usually fails fast (429/502/504), a hung one waits for this. */
+/** For all servers together; after this the saved copy answers. */
 const TIMEOUT_MS = 7000;
+/**
+ * A busy server usually fails fast (429/500/504, or a CORS error on its error page) and the next
+ * one is asked at once. A hung one gets this long before the next is asked beside it.
+ */
+const HEDGE_MS = 2000;
+/** Places with the same name closer than this are one place mapped as several areas. */
+const SAME_PLACE_KM = 0.3;
 /** How many of each kind the page lists, nearest first. */
 const LIMIT: Record<PetPlaceKind, number> = { 'dog-park': 4, vet: 2 };
 const fallbackName: Record<PetPlaceKind, string> = { 'dog-park': 'Dog park', vet: 'Vet clinic' };
@@ -58,39 +65,74 @@ function nearest(lat: number, lon: number, raw: RawPlace[]): PetPlace[] {
     .sort((a, b) => a.km - b.km);
 
   // OSM often maps one park as several areas with the same name; keep the nearest of each.
-  const seen = new Set<string>();
+  // Two clinics of one chain share a name too, so only close ones count as the same place.
+  const kept: PetPlace[] = [];
   const count: Record<PetPlaceKind, number> = { 'dog-park': 0, vet: 0 };
-  return places.filter((place) => {
-    const id = `${place.kind}:${place.name}`;
-    if (place.name !== fallbackName[place.kind] && seen.has(id)) return false;
-    if (count[place.kind] >= LIMIT[place.kind]) return false;
-    seen.add(id);
+  for (const place of places) {
+    if (count[place.kind] >= LIMIT[place.kind]) continue;
+    const duplicate =
+      place.name !== fallbackName[place.kind] &&
+      kept.some(
+        (other) =>
+          other.kind === place.kind &&
+          other.name === place.name &&
+          distanceKm(other.lat, other.lon, place.lat, place.lon) < SAME_PLACE_KM,
+      );
+    if (duplicate) continue;
+    kept.push(place);
     count[place.kind] += 1;
-    return true;
-  });
+  }
+  return kept;
 }
 
-/** The first server that gives a complete answer. */
-async function query(data: string, signal?: AbortSignal): Promise<OverpassElement[]> {
-  let lastError: unknown;
-  for (const url of endpoints) {
-    if (signal?.aborted) break;
-    try {
-      const json = await fetchJson<OverpassAnswer>(
-        url,
-        { method: 'POST', body: new URLSearchParams({ data }), timeoutMs: TIMEOUT_MS },
-        signal,
-      );
-      // An overloaded server still answers 200, with a "runtime error" remark and no or only
-      // some elements. Treat that as a failure, or "nothing nearby" gets cached for a week.
-      if (!Array.isArray(json.elements) || json.remark)
-        throw new Error(json.remark ?? 'no elements');
-      return json.elements;
-    } catch (error) {
-      lastError = error;
-    }
+async function ask(url: string, data: string, signal: AbortSignal): Promise<OverpassElement[]> {
+  const json = await fetchJson<OverpassAnswer>(
+    url,
+    { method: 'POST', body: new URLSearchParams({ data }), timeoutMs: TIMEOUT_MS },
+    signal,
+  );
+  // An overloaded server still answers 200, with a "runtime error" remark and no or only
+  // some elements. Treat that as a failure, or "nothing nearby" gets cached for a week.
+  if (!Array.isArray(json.elements) || json.remark) throw new Error(json.remark ?? 'no elements');
+  return json.elements;
+}
+
+/**
+ * The first complete answer from any server. The next server is asked when the one before
+ * fails or has been quiet for HEDGE_MS; the rest are cancelled once one answers.
+ */
+async function query(data: string, outer?: AbortSignal): Promise<OverpassElement[]> {
+  const done = new AbortController();
+  const signal = AbortSignal.any([
+    done.signal,
+    AbortSignal.timeout(TIMEOUT_MS),
+    ...(outer ? [outer] : []),
+  ]);
+  try {
+    return await new Promise<OverpassElement[]>((resolve, reject) => {
+      let next = 0;
+      let running = 0;
+      let timer: ReturnType<typeof setTimeout> | undefined;
+      const start = () => {
+        clearTimeout(timer);
+        if (signal.aborted || next >= endpoints.length) {
+          if (running === 0) reject(signal.reason ?? new Error('no Overpass server answered'));
+          return;
+        }
+        const url = endpoints[next++];
+        running += 1;
+        ask(url, data, signal).then(resolve, () => {
+          running -= 1;
+          start();
+        });
+        timer = setTimeout(start, HEDGE_MS);
+      };
+      signal.addEventListener('abort', () => clearTimeout(timer));
+      start();
+    });
+  } finally {
+    done.abort();
   }
-  throw lastError ?? new Error('aborted');
 }
 
 async function live(lat: number, lon: number, ctx: AdapterContext): Promise<RawPlace[]> {
@@ -109,7 +151,10 @@ async function live(lat: number, lon: number, ctx: AdapterContext): Promise<RawP
 
 /** The saved copy, loaded only when needed; undefined outside the area it covers. */
 async function saved(lat: number, lon: number): Promise<RawPlace[] | undefined> {
-  const { petPlacesBox, petPlacesSnapshot } = await import('../reference/petPlaces');
+  // The chunk can be gone when a tab from before a new deploy asks for it.
+  const loaded = await import('../reference/petPlaces').catch(() => undefined);
+  if (!loaded) return undefined;
+  const { petPlacesBox, petPlacesSnapshot } = loaded;
   const [minLat, minLon, maxLat, maxLon] = petPlacesBox;
   if (lat < minLat || lat > maxLat || lon < minLon || lon > maxLon) return undefined;
   return petPlacesSnapshot.map(([id, kind, name, placeLat, placeLon]) => ({

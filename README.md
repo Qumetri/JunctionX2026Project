@@ -55,7 +55,7 @@ Without Ollama the app still works and shows a template summary instead.
 | Open-Meteo | Moving-day weather; weather on travel dates; departure day at Helsinki Airport | Forecast within 16 days. Later trips use the same dates last year (archive) |
 | UK FCDO travel advice | Warnings for the destination country | Finland's um.fi has no API, so the page links to it |
 | GDACS | Current disaster alerts near the destination | Only for trips within 30 days |
-| OpenStreetMap Overpass | Dog parks and vets near a point (Pet Care) | Free servers are often slow; a saved capital-region copy (`shared/reference/petPlaces.ts`) answers then |
+| OpenStreetMap Overpass | Dog parks and vets near a point (Pet Care) | Free servers are often slow or busy: three are asked in turn (7 s in all), then a saved copy of all of Finland (`shared/reference/petPlaces.ts`, rebuilt with `scripts/pet-places.mjs`) answers |
 | Fintraffic Digitraffic | Traffic announcements near the address | Only when the move is within 7 days |
 | Finance Finland, Pelastusopisto PRONTO, EUROCONTROL | Average claim sizes; Helsinki Airport winter delays | Static figures in `shared/reference/figures.ts` |
 
