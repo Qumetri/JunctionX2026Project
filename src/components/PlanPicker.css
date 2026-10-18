@@ -1,0 +1,302 @@
+.plans {
+  display: grid;
+  gap: 1.25rem;
+}
+
+/* Header buttons: one per level, the selected one joins the panel below. */
+
+.plans__tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.plans__tab {
+  position: relative;
+  display: grid;
+  gap: 0.15rem;
+  justify-items: start;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--mist);
+  font: inherit;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+.plans__tab:hover {
+  border-color: var(--blue);
+}
+
+/* C42 spotlight on the levels you have not picked: a glow follows the pointer. */
+.plans__tab[aria-selected='false'] {
+  background:
+    radial-gradient(
+        circle 9rem at var(--spot-x, 50%) var(--spot-y, 50%),
+        color-mix(in oklab, var(--blue) 16%, transparent),
+        transparent 70%
+      )
+      no-repeat,
+    var(--mist);
+  background-size:
+    0 0,
+    auto;
+}
+
+.plans__tab[aria-selected='false']:hover {
+  background-size:
+    100% 100%,
+    auto;
+}
+
+.plans__tab[aria-selected='true'] {
+  border-color: var(--navy);
+  background: var(--navy);
+  color: var(--on-navy);
+}
+
+.plans__tab-name {
+  font-size: 1.15rem;
+  font-weight: 650;
+}
+
+.plans__tab-fit {
+  font-size: 0.85rem;
+  color: var(--slate);
+}
+
+.plans__tab[aria-selected='true'] .plans__tab-fit {
+  color: var(--on-navy-soft);
+}
+
+.plans__badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.85rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.plans__panel {
+  padding: 1.5rem 1.75rem;
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+  background: var(--surface);
+  box-shadow: 0 28px 56px -40px rgb(10 30 74 / 0.4);
+  animation: plan-in 220ms ease-out;
+}
+
+@keyframes plan-in {
+  from {
+    opacity: 0.4;
+    transform: translateY(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plans__panel {
+    animation: none;
+  }
+}
+
+.plans__summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(12rem, 18rem);
+  gap: 1.5rem;
+  align-items: center;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.plans__tagline {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 550;
+}
+
+.plans__fit {
+  display: grid;
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--slate);
+}
+
+.plans__fit strong {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.plans__risk {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--slate);
+}
+
+.plans__risk strong {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.plans__columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 2rem;
+  padding-top: 1.25rem;
+}
+
+.plans__subhead {
+  margin: 0 0 0.6rem;
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.perks,
+.plan-risks {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.perk {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.65rem;
+  align-items: baseline;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 0.92rem;
+}
+
+.perk__icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--resolved);
+  transform: translateY(0.15rem);
+}
+
+.perk--missing {
+  color: var(--slate);
+}
+
+.perk--missing .perk__icon {
+  color: var(--risk-low);
+}
+
+.perk__note {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--slate);
+}
+
+.perk__value {
+  display: grid;
+  justify-items: end;
+  font-weight: 600;
+  text-align: right;
+}
+
+.perk--missing .perk__value {
+  font-weight: 450;
+}
+
+.perk__new {
+  font-size: 0.75rem;
+  font-weight: 450;
+  color: var(--blue);
+}
+
+.plan-risk {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0 0.55rem 0.8rem;
+  border-bottom: 1px solid var(--line-soft);
+  border-left: 3px solid var(--risk-low);
+  font-size: 0.92rem;
+}
+
+.plan-risk--full {
+  border-left-color: var(--resolved);
+}
+
+.plan-risk--partial {
+  border-left-color: var(--risk-medium);
+}
+
+.plan-risk__status {
+  flex-shrink: 0;
+  font-size: 0.82rem;
+  color: var(--slate);
+}
+
+.plan-risk--full .plan-risk__status {
+  color: var(--resolved);
+  font-weight: 600;
+}
+
+.plans__note,
+.plans__empty {
+  margin: 0.9rem 0 0;
+  font-size: 0.85rem;
+  color: var(--slate);
+}
+
+.plans__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line-soft);
+}
+
+.plans__footer p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--slate);
+}
+
+@media (max-width: 820px) {
+  .plans__summary,
+  .plans__columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .plans__tabs {
+    gap: 0.4rem;
+  }
+
+  .plans__tab {
+    padding: 0.7rem 0.75rem;
+  }
+
+  .plans__tab-fit {
+    font-size: 0.75rem;
+  }
+
+  .plans__badge {
+    position: static;
+    margin-top: 0.3rem;
+  }
+
+  .plans__panel {
+    padding: 1.25rem 1rem;
+  }
+}

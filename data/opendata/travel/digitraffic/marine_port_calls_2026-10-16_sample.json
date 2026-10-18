@@ -1,0 +1,284 @@
+{
+ "dataUpdatedTime": "2026-10-17T09:47:00.036042Z",
+ "portCallCount": 353,
+ "portCalls": [
+  {
+   "portCallId": 1684996,
+   "portCallTimestamp": "2026-10-16T11:20:49.000Z",
+   "customsReference": "2/200",
+   "portToVisit": "FIHEL",
+   "prevPort": "DETRV",
+   "nextPort": "DETRV",
+   "domesticTrafficArrival": false,
+   "domesticTrafficDeparture": false,
+   "arrivalWithCargo": true,
+   "notLoading": false,
+   "discharge": 1,
+   "shipMasterArrival": "",
+   "shipMasterDeparture": "",
+   "managementNameArrival": " ",
+   "managementNameDeparture": " ",
+   "forwarderNameArrival": " ",
+   "forwarderNameDeparture": " ",
+   "freeTextArrival": " ",
+   "freeTextDeparture": " ",
+   "vesselName": "Finnmaid",
+   "vesselNamePrefix": "ms",
+   "radioCallSign": "OJMI",
+   "radioCallSignType": "real",
+   "imoLloyds": 9319466,
+   "mmsi": 230982000,
+   "nationality": "FI",
+   "vesselTypeCode": 20,
+   "certificateIssuer": "FI/Trafi",
+   "certificateStartDate": "2021-09-23T21:00:00.000Z",
+   "certificateEndDate": "2026-10-22T21:00:00.000Z",
+   "currentSecurityLevel": 1,
+   "agentInfo": [
+    {
+     "ediNumber": "003702011539",
+     "name": "Finnlines Oyj",
+     "portCallDirection": "Arrival or whole PortCall",
+     "role": 1
+    },
+    {
+     "ediNumber": "003701968312",
+     "name": "Finnsteve Oy Ab, Turku",
+     "portCallDirection": "Arrival or whole PortCall",
+     "role": 1
+    },
+    {
+     "ediNumber": "003702011539",
+     "name": "Finnlines Oyj.",
+     "portCallDirection": "Arrival or whole PortCall",
+     "role": 2
+    }
+   ],
+   "imoInformation": [
+    {
+     "briefParticularsVoyage": "DETRV-FIHEL-DETRV",
+     "cargoDeclarationOb": 0,
+     "crewListsOb": 0,
+     "crewsEffectsDeclarationsOb": 0,
+     "healthDeclarationsOb": 0,
+     "imoGeneralDeclaration": "Arrival",
+     "numberOfCrew": 38,
+     "numberOfPassangers": 65,
+     "passangerListsOb": 0,
+     "portOfDischarge": " ",
+     "shipStoresDeclarationsOb": 0
+    },
+    {
+     "briefParticularsVoyage": "DETRV-FIHEL-DETRV",
+     "cargoDeclarationOb": 0,
+     "crewListsOb": 0,
+     "crewsEffectsDeclarationsOb": 0,
+     "healthDeclarationsOb": 0,
+     "imoGeneralDeclaration": "Departure",
+     "numberOfCrew": 0,
+     "numberOfPassangers": null,
+     "passangerListsOb": 0,
+     "portOfDischarge": " ",
+     "shipStoresDeclarationsOb": 0
+    }
+   ],
+   "portAreaDetails": [
+    {
+     "arrivalDraught": 0.0,
+     "ata": "2015-01-03T07:25:00.000Z",
+     "ataSource": "Port",
+     "ataTimestamp": "2015-01-09T13:37:11.000Z",
+     "atd": "2015-01-03T15:15:00.000Z",
+     "atdSource": "Port",
+     "atdTimestamp": "2015-01-09T13:37:11.000Z",
+     "berthCode": "VC2",
+     "berthName": "VC2",
+     "departureDraught": 0.0,
+     "eta": "2026-11-10T08:00:00.000Z",
+     "etaSource": "Agent",
+     "etaTimestamp": "2026-10-16T11:20:45.000Z",
+     "etd": "2026-11-25T13:00:00.000Z",
+     "etdSource": "Agent",
+     "etdTimestamp": "2026-10-16T11:20:49.000Z",
+     "portAreaCode": "VUOS",
+     "portAreaName": "Vuosaaren satama"
+    }
+   ]
+  },
+  {
+   "portCallId": 3349382,
+   "portCallTimestamp": "2026-10-16T05:21:02.000Z",
+   "customsReference": "2/200447289",
+   "portToVisit": "FIHKO",
+   "prevPort": "PLGDY",
+   "nextPort": "PLGDY",
+   "domesticTrafficArrival": false,
+   "domesticTrafficDeparture": false,
+   "arrivalWithCargo": true,
+   "notLoading": false,
+   "discharge": 1,
+   "shipMasterArrival": "",
+   "shipMasterDeparture": "",
+   "managementNameArrival": " ",
+   "managementNameDeparture": " ",
+   "forwarderNameArrival": " ",
+   "forwarderNameDeparture": " ",
+   "freeTextArrival": " ",
+   "freeTextDeparture": " ",
+   "vesselName": "Finntide",
+   "vesselNamePrefix": "ms",
+   "radioCallSign": "OJPS",
+   "radioCallSignType": "real",
+   "imoLloyds": 9468920,
+   "mmsi": 230631000,
+   "nationality": "FI",
+   "vesselTypeCode": 40,
+   "certificateIssuer": "FI/RINA",
+   "certificateStartDate": "2022-10-09T21:00:00.000Z",
+   "certificateEndDate": "2027-11-20T22:00:00.000Z",
+   "currentSecurityLevel": 1,
+   "agentInfo": [
+    {
+     "ediNumber": "003702011539",
+     "name": "Finnlines Oyj.",
+     "portCallDirection": "Arrival or whole PortCall",
+     "role": 2
+    },
+    {
+     "ediNumber": "003702011539",
+     "name": "Finnlines Oyj",
+     "portCallDirection": "Arrival or whole PortCall",
+     "role": 1
+    }
+   ],
+   "imoInformation": [
+    {
+     "briefParticularsVoyage": "xx",
+     "cargoDeclarationOb": 0,
+     "crewListsOb": 0,
+     "crewsEffectsDeclarationsOb": 0,
+     "healthDeclarationsOb": 0,
+     "imoGeneralDeclaration": "Arrival",
+     "numberOfCrew": 21,
+     "numberOfPassangers": 4,
+     "passangerListsOb": 0,
+     "portOfDischarge": " ",
+     "shipStoresDeclarationsOb": 0
+    },
+    {
+     "briefParticularsVoyage": "xx",
+     "cargoDeclarationOb": 0,
+     "crewListsOb": 0,
+     "crewsEffectsDeclarationsOb": 0,
+     "healthDeclarationsOb": 0,
+     "imoGeneralDeclaration": "Departure",
+     "numberOfCrew": 21,
+     "numberOfPassangers": 0,
+     "passangerListsOb": 0,
+     "portOfDischarge": " ",
+     "shipStoresDeclarationsOb": 0
+    }
+   ],
+   "portAreaDetails": [
+    {
+     "arrivalDraught": 0.0,
+     "ata": "2026-10-16T03:05:00.000Z",
+     "ataSource": "Agent",
+     "ataTimestamp": "2026-10-16T05:21:02.726Z",
+     "atd": null,
+     "atdSource": null,
+     "atdTimestamp": null,
+     "berthCode": "RR3",
+     "berthName": "Roro 3",
+     "departureDraught": 0.0,
+     "eta": "2026-10-16T03:00:00.000Z",
+     "etaSource": "Agent",
+     "etaTimestamp": "2026-03-30T10:20:40.000Z",
+     "etd": "2026-10-16T10:00:00.000Z",
+     "etdSource": "Agent",
+     "etdTimestamp": "2026-03-30T10:20:06.000Z",
+     "portAreaCode": "WEST",
+     "portAreaName": "LÄNSISATAMA"
+    }
+   ]
+  },
+  {
+   "portCallId": 3377945,
+   "portCallTimestamp": "2026-10-16T06:50:05.000Z",
+   "customsReference": "2/200448274",
+   "portToVisit": "FIHEL",
+   "prevPort": "FIHKO",
+   "nextPort": "FIKTK",
+   "domesticTrafficArrival": false,
+   "domesticTrafficDeparture": false,
+   "arrivalWithCargo": true,
+   "notLoading": false,
+   "discharge": 1,
+   "shipMasterArrival": "",
+   "shipMasterDeparture": "",
+   "managementNameArrival": " ",
+   "managementNameDeparture": " ",
+   "forwarderNameArrival": " ",
+   "forwarderNameDeparture": " ",
+   "freeTextArrival": " ",
+   "freeTextDeparture": " ",
+   "vesselName": "Finneco II",
+   "vesselNamePrefix": "ms",
+   "radioCallSign": "OJTP",
+   "radioCallSignType": "real",
+   "imoLloyds": 9856842,
+   "mmsi": 230697000,
+   "nationality": "FI",
+   "vesselTypeCode": 40,
+   "certificateIssuer": "Finland / RINA",
+   "certificateStartDate": "2022-10-12T21:00:00.000Z",
+   "certificateEndDate": "2027-10-12T21:00:00.000Z",
+   "currentSecurityLevel": 1,
+   "agentInfo": [
+    {
+     "ediNumber": "003702011539",
+     "name": "Finnlines Oyj",
+     "portCallDirection": "Arrival or whole PortCall",
+     "role": 1
+    }
+   ],
+   "imoInformation": [
+    {
+     "briefParticularsVoyage": null,
+     "cargoDeclarationOb": null,
+     "crewListsOb": null,
+     "crewsEffectsDeclarationsOb": null,
+     "healthDeclarationsOb": null,
+     "imoGeneralDeclaration": null,
+     "numberOfCrew": null,
+     "numberOfPassangers": null,
+     "passangerListsOb": null,
+     "portOfDischarge": null,
+     "shipStoresDeclarationsOb": null
+    }
+   ],
+   "portAreaDetails": [
+    {
+     "arrivalDraught": 0.0,
+     "ata": null,
+     "ataSource": null,
+     "ataTimestamp": null,
+     "atd": null,
+     "atdSource": null,
+     "atdTimestamp": null,
+     "berthCode": null,
+     "berthName": null,
+     "departureDraught": 0.0,
+     "eta": "2026-10-20T05:00:00.000Z",
+     "etaSource": "Agent",
+     "etaTimestamp": "2026-10-09T07:10:03.000Z",
+     "etd": "2026-10-20T19:30:00.000Z",
+     "etdSource": "Agent",
+     "etdTimestamp": "2026-07-02T13:20:09.000Z",
+     "portAreaCode": null,
+     "portAreaName": null
+    }
+   ]
+  }
+ ]
+}

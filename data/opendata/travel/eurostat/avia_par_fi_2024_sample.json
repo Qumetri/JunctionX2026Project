@@ -1,0 +1,35 @@
+{
+ "label": "Air passenger transport routes between partner airports and main airports in Finland",
+ "updated": "2025-10-22T11:00:00+0200",
+ "size": [
+  3,
+  3,
+  12,
+  201,
+  1
+ ],
+ "value_first10": {
+  "18694": 1785,
+  "18695": 1834,
+  "18697": 986,
+  "18698": 1447,
+  "18700": 625,
+  "18702": 574,
+  "18703": 1797,
+  "18704": 2857,
+  "18705": 3329,
+  "18706": 1913
+ },
+ "airp_pr_first10": {
+  "FI_EFHK_AE_OMDB": "HELSINKI/VANTAA airport - DUBAI INTERNATIONAL airport",
+  "FI_EFHK_AT_LOWW": "HELSINKI/VANTAA airport - WIEN-SCHWECHAT airport",
+  "FI_EFHK_BE_EBBR": "HELSINKI/VANTAA airport - BRUSSELS airport",
+  "FI_EFHK_BG_LBWN": "HELSINKI/VANTAA airport - VARNA airport",
+  "FI_EFHK_CH_LSGG": "HELSINKI/VANTAA airport - GENEVA airport",
+  "FI_EFHK_CH_LSZH": "HELSINKI/VANTAA airport - ZURICH airport",
+  "FI_EFHK_CN_ZBAA": "HELSINKI/VANTAA airport - BEIJING/CAPITAL airport",
+  "FI_EFHK_CN_ZSPD": "HELSINKI/VANTAA airport - SHANGHAI/PUDONG airport",
+  "FI_EFHK_CN_ZUCK": "HELSINKI/VANTAA airport - CHONGQING/JIANGBEI airport",
+  "FI_EFHK_CY_LCLK": "HELSINKI/VANTAA airport - LARNAKA/INTL airport"
+ }
+}

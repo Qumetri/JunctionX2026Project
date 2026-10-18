@@ -1,0 +1,47 @@
+.report-summary {
+  margin-top: clamp(1.5rem, 3vw, 2rem);
+  padding: 1.4rem 1.6rem;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--blue);
+  border-radius: 1rem;
+  background: var(--mist);
+}
+
+.report-summary h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 650;
+}
+
+.report-summary__text {
+  max-width: 70ch;
+  animation: summary-in 260ms ease-out;
+}
+
+.report-summary__text p {
+  margin: 0 0 0.6rem;
+  font-size: 1.02rem;
+  color: var(--ink-soft);
+}
+
+.report-summary__source {
+  margin: 0.25rem 0 0;
+  font-size: 0.8rem;
+  color: var(--slate);
+}
+
+.report-summary[aria-busy='true'] .report-summary__source {
+  color: var(--blue);
+}
+
+@keyframes summary-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .report-summary__text {
+    animation: none;
+  }
+}

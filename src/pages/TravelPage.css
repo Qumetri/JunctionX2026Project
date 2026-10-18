@@ -1,0 +1,246 @@
+/* Travel: the trip form, the risk snapshot and the trip overview. */
+
+.travel-form__toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin-top: 0.9rem;
+}
+
+.travel-form__stale {
+  margin: 0.5rem 0 0;
+  font-size: 0.875rem;
+  color: var(--risk-medium);
+}
+
+.travel-form__error {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+  color: var(--risk-high);
+}
+
+/* Snapshot card */
+
+.snapshot-flags {
+  display: grid;
+  gap: 0.1rem;
+  margin: 1.1rem 0 0;
+  padding: 0.8rem 0 0;
+  border-top: 1px solid var(--line-soft);
+  list-style: none;
+}
+
+.snapshot-flags li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  padding: 0.2rem 0;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.snapshot-flags__points {
+  margin-left: auto;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Trip overview */
+
+.trip {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2rem);
+  scroll-margin-top: 6rem;
+}
+
+.trip__head h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.trip__head p {
+  margin: 0.5rem 0 0;
+  max-width: 70ch;
+  color: var(--slate);
+}
+
+.trip .report-summary {
+  margin-top: 0;
+}
+
+.trip__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.trip-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.15rem 1.25rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 1.1rem;
+  background: var(--surface);
+}
+
+.trip-card__head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.trip-card__head h3 {
+  display: grid;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.trip-card__flags {
+  display: grid;
+  align-content: start;
+  gap: 0.15rem;
+  flex: 1;
+  margin: 0.9rem 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.trip-card__meter {
+  margin-top: auto;
+}
+
+/* Tips: ticket stubs, the one travel-specific touch on the page */
+
+.tips__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.tips__head h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.tips__head p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--slate);
+}
+
+.tips[aria-busy='true'] .tips__head p {
+  color: var(--blue);
+}
+
+.tips__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  animation: tips-in 260ms ease-out;
+}
+
+.tips__list li {
+  position: relative;
+  padding: 0.95rem 1.1rem 0.95rem 1.5rem;
+  border: 1px solid var(--line);
+  border-left: 2px dashed var(--sky-strong);
+  border-radius: 0.4rem 1rem 1rem 0.4rem;
+  background: var(--mist);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.tips__list li::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -0.45rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  transform: translateY(-50%);
+  clip-path: inset(0 0 0 50%);
+}
+
+@keyframes tips-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Summary and cover side by side */
+
+.trip__lead {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+.cover-card {
+  display: grid;
+  justify-items: start;
+  gap: 0.6rem;
+  padding: 1.4rem 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 1.1rem;
+  background: var(--surface);
+}
+
+.cover-card h2 {
+  margin: 0.2rem 0 0;
+  font-size: 1.2rem;
+  font-weight: 650;
+}
+
+.cover-card p {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.cover-card ul {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0.2rem 0 0.4rem;
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+  color: var(--slate);
+}
+
+.trip__sources {
+  font-size: 0.8rem;
+  color: var(--slate);
+}
+
+.trip__sources p {
+  margin: 0.2rem 0;
+}
+
+@media (max-width: 860px) {
+  .trip__grid,
+  .tips__list,
+  .trip__lead {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tips__list {
+    animation: none;
+  }
+}

@@ -1,0 +1,99 @@
+/* One risk flag (FlagItem): moving report and travel overview. */
+
+.flag summary {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  padding: 0.3rem 0;
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.flag summary::-webkit-details-marker {
+  display: none;
+}
+
+.flag summary:hover .flag__title {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.flag__dot {
+  flex-shrink: 0;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  transform: translateY(-0.05rem);
+}
+
+.flag__dot--high {
+  background: var(--risk-high);
+}
+
+.flag__dot--medium {
+  background: var(--risk-medium);
+}
+
+.flag__dot--low {
+  background: var(--risk-low);
+}
+
+.flag__dot--resolved {
+  background: var(--resolved);
+}
+
+.flag--resolved .flag__title {
+  color: var(--slate);
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in oklab, var(--resolved) 60%, transparent);
+}
+
+.flag__body {
+  margin: 0.1rem 0 0.6rem 1.1rem;
+  padding-left: 0.75rem;
+  border-left: 2px solid var(--line);
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.flag__body p {
+  margin: 0 0 0.35rem;
+}
+
+.flag__estimate {
+  font-weight: 600;
+}
+
+.flag__evidence {
+  color: var(--slate);
+  font-size: 0.8rem;
+}
+
+.flag__points {
+  margin-left: auto;
+  padding-left: 0.5rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+}
+
+.flag__lines {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.flag__lines li {
+  display: grid;
+  grid-template-columns: 2.2rem minmax(0, 1fr);
+}
+
+.flag__lines span {
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}

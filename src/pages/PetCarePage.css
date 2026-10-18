@@ -1,0 +1,677 @@
+/* Pet Care: video banner with the health record (Design/pet2.jpeg), then the page in Design/Pet.png. */
+
+/*
+ * Banner and intro fill the first screen together: the intro takes its natural height and the
+ * banner grows into the rest, never shorter than the record card (header is about 4.1rem).
+ */
+.pet-top {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100svh - 4.1rem);
+}
+
+.pet-banner {
+  position: relative;
+  flex: 1 0 auto;
+  min-height: 16rem;
+  display: flex;
+  overflow: hidden;
+  background: var(--navy);
+}
+
+.pet-banner__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+}
+
+/* Shade behind the record card and a soft fade into the section below. */
+.pet-banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 45%, rgb(10 30 74 / 0.35)),
+    linear-gradient(
+      180deg,
+      rgb(10 30 74 / 0.15),
+      transparent 30%,
+      transparent 75%,
+      rgb(10 30 74 / 0.3)
+    );
+  pointer-events: none;
+}
+
+.pet-banner__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 1.25rem var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.pet-banner__toggle {
+  position: absolute;
+  z-index: 2;
+  left: var(--gutter);
+  bottom: 1rem;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid rgb(255 255 255 / 0.45);
+  border-radius: 50%;
+  background: rgb(10 30 74 / 0.55);
+  color: #fff;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: background-color 150ms ease;
+}
+
+.pet-banner__toggle:hover {
+  background: rgb(10 30 74 / 0.8);
+}
+
+.pet-banner__toggle:focus-visible {
+  outline-color: #fff;
+}
+
+.pet-banner__toggle svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  fill: currentColor;
+}
+
+/* Health record: frosted glass over the video, with the blue glow of the design. */
+.pet-record {
+  width: min(27rem, 100%);
+  padding: 0.5rem;
+  border: 1.5px solid rgb(255 255 255 / 0.85);
+  border-radius: 1.4rem;
+  background: rgb(232 241 255 / 0.68);
+  box-shadow:
+    0 0 0 4px rgb(120 168 255 / 0.35),
+    0 32px 64px -28px rgb(10 30 74 / 0.7);
+  backdrop-filter: blur(18px) saturate(1.3);
+}
+
+.pet-record__head {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.45rem 0.6rem 0.65rem;
+}
+
+.pet-record__head img {
+  flex-shrink: 0;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow:
+    0 0 0 2px #fff,
+    0 0 0 4px var(--blue);
+}
+
+.pet-record__head > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.pet-record__head h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 650;
+  color: var(--navy);
+}
+
+.pet-record__head p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.pet-record__name {
+  font-weight: 650;
+  color: var(--ink);
+}
+
+.pet-record__badge {
+  align-self: flex-start;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.6rem;
+  background: rgb(255 255 255 / 0.75);
+  color: var(--blue);
+}
+
+.pet-record__badge svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+/* Six columns: the two rows with bars take half each, the other three a third each. */
+.pet-record__rows {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.5rem 0;
+  margin: 0;
+  padding: 0.75rem 0.95rem 0.8rem;
+  border-radius: 1rem;
+  background: rgb(255 255 255 / 0.85);
+}
+
+.pet-record__row {
+  grid-column: span 2;
+  padding: 0.1rem 0.75rem;
+  border-left: 1px solid var(--line);
+}
+
+.pet-record__row--half {
+  grid-column: span 3;
+}
+
+.pet-record__row:first-child,
+.pet-record__row--half + .pet-record__row:not(.pet-record__row--half) {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.pet-record__row:not(.pet-record__row--half) {
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--line);
+}
+
+.pet-record__row dt {
+  font-size: 0.78rem;
+  color: var(--slate);
+}
+
+.pet-record__row dd {
+  margin: 0.05rem 0 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.pet-record__bar {
+  display: block;
+  height: 0.35rem;
+  margin-top: 0.35rem;
+  border-radius: 999px;
+  background: var(--sky);
+  overflow: hidden;
+}
+
+.pet-record__bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--blue);
+}
+
+.pet-record__bar--due span {
+  background: var(--risk-medium);
+}
+
+/* Title and overview (top of Pet.png) */
+
+.pet-intro {
+  background:
+    radial-gradient(50rem 24rem at 85% 0%, var(--sky-strong) 0%, transparent 70%),
+    linear-gradient(180deg, var(--mist), var(--surface));
+}
+
+.pet-intro__inner,
+.pet-body {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+
+.pet-intro__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(1.5rem, 3.5vw, 3rem);
+  align-items: center;
+  padding-top: clamp(1.25rem, 2.5vw, 1.75rem);
+  padding-bottom: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+
+.pet-intro h1 {
+  margin: 0;
+  font-size: clamp(1.9rem, 3.5vw, 2.85rem);
+  line-height: 1.06;
+  font-weight: 700;
+  letter-spacing: -0.028em;
+  color: var(--navy);
+  text-wrap: balance;
+}
+
+.pet-intro__lead {
+  margin: 0.8rem 0 0;
+  max-width: 48ch;
+  font-size: 1.08rem;
+  color: var(--ink-soft);
+}
+
+.pet-overview {
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+  background: var(--surface);
+  box-shadow: 0 28px 56px -36px rgb(10 30 74 / 0.45);
+}
+
+.pet-overview__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.35rem 0;
+}
+
+.pet-overview__head h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.pet-overview__facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem 1.25rem;
+  margin: 0;
+  padding: 0.75rem 1.35rem 0.9rem;
+}
+
+.pet-overview__facts dt {
+  font-size: 0.8rem;
+  color: var(--slate);
+}
+
+.pet-overview__facts dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.pet-overview__due {
+  color: #8a5d00;
+}
+
+.pet-overview .liquid {
+  width: auto;
+  margin: 0 1.35rem;
+}
+
+.pet-overview__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0.9rem 1.35rem 1.1rem;
+}
+
+/* Checklist and places */
+
+.pet-body {
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 3.5rem);
+  padding-top: clamp(2rem, 4vw, 2.75rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.pet-section__title {
+  margin: 0;
+  font-size: clamp(1.5rem, 2.6vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+}
+
+.pet-section__title--ruled {
+  padding-bottom: 0.8rem;
+  margin-bottom: 1.4rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.pet-section__lead {
+  margin: 0.35rem 0 0;
+  color: var(--ink-soft);
+}
+
+.pet-section__note {
+  margin: 1rem 0 0;
+  font-size: 0.9rem;
+  color: var(--slate);
+}
+
+.pet-section__note a {
+  color: var(--blue-deep);
+}
+
+.pet-checks {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+
+.pet-check {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 1.1rem;
+  background: var(--surface);
+}
+
+.pet-check h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0.85rem 1.1rem;
+  background: linear-gradient(120deg, var(--sky), var(--sky-strong));
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.pet-check h3 svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  color: var(--blue);
+}
+
+.pet-check ul {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0;
+  padding: 0.7rem 0.6rem;
+  list-style: none;
+  flex: 1;
+}
+
+.pet-check__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  line-height: 1.35;
+}
+
+.pet-check__item:hover {
+  background: var(--mist);
+}
+
+.pet-check__item input {
+  flex-shrink: 0;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0.1rem 0 0;
+  accent-color: var(--blue);
+  cursor: pointer;
+}
+
+.pet-check__item:has(input:checked) > span {
+  color: var(--slate);
+}
+
+.pet-check__hint {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.82rem;
+  color: var(--slate);
+}
+
+.pet-check__progress {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1.1rem 1rem;
+  font-size: 0.82rem;
+  color: var(--slate);
+  white-space: nowrap;
+}
+
+.pet-check__progress .liquid {
+  height: 0.5rem;
+}
+
+.pet-places__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.pet-places__locate {
+  gap: 0.5rem;
+}
+
+.pet-places__locate svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.pet-places__note {
+  margin: -0.5rem 0 1rem;
+  font-size: 0.9rem;
+  color: var(--slate);
+}
+
+.pet-places {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.pet-places__map {
+  min-height: 22rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.pet-places__list {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 1.1rem;
+  background: var(--surface);
+  box-shadow: 0 24px 48px -36px rgb(10 30 74 / 0.4);
+}
+
+.pet-places__list h3 {
+  margin: 0;
+  padding: 0.95rem 1.25rem;
+  background: var(--mist);
+  border-bottom: 1px solid var(--line);
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.pet-places__list ul {
+  margin: 0;
+  padding: 0.35rem 0.6rem;
+  list-style: none;
+}
+
+.pet-places__list li + li {
+  border-top: 1px solid var(--line-soft);
+}
+
+.pet-place {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.6rem 0.6rem;
+  border: 0;
+  border-radius: 0.7rem;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pet-place:hover,
+.pet-place[aria-pressed='true'] {
+  background: var(--sky);
+}
+
+.pet-place__text {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+}
+
+.pet-place__name {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.pet-place__kind {
+  font-size: 0.82rem;
+  color: var(--slate);
+}
+
+.pet-place__km {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.pet-place__km svg {
+  width: 1rem;
+  height: 1rem;
+  color: var(--slate);
+}
+
+.pet-places__empty {
+  margin: 0;
+  padding: 1.25rem;
+  color: var(--slate);
+}
+
+.pet-places__empty p {
+  margin: 0 0 0.75rem;
+}
+
+.pet-places__source {
+  margin: auto 0 0;
+  padding: 0.6rem 1.25rem 0.9rem;
+  font-size: 0.8rem;
+  color: var(--slate);
+}
+
+@media (max-width: 1100px) {
+  .pet-checks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 960px) {
+  .pet-intro__inner,
+  .pet-places {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Phones: the video becomes a strip and the record card sits under it, overlapping a little. */
+@media (max-width: 720px) {
+  .pet-top {
+    min-height: 0;
+  }
+
+  .pet-banner {
+    display: block;
+    min-height: 0;
+    overflow: visible;
+    background: var(--mist);
+  }
+
+  .pet-banner__video {
+    position: relative;
+    height: 15rem;
+  }
+
+  .pet-banner::after {
+    bottom: auto;
+    height: 15rem;
+  }
+
+  .pet-banner__toggle {
+    top: 1rem;
+    right: var(--gutter);
+    bottom: auto;
+    left: auto;
+  }
+
+  .pet-banner__inner {
+    justify-content: center;
+    margin-top: -3rem;
+    padding-top: 0;
+    padding-bottom: 0.5rem;
+  }
+
+  .pet-record {
+    width: 100%;
+  }
+
+  .pet-overview__facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .pet-checks {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Small phones: the record's facts go two per row, travel status across the bottom. */
+@media (max-width: 480px) {
+  .pet-record__rows {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pet-record .pet-record__row {
+    grid-column: span 1;
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .pet-record .pet-record__row:nth-child(even) {
+    padding-left: 0.75rem;
+    border-left: 1px solid var(--line);
+  }
+
+  .pet-record .pet-record__row:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Short laptop screens: tighter intro so the overview card still ends above the fold. */
+@media (max-height: 680px) and (min-width: 961px) {
+  .pet-intro__inner {
+    padding-block: 0.9rem;
+  }
+}

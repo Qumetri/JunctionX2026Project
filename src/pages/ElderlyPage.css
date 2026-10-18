@@ -1,0 +1,504 @@
+/*
+ * Seniors page. Built for older readers: larger text, short lines, strong contrast and big
+ * targets. Every size is in em, so the Text size control scales the whole page from one variable.
+ */
+
+.seniors {
+  --seniors-accent: #0f45bd;
+  --seniors-accent-deep: #0a3594;
+  --seniors-done: #0f6b45;
+  font-size: calc(1.1875rem * var(--seniors-scale, 1));
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.seniors p {
+  max-width: 65ch;
+}
+
+/* Thick, high-contrast focus ring on light backgrounds, white on the navy hero. */
+.seniors :focus-visible {
+  outline: 4px solid var(--navy);
+  outline-offset: 4px;
+  border-radius: 0.4em;
+}
+
+.seniors-hero :focus-visible {
+  outline-color: #fff;
+}
+
+/* Hero */
+
+.seniors-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(28rem, 42vw, 36rem);
+  overflow: hidden;
+  background: var(--navy);
+  color: #fff;
+}
+
+/* Two women outdoors at dusk (Design/seniors_banner.jpg); decorative, so alt is empty. */
+.seniors-hero__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+/* Navy shade behind the text, strong enough to keep white text above 7:1 on any part of the photo. */
+.seniors-hero::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgb(10 30 74 / 0.9) 0%,
+      rgb(10 30 74 / 0.82) 45%,
+      rgb(10 30 74 / 0.15) 75%,
+      transparent
+    ),
+    linear-gradient(0deg, rgb(10 30 74 / 0.6), transparent 45%);
+}
+
+.seniors-hero__inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.seniors-hero__inner,
+.seniors-body {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+
+.seniors-hero__inner {
+  padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(2rem, 4vw, 3rem);
+}
+
+.seniors-hero h1 {
+  margin: 0;
+  max-width: 20ch;
+  font-size: clamp(2em, 1.4em + 2.5vw, 3em);
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.seniors-hero__lead {
+  margin: 0.8em 0 0;
+  font-size: 1.1em;
+  color: #fff;
+}
+
+.text-size {
+  margin: 1.75em 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.text-size legend {
+  padding: 0;
+  margin-bottom: 0.5em;
+  font-weight: 650;
+}
+
+.text-size__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75em;
+}
+
+.text-size__option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  min-height: 3em;
+  padding: 0.4em 1.1em 0.4em 0.9em;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.text-size__option input {
+  width: 1.25em;
+  height: 1.25em;
+  margin: 0;
+  accent-color: #fff;
+  cursor: pointer;
+}
+
+.text-size__option:has(input:checked) {
+  background: #fff;
+  color: var(--navy);
+}
+
+.text-size__option:has(input:checked) input {
+  accent-color: var(--navy);
+}
+
+.text-size__option:has(input:focus-visible) {
+  outline: 4px solid #fff;
+  outline-offset: 4px;
+}
+
+.text-size__option input:focus-visible {
+  outline: none;
+}
+
+/* Body */
+
+.seniors-body {
+  padding-block: clamp(2rem, 5vw, 3.5rem) clamp(3rem, 6vw, 5rem);
+}
+
+.seniors-body > section + section {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+.seniors-section-title {
+  margin: 0 0 0.6em;
+  font-size: 1.6em;
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  scroll-margin-top: 6rem;
+}
+
+.seniors-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16em), 1fr));
+  gap: 1.5em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.seniors-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5em;
+  border: 2px solid var(--line);
+  border-radius: 1em;
+  background: var(--surface);
+  box-shadow: 0 24px 48px -36px rgb(10 30 74 / 0.45);
+}
+
+.seniors-card__icon,
+.seniors-support__icon {
+  display: grid;
+  place-items: center;
+  width: 2.75em;
+  height: 2.75em;
+  border-radius: 0.7em;
+  background: var(--sky);
+  color: var(--seniors-accent);
+  flex-shrink: 0;
+}
+
+.seniors-card__icon svg,
+.seniors-support__icon svg {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.seniors-card h3 {
+  margin: 0.75em 0 0.35em;
+  font-size: 1.3em;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.seniors-card p {
+  margin: 0 0 0.75em;
+  color: var(--ink-soft);
+}
+
+.seniors-card .seniors-card__progress {
+  margin-top: auto;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.seniors-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  min-height: 3em;
+  min-width: 3em;
+  padding: 0.5em 1.4em;
+  border: 0;
+  border-radius: 999px;
+  background: var(--seniors-accent);
+  color: #fff;
+  font: inherit;
+  font-weight: 650;
+  text-align: center;
+  cursor: pointer;
+}
+
+.seniors-button:hover {
+  background: var(--seniors-accent-deep);
+  text-decoration: underline;
+}
+
+/* Ways to get help */
+
+.seniors-support {
+  padding: clamp(1.5em, 4vw, 2.25em);
+  border: 2px solid var(--line);
+  border-radius: 1em;
+  background: var(--mist);
+}
+
+.seniors-support > p {
+  margin: 0 0 1.25em;
+}
+
+.seniors-support__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11em), 1fr));
+  gap: 1.25em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.seniors-support__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75em;
+}
+
+.seniors-support__list strong {
+  display: block;
+  font-weight: 700;
+}
+
+.seniors-support__text {
+  display: block;
+  color: var(--ink-soft);
+}
+
+/* Topic sections */
+
+.seniors-topic {
+  padding-top: clamp(1.5rem, 3vw, 2rem);
+  border-top: 2px solid var(--line);
+}
+
+.seniors-topic__intro {
+  margin: 0 0 0.75em;
+  font-size: 1.05em;
+}
+
+.seniors-topic__progress {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  margin: 0 0 1.5em;
+  padding: 0.3em 0.9em 0.3em 0.6em;
+  border-radius: 999px;
+  background: var(--sky);
+  font-weight: 650;
+}
+
+.seniors-topic__progress svg {
+  width: 1.3em;
+  height: 1.3em;
+  color: var(--seniors-accent);
+}
+
+.seniors-topic__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: 2em;
+  align-items: start;
+}
+
+.seniors-checklist {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.seniors-checklist + .seniors-checklist {
+  margin-top: 1.75em;
+}
+
+.seniors-checklist legend {
+  padding: 0;
+  margin-bottom: 0.6em;
+  font-size: 1.2em;
+  font-weight: 700;
+}
+
+.seniors-checklist ul {
+  display: grid;
+  gap: 0.75em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The whole row is the label, so the click target is large. */
+.seniors-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9em;
+  min-height: 3em;
+  padding: 0.9em 1.1em;
+  border: 2px solid #8193b8;
+  border-radius: 0.8em;
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.seniors-step:hover {
+  border-color: var(--seniors-accent);
+}
+
+.seniors-step:has(input:focus-visible) {
+  outline: 4px solid var(--navy);
+  outline-offset: 3px;
+}
+
+.seniors-step input {
+  flex-shrink: 0;
+  width: 1.5em;
+  height: 1.5em;
+  margin: 0.05em 0 0;
+  accent-color: var(--seniors-done);
+  cursor: pointer;
+}
+
+.seniors-step input:focus-visible {
+  outline: none;
+}
+
+.seniors-step--done {
+  border-color: var(--seniors-done);
+  background: #eef8f2;
+}
+
+.seniors-step__title {
+  display: block;
+  font-weight: 650;
+}
+
+.seniors-step__text {
+  display: block;
+  color: var(--ink-soft);
+}
+
+.seniors-help {
+  padding: 1.4em 1.5em;
+  border: 2px solid var(--line);
+  border-radius: 1em;
+  background: var(--mist);
+}
+
+.seniors-help h3 {
+  margin: 0 0 0.6em;
+  font-size: 1.2em;
+  font-weight: 700;
+}
+
+.seniors-help dl {
+  margin: 0;
+}
+
+.seniors-help dl div + div {
+  margin-top: 1em;
+}
+
+.seniors-help dt {
+  font-weight: 700;
+}
+
+.seniors-help dd {
+  margin: 0;
+}
+
+.seniors-partner {
+  margin-top: 1.4em;
+  padding-top: 1.2em;
+  border-top: 2px solid var(--line);
+}
+
+.seniors-partner p {
+  margin: 0 0 0.6em;
+}
+
+.seniors-partner .seniors-partner__name {
+  font-weight: 700;
+}
+
+.seniors-partner a {
+  display: inline-block;
+  padding-block: 0.6em;
+  color: var(--seniors-accent);
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.seniors-partner a:hover {
+  color: var(--seniors-accent-deep);
+}
+
+/* Narrow screens: the photo becomes a strip above the text, which sits on plain navy. */
+@media (max-width: 720px) {
+  .seniors-hero {
+    display: block;
+    min-height: 0;
+  }
+
+  .seniors-hero__photo {
+    position: relative;
+    display: block;
+    height: 14rem;
+    object-position: center 25%;
+  }
+
+  .seniors-hero::before {
+    bottom: auto;
+    height: 14rem;
+    background: linear-gradient(180deg, transparent 55%, var(--navy));
+  }
+}
+
+@media (max-width: 960px) {
+  .seniors-topic__layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .seniors-button {
+    align-self: stretch;
+  }
+
+  .seniors-step {
+    padding: 0.8em 0.9em;
+  }
+}
+
+@media (forced-colors: active) {
+  .seniors-button,
+  .text-size__option,
+  .seniors-step {
+    border: 2px solid ButtonText;
+  }
+}
