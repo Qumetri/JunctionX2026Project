@@ -194,6 +194,7 @@ export function TravelPage() {
             Travel — Check risks{' '}
             <RoughNotation
               type="highlight"
+              multiline
               show={highlighted}
               color="#ffe27a"
               animationDuration={800}

@@ -23,7 +23,12 @@ export function RouteMap({ to, from, path, label }: RouteMapProps) {
   useEffect(() => {
     if (!ref.current) return undefined;
     const [toPoint, fromPoint, line] = JSON.parse(key) as [Point, Point?, Point[]?];
-    const map = L.map(ref.current, { scrollWheelZoom: false, attributionControl: true });
+    // On phones one finger scrolls the page; pinch still zooms and pans the map.
+    const map = L.map(ref.current, {
+      scrollWheelZoom: false,
+      dragging: !L.Browser.mobile,
+      attributionControl: true,
+    });
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
       attribution: '&copy; OpenStreetMap contributors',

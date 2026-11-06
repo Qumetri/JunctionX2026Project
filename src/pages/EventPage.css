@@ -26,6 +26,12 @@
   font-weight: 700;
   letter-spacing: -0.025em;
   text-wrap: balance;
+  isolation: isolate;
+}
+
+/* The hand-drawn highlight goes behind the heading's text, so it never covers a neighbouring word. */
+.event-hero h1 .rough-annotation {
+  z-index: -1;
 }
 
 .event-hero__lead {

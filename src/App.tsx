@@ -42,7 +42,9 @@ function App() {
   // Home sections only exist after the page swaps back, so scroll once they render.
   useEffect(() => {
     if (route !== 'home' || !hash || hash === '#top') {
-      window.scrollTo({ top: 0 });
+      // A new page starts at its top. 'instant', because the smooth scrolling set on <html> for
+      // in-page links would otherwise show the new page scrolling up from the old position.
+      window.scrollTo({ top: 0, behavior: 'instant' });
       return;
     }
     document.getElementById(hash.slice(1))?.scrollIntoView();

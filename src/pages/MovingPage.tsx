@@ -120,6 +120,7 @@ export function MovingPage() {
           Moving —{' '}
           <RoughNotation
             type="highlight"
+            multiline
             show={highlighted}
             color="#ffe27a"
             animationDuration={800}
