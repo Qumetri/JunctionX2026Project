@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { reportService, type PetPlace } from '../api/report';
 import petAvatar from '../assets/pet-avatar.jpg';
+import bannerPosterPhone from '../assets/pet-banner-poster-720p.jpg';
 import bannerPoster from '../assets/pet-banner-poster.jpg';
+import bannerVideoPhone from '../assets/pet-banner-720p.mp4';
 import bannerVideo from '../assets/pet-banner.mp4';
 import { Icon } from '../components/Icon';
 import { LiquidMeter } from '../components/LiquidMeter';
@@ -18,10 +20,18 @@ const monthYear = (date: Date) =>
 const prefersReducedMotion = () =>
   typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/**
+ * Phones get a 720p cut of the banner (6 MB instead of 22 MB): their banner is too small to show
+ * the difference. Chosen once on load, so turning the phone never restarts the video.
+ */
+const isPhone = () =>
+  typeof window !== 'undefined' && window.matchMedia('(max-width: 720px)').matches;
+
 /** The walk video behind the health record. Still for reduced motion until the user plays it. */
 function BannerVideo() {
   const ref = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(() => !prefersReducedMotion());
+  const [phone] = useState(isPhone);
 
   useEffect(() => {
     const video = ref.current;
@@ -35,8 +45,8 @@ function BannerVideo() {
       <video
         ref={ref}
         className="pet-banner__video"
-        src={bannerVideo}
-        poster={bannerPoster}
+        src={phone ? bannerVideoPhone : bannerVideo}
+        poster={phone ? bannerPosterPhone : bannerPoster}
         muted
         loop
         playsInline
